@@ -1,0 +1,99 @@
+<script setup>
+import TrendCard from "./TrendCard.vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { ref, onMounted, nextTick } from "vue";
+import "swiper/css";
+
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Autoplay } from "swiper/modules";
+import girl from "../assets/img/girl.png";
+import Chevron from "./icons/chevron.vue";
+
+const modules = [Navigation, Autoplay];
+const prevEl = ref(null);
+const nextEl = ref(null);
+const swiperInstance = ref(null);
+
+const slide = {
+  content:
+    "Lorem Ipsum Lorem IpsumLorem sum Lorem IpsumLorem Ips Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Lorem Ipsum Lorem IpsumLorem sum ",
+  img: girl,
+  title: "Lorem Ipsum",
+};
+onMounted(async () => {
+  await nextTick();
+  if (swiperInstance.value) {
+    swiperInstance.value.params.navigation.prevEl = prevEl.value;
+    swiperInstance.value.params.navigation.nextEl = nextEl.value;
+    swiperInstance.value.navigation.init();
+    swiperInstance.value.navigation.update();
+  }
+});
+</script>
+<template>
+  <div class="trend">
+    <div class="pt-22.5 container">
+      <h2 class="font-bold mb-12.5 text-primary text-center text-5xl">
+        Thoughts, Tips & <span class="text-fiolet"> Trends </span>
+      </h2>
+      <div class="relative">
+        <Swiper
+          :modules="modules"
+          :breakpoints="{
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 25,
+            },
+            1280: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+          }"
+          :loop="true"
+          :autoplay="{ delay: 1500 }"
+          :navigation="{
+            prevEl: '.swiper-button-prev-custom',
+            nextEl: '.swiper-button-next-custom',
+          }"
+        >
+          <SwiperSlide v-for="i in 3" :key="i">
+            <TrendCard :data="slide" />
+          </SwiperSlide>
+        </Swiper>
+        <div
+          class="w-full absolute top-1/2 z-10 -translate-y-1/2 transform xl:hidden justify-between"
+        >
+          <button
+            ref="prevEl"
+            class="-ml-11 swiper-button-prev-custom p-1 hover:cursor-pointer z-10"
+          >
+            <Chevron class="text-fiolet text-xl" />
+          </button>
+          <button
+            ref="nextEl"
+            class="p-1 -mr-11 z-10 swiper-button-next-custom relative hover:cursor-pointer"
+          >
+            <Chevron class="text-fiolet text-xl rotate-180" />
+          </button>
+        </div>
+      </div>
+      <div class="mt-13 pb-15 flex justify-center">
+        <button
+          class="border-fiolet border-2 rounded-lg h-16 flex items-center text-xl text-white font-bold bg-fiolet px-9.5 hover:cursor-pointer"
+        >
+          Read more
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+<style scoped></style>
