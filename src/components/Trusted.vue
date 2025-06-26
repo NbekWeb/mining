@@ -7,7 +7,7 @@ const check = ref(true);
 const firstText = "5000+".split("");
 
 
-const animationDuration = 100;
+const animationDuration = 60;
 const restartDelay = 4000;
 const restartKey = ref(0);
 const isOpen = ref(false);
@@ -35,7 +35,7 @@ onMounted(() => {
               <template v-for="(letter, index) in firstText" :key="'f' + index">
                 <span
                   class="inline-block animate-letter text-fiolet"
-                  :style="{ animationDelay: `${index * 0.1}s` }"
+                  :style="{ animationDelay: `${index * 0.06}s` }"
                 >
                   {{ letter }}
                 </span>
