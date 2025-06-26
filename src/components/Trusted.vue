@@ -1,9 +1,23 @@
 <script setup>
 import StartFree from "./StartFree.vue";
 import CheckIcon from "./icons/check.vue";
+import { ref, onMounted } from "vue";
 
-import { ref } from "vue";
 const check = ref(true);
+const firstText = "5000+".split("");
+
+
+const animationDuration = 300;
+const restartDelay = 200;
+const restartKey = ref(0);
+const isOpen = ref(false);
+
+onMounted(() => {
+  const totalLetters = firstText.length;
+  setInterval(() => {
+    restartKey.value++;
+  }, totalLetters * animationDuration + restartDelay);
+});
 </script>
 <template>
   <div class="container max-sm:!px-0">
@@ -16,7 +30,20 @@ const check = ref(true);
         >
           Trusted by
 
-          <span class="text-fiolet"> 5000+ </span>
+          <span>
+            <span class="" :key="restartKey">
+              <template v-for="(letter, index) in firstText" :key="'f' + index">
+                <span
+                  class="inline-block animate-letter text-fiolet"
+                  :style="{ animationDelay: `${index * 0.3}s` }"
+                >
+                  {{ letter }}
+                </span>
+              </template>
+
+              
+            </span>
+          </span>
           creators, businesses, and everyday people alike.
         </h2>
         <label

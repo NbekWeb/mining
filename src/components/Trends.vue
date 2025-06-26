@@ -1,7 +1,7 @@
 <script setup>
 import TrendCard from "./TrendCard.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { ref, nextTick } from "vue";
+import { ref, nextTick, onMounted } from "vue";
 import "swiper/css";
 
 import "swiper/css/navigation";
@@ -14,11 +14,17 @@ const modules = [Navigation, Autoplay];
 const prevEl = ref(null);
 const nextEl = ref(null);
 
+const firstText = "Trends ".split("");
+const animationDuration = 300;
+const restartDelay = 200;
+const restartKey = ref(0);
+
 const slide = {
   content:
     "Lorem Ipsum Lorem IpsumLorem sum Lorem IpsumLorem Ips Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Lorem Ipsum Lorem IpsumLorem sum ",
   img: girl,
   title: "Lorem Ipsum",
+  link: "https://www.figma.com/design/N6Yzn7QkUmAMDExor5VSUU/visitbio-full-design?node-id=2051-4&t=lTeU8QKKl1lr2HGl-0",
 };
 </script>
 <template>
@@ -27,7 +33,17 @@ const slide = {
       <h2
         class="font-bold max-md:pt-15 pt-22.5 mb-12.5 text-primary text-center text-5xl max-sm:text-[26px]"
       >
-        Thoughts, Tips & <span class="text-fiolet"> Trends </span>
+        Thoughts, Tips &
+        <span class="" :key="restartKey">
+          <template v-for="(letter, index) in firstText" :key="'f' + index">
+            <span
+              class="inline-block animate-letter text-fiolet"
+              :style="{ animationDelay: `${index * 0.3}s` }"
+            >
+              {{ letter }}
+            </span>
+          </template>
+        </span>
       </h2>
       <div class="relative">
         <Swiper
@@ -66,7 +82,7 @@ const slide = {
         >
           <button
             ref="prevEl"
-            class="-ml-8   swiper-button-prev-trends p-1 hover:cursor-pointer z-10"
+            class="-ml-8 swiper-button-prev-trends p-1 hover:cursor-pointer z-10"
           >
             <Chevron class="text-fiolet text-xl max-md:text-lg" />
           </button>
@@ -78,7 +94,7 @@ const slide = {
           </button>
         </div>
       </div>
-      <div class="mt-13 pb-15 flex justify-center max-md:mt-7.5 max-md:pb-7.5 ">
+      <div class="mt-13 pb-15 flex justify-center max-md:mt-7.5 max-md:pb-7.5">
         <button
           class="border-fiolet max-sm:w-full justify-center border-2 rounded-lg h-16 flex items-center text-xl text-white font-bold bg-fiolet px-9.5 hover:cursor-pointer"
         >

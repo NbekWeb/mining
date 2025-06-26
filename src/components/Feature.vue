@@ -83,7 +83,7 @@ onMounted(() => {
       class="text-5xl text-center mt-27.5 max-md:mt-15 max-md:mb-7 mb-13 font-bold text-primary max-md:text-[26px]"
     >
       <span>
-        <a :href="link" class="" :key="restartKey">
+        <span class="" :key="restartKey">
           <template v-for="(letter, index) in firstText" :key="'f' + index">
             <span
               class="inline-block animate-letter text-fiolet"
@@ -92,7 +92,7 @@ onMounted(() => {
               {{ letter }}
             </span>
           </template>
-        </a>
+        </span>
       </span>
       Feature Set
     </h2>

@@ -46,7 +46,7 @@ const networks = [
 </script>
 <template>
   <footer class="py-8 overflow-x-hidden">
-    <div class="container max-sm:flex max-sm:flex-col-reverse ">
+    <div class="container max-sm:flex max-sm:flex-col-reverse">
       <div
         class="flex items-center justify-between max-md:flex-col max-md:items-start max-md:gap-8 max-sm:w-full"
       >
@@ -76,10 +76,10 @@ const networks = [
           class="flex items-center gap-6 max-sm:justify-between max-sm:w-full"
         >
           <li v-for="(item, i) in networks" :key="i" class="">
-            <a :href="item.href">
+            <a :href="item.href" class="socialContainer">
               <component
                 :is="item.icon"
-                class="text-[48px] max-sm:text-[40px]"
+                class="text-[48px] max-sm:text-[40px] socialSvg"
               />
             </a>
           </li>
@@ -104,4 +104,37 @@ const networks = [
     </div>
   </footer>
 </template>
-<style scoped></style>
+<style scoped>
+.socialContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition-duration: 0.3s;
+}
+.containerOne:hover {
+  background-color: #d62976;
+  transition-duration: 0.3s;
+}
+
+.socialContainer:active {
+  transform: scale(0.9);
+  transition-duration: 0.3s;
+}
+
+.socialContainer:hover .socialSvg {
+  animation: slide-in-top 0.3s both;
+}
+
+@keyframes slide-in-top {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+</style>

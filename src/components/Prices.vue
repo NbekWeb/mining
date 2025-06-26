@@ -1,9 +1,14 @@
 <script setup>
 import CustomSwitch from "./CustomSwitch.vue";
 import PriceCard from "./PriceCard.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 const isOn = ref(false);
+const firstText = "Best".split("");
+const secondText = "Fit".split("");
+const animationDuration = 300;
+const restartDelay = 200;
+const restartKey = ref(0);
 
 const cards = [
   {
@@ -20,6 +25,7 @@ const cards = [
   {
     name: "Pro",
     price: "$3.99",
+    year: "$39",
     title: "All the basics for individuals and professionals",
     slugs: [
       "5 Bio link",
@@ -33,6 +39,7 @@ const cards = [
   {
     name: " Premium",
     price: "$7.99",
+    year: "$79",
     title: "All the basics for individuals and professionals",
     slugs: [
       "10 Bio link",
@@ -43,16 +50,50 @@ const cards = [
     ],
   },
 ];
+
+onMounted(() => {
+  const totalLetters = firstText.length + secondText.length;
+  setInterval(() => {
+    restartKey.value++;
+  }, totalLetters * animationDuration + restartDelay);
+});
 </script>
 <template>
   <div class="container">
     <h2
       class="font-bold mb-12.5 text-primary text-center text-5xl mt-27 max-sm:text-[26px] max-md:mt-15 max-md:mb-5"
     >
-      Find Your <span class="text-fiolet"> Best Fit </span>
+      Find Your
+      <span>
+        <span class="" :key="restartKey">
+          <template v-for="(letter, index) in firstText" :key="'f' + index">
+            <span
+              class="inline-block animate-letter text-fiolet"
+              :style="{ animationDelay: `${index * 0.3}s` }"
+            >
+              {{ letter }}
+            </span>
+          </template>
+
+          <span class="text-fiolet inline-block ml-4 max-sm:ml-2">
+            <template v-for="(letter, index) in secondText" :key="'s' + index">
+              <span
+                class="inline-block animate-letter"
+                :style="{
+                  animationDelay: `${(firstText.length + index) * 0.3}s`,
+                }"
+              >
+                {{ letter }}
+              </span>
+            </template>
+          </span>
+        </span>
+      </span>
     </h2>
-    <div class="flex items-center gap-5 mx-auto max-w-max pt-5 max-sm:w-full ">
-      <span class="text-lg text-primary max-md:ml-7.5 max-sm:ml-5 ">Monthly</span>
+    <div class="flex items-center gap-5 mx-auto max-w-max pt-5 max-sm:w-full">
+      <span class="text-lg text-primary max-md:ml-7.5 max-sm:ml-5"
+        >Monthly</span
+      >
       <CustomSwitch v-model="isOn" />
       <div class="relative pr-26">
         <div class="absolute right-0 -top-8.5">
@@ -69,8 +110,10 @@ const cards = [
         <span class="text-lg text-primary">Yearly</span>
       </div>
     </div>
-    <div class="mt-7.5 w-full grid grid-cols-3 gap-7.5 items-center mb-15 max-md:grid-cols-1 max-md:mb-7.5">
-      <PriceCard :data="item" v-for="(item, i) in cards" />
+    <div
+      class="mt-7.5 w-full grid grid-cols-3 gap-7.5 items-center mb-15 max-md:grid-cols-1 max-md:mb-7.5"
+    >
+      <PriceCard :data="item" v-for="(item, i) in cards" :year="isOn" />
     </div>
   </div>
 </template>
