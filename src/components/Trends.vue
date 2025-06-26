@@ -15,7 +15,7 @@ const prevEl = ref(null);
 const nextEl = ref(null);
 
 const firstText = "Trends ".split("");
-const animationDuration = 300;
+const animationDuration = 100;
 const restartDelay = 4000;
 const restartKey = ref(0);
 
@@ -44,7 +44,7 @@ onMounted(() => {
           <template v-for="(letter, index) in firstText" :key="'f' + index">
             <span
               class="inline-block animate-letter text-fiolet"
-              :style="{ animationDelay: `${index * 0.3}s` }"
+              :style="{ animationDelay: `${index * 0.1}s` }"
             >
               {{ letter }}
             </span>

@@ -9,7 +9,7 @@ const secondText = "link".split("");
 const link =
   "https://www.figma.com/design/N6Yzn7QkUmAMDExor5VSUU/visitbio-full-design?node-id=2051-4&t=h0DGcR5xlnGBIZVA-0";
 
-const animationDuration = 300;
+const animationDuration = 100;
 const restartDelay = 4000;
 const restartKey = ref(0);
 const isOpen = ref(false);
@@ -47,7 +47,7 @@ onMounted(() => {
               <template v-for="(letter, index) in firstText" :key="'f' + index">
                 <span
                   class="inline-block animate-letter text-fiolet"
-                  :style="{ animationDelay: `${index * 0.3}s` }"
+                  :style="{ animationDelay: `${index * 0.1}s` }"
                 >
                   {{ letter }}
                 </span>
@@ -61,7 +61,7 @@ onMounted(() => {
                   <span
                     class="inline-block animate-letter"
                     :style="{
-                      animationDelay: `${(firstText.length + index) * 0.3}s`,
+                      animationDelay: `${(firstText.length + index) * 0.1}s`,
                     }"
                   >
                     {{ letter }}
