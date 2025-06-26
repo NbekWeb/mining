@@ -4,7 +4,7 @@ import Navbar from "./Navbar.vue";
 import StartFree from "./StartFree.vue";
 import HamburgerMenu from "./MenuBar.vue";
 
-const firstText = "all-inclusive ".split(""); // bo'sh joy oxirida
+const firstText = "all-inclusive ".split(""); 
 const secondText = "link".split("");
 const link =
   "https://www.figma.com/design/N6Yzn7QkUmAMDExor5VSUU/visitbio-full-design?node-id=2051-4&t=h0DGcR5xlnGBIZVA-0";
@@ -81,12 +81,12 @@ onMounted(() => {
       </div>
       <img
         src="../assets/img/phone-gr.svg"
-        class="absolute right-0 bottom-0 h-148 w-auto object-contain max-lg:h-108 z-0"
+        class="absolute right-0 bottom-0 max-sm:object-cover h-148 w-auto object-contain max-lg:h-108 z-0"
       />
     </div>
   </div>
 </template>
-<style scoped>
+<style>
 @keyframes spin-letter {
   0% {
     -webkit-transform: rotateY(0);

@@ -64,8 +64,17 @@ function changeSelect(i) {
     }, 200);
   });
 }
+const firstText = "Exclusive".split("");
+const animationDuration = 300;
+const restartDelay = 200;
+const restartKey = ref(0);
+
 onMounted(() => {
   imgOpacity.value = 100;
+  const totalLetters = firstText.length;
+  setInterval(() => {
+    restartKey.value++;
+  }, totalLetters * animationDuration + restartDelay);
 });
 </script>
 <template>
@@ -73,7 +82,18 @@ onMounted(() => {
     <h2
       class="text-5xl text-center mt-27.5 max-md:mt-15 max-md:mb-7 mb-13 font-bold text-primary max-md:text-[26px]"
     >
-      <span class="text-fiolet"> Exclusive </span>
+      <span>
+        <a :href="link" class="" :key="restartKey">
+          <template v-for="(letter, index) in firstText" :key="'f' + index">
+            <span
+              class="inline-block animate-letter text-fiolet"
+              :style="{ animationDelay: `${index * 0.3}s` }"
+            >
+              {{ letter }}
+            </span>
+          </template>
+        </a>
+      </span>
       Feature Set
     </h2>
     <div

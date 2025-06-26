@@ -6,7 +6,7 @@ import { ref } from "vue";
 const check = ref(true);
 </script>
 <template>
-  <div class="sm:container">
+  <div class="container">
     <div class="info max-sm:container rounded-4xl mt-17 max-md:mt-10">
       <div
         class="max-md:pt-15 max-md:pb-8 max-md:px-9 py-10 px-20 w-full flex flex-col items-center"
