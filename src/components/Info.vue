@@ -27,7 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-dvh w-full relative info overflow-x-hidden">
+  <div class="h-[670px] max-sm:h-dvh w-full relative info overflow-x-hidden">
     <div class="container">
       <div class="pt-2 max-md:pt-5.5">
         <div class="md:hidden max-md:flex relative z-20">
@@ -81,7 +81,7 @@ onMounted(() => {
       </div>
       <img
         src="../assets/img/phone-gr.svg"
-        class="absolute right-0 bottom-0 h-148 w-auto object-cover max-lg:h-108 z-0"
+        class="absolute right-0 bottom-0 h-148 w-auto object-contain max-lg:h-108 z-0"
       />
     </div>
   </div>
