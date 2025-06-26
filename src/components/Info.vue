@@ -44,16 +44,19 @@ onMounted(() => {
           Showcase who you are with one
           <span>
             <a :href="link" class="" :key="restartKey">
-              <template v-for="(letter, index) in firstText" :key="'f' + index">
-                <span
-                  class="inline-block animate-letter text-fiolet"
-                  :style="{ animationDelay: `${index * 0.06}s` }"
-                >
-                  {{ letter }}
-                </span>
-              </template>
+              <span class="inline-block">
 
-              <span class="text-fiolet inline-block">
+                <template v-for="(letter, index) in firstText" :key="'f' + index">
+                  <span
+                    class="inline-block animate-letter text-fiolet"
+                    :style="{ animationDelay: `${index * 0.06}s` }"
+                  >
+                    {{ letter }}
+                  </span>
+                </template>
+              </span>
+              
+              <span class="text-fiolet inline-block ml-2">
                 <template
                   v-for="(letter, index) in secondText"
                   :key="'s' + index"
