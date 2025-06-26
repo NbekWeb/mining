@@ -66,7 +66,7 @@ function changeSelect(i) {
 }
 const firstText = "Exclusive".split("");
 const animationDuration = 300;
-const restartDelay = 200;
+const restartDelay = 4000;
 const restartKey = ref(0);
 
 onMounted(() => {
@@ -107,12 +107,14 @@ onMounted(() => {
           @changeSelect="changeSelect(i)"
         />
       </template>
-      <img
-        :key="selected"
-        :src="features[selected].img"
-        :style="{ opacity: imgOpacity / 100 }"
-        class="absolute left-1/2 -translate-x-1/2 top-0 h-full w-auto object-contain transition-opacity duration-500 ease-in-out"
-      />
+      <transition name="fade" mode="out-in">
+        <img
+          v-if="features[selected]"
+          :key="selected"
+          :src="features[selected].img"
+          class="absolute left-1/2 -translate-x-1/2 top-0 h-full w-auto object-contain"
+        />
+      </transition>
     </div>
     <div class="relative md:hidden px-3">
       <Swiper
@@ -142,6 +144,7 @@ onMounted(() => {
                 {{ item.content }}
               </p>
             </div>
+
             <img
               :src="item.img"
               class="mt-6 w-full h-auto pb-2 object-contain mx-auto"
@@ -168,4 +171,13 @@ onMounted(() => {
     </div>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

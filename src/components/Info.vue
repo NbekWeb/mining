@@ -10,7 +10,7 @@ const link =
   "https://www.figma.com/design/N6Yzn7QkUmAMDExor5VSUU/visitbio-full-design?node-id=2051-4&t=h0DGcR5xlnGBIZVA-0";
 
 const animationDuration = 300;
-const restartDelay = 200;
+const restartDelay = 4000;
 const restartKey = ref(0);
 const isOpen = ref(false);
 
@@ -87,25 +87,5 @@ onMounted(() => {
   </div>
 </template>
 <style>
-@keyframes spin-letter {
-  0% {
-    -webkit-transform: rotateY(0);
-    transform: rotateY(0);
-  }
-  25% {
-    -webkit-transform: rotateY(360deg);
-    transform: rotateY(360deg);
-  }
-  100% {
-    -webkit-transform: rotateY(360deg);
-    transform: rotateY(360deg);
-  }
-}
 
-.animate-letter {
-  display: inline-block;
-  animation: spin-letter 1s ease-in-out forwards;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-}
 </style>

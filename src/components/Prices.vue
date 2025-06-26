@@ -7,7 +7,7 @@ const isOn = ref(false);
 const firstText = "Best".split("");
 const secondText = "Fit".split("");
 const animationDuration = 300;
-const restartDelay = 200;
+const restartDelay = 4000;
 const restartKey = ref(0);
 
 const cards = [

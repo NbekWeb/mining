@@ -16,7 +16,7 @@ const nextEl = ref(null);
 
 const firstText = "Trends ".split("");
 const animationDuration = 300;
-const restartDelay = 200;
+const restartDelay = 4000;
 const restartKey = ref(0);
 
 const slide = {
@@ -26,6 +26,12 @@ const slide = {
   title: "Lorem Ipsum",
   link: "https://www.figma.com/design/N6Yzn7QkUmAMDExor5VSUU/visitbio-full-design?node-id=2051-4&t=lTeU8QKKl1lr2HGl-0",
 };
+onMounted(() => {
+  const totalLetters = firstText.length;
+  setInterval(() => {
+    restartKey.value++;
+  }, totalLetters * animationDuration + restartDelay);
+});
 </script>
 <template>
   <div class="trend rounded-2xl">

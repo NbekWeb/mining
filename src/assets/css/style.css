@@ -20,7 +20,7 @@ input {
   --color-gray-600: #696969;
   --color-gray-800: #8b8b8b;
   --color-gray-890: #898989;
-  --color-gray-900: #D9D9D9;
+  --color-gray-900: #d9d9d9;
   --color-fiolet: #6f33de;
   --color-gray-50: #f5f5f5;
   --color-green-200: #2ac76e;
@@ -91,19 +91,22 @@ footer {
 }
 @keyframes spin-letter {
   0% {
-    transform: rotate(0deg);
-    opacity: 1;
+    -webkit-transform: rotateY(0);
+    transform: rotateY(0);
   }
-  50% {
-    transform: rotate(360deg);
-    opacity: 1;
+  25% {
+    -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
   }
   100% {
-    transform: rotate(0deg);
-    opacity: 1;
+    -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
   }
 }
 
-.animate-spin-letter {
-  animation: spin-letter 2s linear infinite;
+.animate-letter {
+  display: inline-block;
+  animation: spin-letter .7s ease-in-out forwards;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }

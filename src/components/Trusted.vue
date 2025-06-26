@@ -8,7 +8,7 @@ const firstText = "5000+".split("");
 
 
 const animationDuration = 300;
-const restartDelay = 200;
+const restartDelay = 4000;
 const restartKey = ref(0);
 const isOpen = ref(false);
 
@@ -49,11 +49,11 @@ onMounted(() => {
         <label
           class="flex items-center gap-4 mt-7 cursor-pointer max-md:mt-4 max-sm:gap-2.5"
         >
-          <input
+          <!-- <input
             v-model="check"
             type="checkbox"
             class="appearance-none h-6 w-6 border-2 rounded max-sm:w-4 max-sm:h-4"
-          />
+          /> -->
           <span
             class="flex w-6 h-6 max-sm:w-4 max-sm:h-4 border-2 border-fiolet rounded items-center justify-center transition duration-300"
             :class="check && 'bg-fiolet'"
