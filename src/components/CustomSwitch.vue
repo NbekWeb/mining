@@ -13,7 +13,7 @@ const toggle = () => {
 
 <template>
   <div
-    class="w-12 h-6 flex items-center bg-gray-900 rounded-full p-0.5 cursor-pointer transition-colors duration-300"
+    class="w-12 min-w-12 h-6 flex items-center bg-gray-900 rounded-full p-0.5 cursor-pointer transition-colors duration-300"
     :class="{ 'bg-green-500': modelValue }"
     @click="toggle"
   >

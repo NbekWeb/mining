@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 <template>
   <div
-    class="border rounded-2xl p-7 flex flex-col items-center"
+    class="border rounded-2xl p-7 max-sm:p-6 flex flex-col items-center"
     :class="
       data.popular ? 'border-green-500 bg-white ' : 'border-gray-50  bg-gray-50'
     "
@@ -20,28 +20,30 @@ const props = defineProps({
       v-if="data.popular"
       >Most Popular</span
     >
-    <span class="text-gray-890 font-bold text-base">
+    <span class="text-gray-890 font-bold text-base max-sm:text-sm">
       {{ data.name }}
     </span>
     <div class="flex items-end gap-0 mt-4 mb-2.5">
-      <span class="font-bold text-5xl">
+      <span class="font-bold text-5xl max-sm:text-[26px]">
         {{ data.price }}
       </span>
-      <span v-if="data.price != 'Free'" class="text-sm text-gray-890"
+      <span
+        v-if="data.price != 'Free'"
+        class="text-sm text-gray-890 max-sm:text-xs"
         >/month</span
       >
     </div>
-    <span class="text-center text-sm text-gray-890">
+    <span class="text-center text-sm text-gray-890 max-sm:text-xs">
       {{ data.title }}
     </span>
-    <div class="mt-7.5 mb-6 flex flex-col gap-4 text-primary w-full">
+    <div class="mt-7.5 mb-6  max-sm:my-4 max-sm:gap-2.5 flex flex-col gap-4 text-primary w-full">
       <div
         class="flex items-center gap-2"
         v-for="(item, i) in data.slugs"
         :key="i"
       >
         <checked class="text-[10px]" />
-        <span> {{ item }}</span>
+        <span class="text-lg max-sm:text-base"> {{ item }}</span>
       </div>
     </div>
     <button

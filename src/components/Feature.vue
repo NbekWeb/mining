@@ -4,56 +4,80 @@ import Graph from "./icons/Graph.vue";
 import GroupUser from "./icons/GroupUser.vue";
 import Rocet from "./icons/Rocet.vue";
 import Tablet from "./icons/Tablet.vue";
-
-
+import phone from "../assets/img/phone.png";
+import Chevron from "./icons/chevron.vue";
 import FeatureCard from "./FeatureCard.vue";
 
+import { ref, nextTick, onMounted } from "vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css/navigation";
+import { Navigation } from "swiper/modules";
 
-import { ref } from "vue";
+const modules = [Navigation];
+const prevEl = ref(null);
+const nextEl = ref(null);
 
 const selected = ref(0);
-
+const imgOpacity = ref(0);
 
 const features = [
   {
     content: "Select a template or craft your own unique design",
     icon: Graph,
+    img: phone,
   },
   {
     content: "Gain daily insights into your growth with advanced analytics",
     icon: GroupUser,
+    img: phone,
   },
 
   {
     content: "Gain daily insights into your growth with advanced analytics",
     icon: Computer,
+    img: phone,
   },
   {
     content: "Bring your sites to life on your own domain name",
     icon: Tablet,
+    img: phone,
   },
   {
     content: "Add your go-to apps and content seamlessly",
     icon: Rocet,
+    img: phone,
   },
   {
     content: "Add your go-to apps and content seamlessly",
     icon: Rocet,
+    img: phone,
   },
 ];
 
 function changeSelect(i) {
+  if (selected.value === i) return;
+  imgOpacity.value = 0;
   selected.value = i;
+  nextTick(() => {
+    setTimeout(() => {
+      imgOpacity.value = 100;
+    }, 200);
+  });
 }
+onMounted(() => {
+  imgOpacity.value = 100;
+});
 </script>
 <template>
-  <div class="container">
-    <h2 class="text-5xl text-center mt-27.5 mb-13 font-bold text-primary">
+  <div class="container overflow-x-hidden">
+    <h2
+      class="text-5xl text-center mt-27.5 max-md:mt-15 max-md:mb-7 mb-13 font-bold text-primary max-md:text-[26px]"
+    >
       <span class="text-fiolet"> Exclusive </span>
       Feature Set
     </h2>
     <div
-      class="relative grid grid-cols-2 gap-x-60 gap-y-1.5 w-full bg-gray-50 rounded-lg p-1.5"
+      class="relative grid grid-cols-2 gap-x-60 gap-y-1.5 w-full bg-gray-50 rounded-lg p-1.5 max-md:hidden"
     >
       <template v-for="(item, i) in features" :key="i">
         <FeatureCard
@@ -64,11 +88,64 @@ function changeSelect(i) {
         />
       </template>
       <img
-        src="../assets/img/phone.png"
-        class="absolute left-1/2 -translate-x-1/2 top-0 h-full w-auto object-contain"
+        :key="selected"
+        :src="features[selected].img"
+        :style="{ opacity: imgOpacity / 100 }"
+        class="absolute left-1/2 -translate-x-1/2 top-0 h-full w-auto object-contain transition-opacity duration-500 ease-in-out"
       />
     </div>
-  
+    <div class="relative md:hidden px-3">
+      <Swiper
+        :modules="modules"
+        :loop="true"
+        :breakpoints="{
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+        }"
+        :navigation="{
+          prevEl: '.swiper-button-prev-feature',
+          nextEl: '.swiper-button-next-feature',
+        }"
+      >
+        <SwiperSlide v-for="(item, i) in features" :key="i">
+          <div class="bg-gray-50 rounded-lg py-5 px-4">
+            <div
+              class="w-full rounded-lg bg-white py-3 px-4 flex flex-col gap-2 items-center"
+            >
+              <component
+                :is="item.icon"
+                class="text-4xl max-sm:text-[40px] text-green-500"
+              />
+              <p class="text-primary text-lg text-center">
+                {{ item.content }}
+              </p>
+            </div>
+            <img
+              :src="item.img"
+              class="mt-6 w-full h-auto pb-2 object-contain mx-auto"
+            />
+          </div>
+        </SwiperSlide>
+      </Swiper>
+      <div
+        class="w-full absolute top-1/2 z-10 -translate-y-1/2 transform flex justify-between"
+      >
+        <button
+          ref="prevEl"
+          class="-ml-8 swiper-button-prev-feature p-1 hover:cursor-pointer z-10"
+        >
+          <Chevron class="text-fiolet text-lg" />
+        </button>
+        <button
+          ref="nextEl"
+          class="p-1 -mr-2 z-10 swiper-button-next-feature relative hover:cursor-pointer"
+        >
+          <Chevron class="text-fiolet text-base rotate-180" />
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 <style scoped></style>

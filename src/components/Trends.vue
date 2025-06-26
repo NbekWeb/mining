@@ -1,7 +1,7 @@
 <script setup>
 import TrendCard from "./TrendCard.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { ref, onMounted, nextTick } from "vue";
+import { ref, nextTick } from "vue";
 import "swiper/css";
 
 import "swiper/css/navigation";
@@ -13,7 +13,6 @@ import Chevron from "./icons/chevron.vue";
 const modules = [Navigation, Autoplay];
 const prevEl = ref(null);
 const nextEl = ref(null);
-const swiperInstance = ref(null);
 
 const slide = {
   content:
@@ -21,20 +20,13 @@ const slide = {
   img: girl,
   title: "Lorem Ipsum",
 };
-onMounted(async () => {
-  await nextTick();
-  if (swiperInstance.value) {
-    swiperInstance.value.params.navigation.prevEl = prevEl.value;
-    swiperInstance.value.params.navigation.nextEl = nextEl.value;
-    swiperInstance.value.navigation.init();
-    swiperInstance.value.navigation.update();
-  }
-});
 </script>
 <template>
-  <div class="trend">
-    <div class="pt-22.5 container">
-      <h2 class="font-bold mb-12.5 text-primary text-center text-5xl">
+  <div class="trend rounded-2xl">
+    <div class="container">
+      <h2
+        class="font-bold max-md:pt-15 pt-22.5 mb-12.5 text-primary text-center text-5xl max-sm:text-[26px]"
+      >
         Thoughts, Tips & <span class="text-fiolet"> Trends </span>
       </h2>
       <div class="relative">
@@ -61,8 +53,8 @@ onMounted(async () => {
           :loop="true"
           :autoplay="{ delay: 1500 }"
           :navigation="{
-            prevEl: '.swiper-button-prev-custom',
-            nextEl: '.swiper-button-next-custom',
+            prevEl: '.swiper-button-prev-trends',
+            nextEl: '.swiper-button-next-trends',
           }"
         >
           <SwiperSlide v-for="i in 3" :key="i">
@@ -70,25 +62,25 @@ onMounted(async () => {
           </SwiperSlide>
         </Swiper>
         <div
-          class="w-full absolute top-1/2 z-10 -translate-y-1/2 transform xl:hidden justify-between"
+          class="w-full absolute top-21 z-10 xl:hidden justify-between max-xl:flex"
         >
           <button
             ref="prevEl"
-            class="-ml-11 swiper-button-prev-custom p-1 hover:cursor-pointer z-10"
+            class="-ml-8   swiper-button-prev-trends p-1 hover:cursor-pointer z-10"
           >
-            <Chevron class="text-fiolet text-xl" />
+            <Chevron class="text-fiolet text-xl max-md:text-lg" />
           </button>
           <button
             ref="nextEl"
-            class="p-1 -mr-11 z-10 swiper-button-next-custom relative hover:cursor-pointer"
+            class="p-1 -mr-8 z-10 swiper-button-next-trends relative hover:cursor-pointer"
           >
-            <Chevron class="text-fiolet text-xl rotate-180" />
+            <Chevron class="text-fiolet text-xl rotate-180 max-md:text-lg" />
           </button>
         </div>
       </div>
-      <div class="mt-13 pb-15 flex justify-center">
+      <div class="mt-13 pb-15 flex justify-center max-md:mt-7.5 max-md:pb-7.5 ">
         <button
-          class="border-fiolet border-2 rounded-lg h-16 flex items-center text-xl text-white font-bold bg-fiolet px-9.5 hover:cursor-pointer"
+          class="border-fiolet max-sm:w-full justify-center border-2 rounded-lg h-16 flex items-center text-xl text-white font-bold bg-fiolet px-9.5 hover:cursor-pointer"
         >
           Read more
         </button>

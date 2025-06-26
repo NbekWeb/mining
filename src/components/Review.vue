@@ -1,7 +1,7 @@
 <script setup>
 import ReviewCard from "./ReviewCard.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { ref, onMounted, nextTick } from "vue";
+import { ref } from "vue";
 import "swiper/css";
 
 import "swiper/css/navigation";
@@ -13,7 +13,6 @@ import Chevron from "./icons/chevron.vue";
 const modules = [Navigation, Autoplay];
 const prevEl = ref(null);
 const nextEl = ref(null);
-const swiperInstance = ref(null);
 
 const slide = {
   content:
@@ -22,19 +21,12 @@ const slide = {
   title: "Lorem Ipsum",
   description: "Lorem IpsumLorem Ipsum",
 };
-onMounted(async () => {
-  await nextTick();
-  if (swiperInstance.value) {
-    swiperInstance.value.params.navigation.prevEl = prevEl.value;
-    swiperInstance.value.params.navigation.nextEl = nextEl.value;
-    swiperInstance.value.navigation.init();
-    swiperInstance.value.navigation.update();
-  }
-});
 </script>
 <template>
-  <div class="pt-25 container">
-    <h2 class="font-bold mb-12.5 text-primary text-center text-5xl">
+  <div class="container">
+    <h2
+      class="font-bold mt-25 max-md:mt-15 max-md:mb-7.5 mb-12.5 text-primary text-center text-5xl max-md:text-[26px]"
+    >
       <span class="text-fiolet"> Your Stories </span>
       , Our Pride
     </h2>
@@ -75,19 +67,19 @@ onMounted(async () => {
       >
         <button
           ref="prevEl"
-          class="-ml-11 swiper-button-prev-custom p-1 hover:cursor-pointer z-10"
+          class="-ml-11 swiper-button-prev-custom p-1 hover:cursor-pointer z-10 max-xl:-ml-8"
         >
-          <Chevron class="text-fiolet text-xl" />
+          <Chevron class="text-fiolet text-xl max-sm:text-base" />
         </button>
         <button
           ref="nextEl"
-          class="p-1 -mr-11 z-10 swiper-button-next-custom relative hover:cursor-pointer"
+          class="p-1 -mr-11 z-10 swiper-button-next-custom relative hover:cursor-pointer max-xl:-mr-8"
         >
-          <Chevron class="text-fiolet text-xl rotate-180" />
+          <Chevron class="text-fiolet text-xl rotate-180 max-sm:text-base" />
         </button>
       </div>
     </div>
-    <div class="mt-13 mb-15 flex justify-center">
+    <div class="mt-13 mb-15 flex justify-center max-md:my-7.5">
       <button
         class="border-fiolet border-2 rounded-lg h-16 flex items-center text-xl text-white font-bold bg-fiolet px-9.5 hover:cursor-pointer"
       >

@@ -2,6 +2,7 @@
 import { ref, onMounted } from "vue";
 import Navbar from "./Navbar.vue";
 import StartFree from "./StartFree.vue";
+import HamburgerMenu from "./MenuBar.vue";
 
 const firstText = "all-inclusive ".split(""); // bo'sh joy oxirida
 const secondText = "link".split("");
@@ -11,6 +12,11 @@ const link =
 const animationDuration = 300;
 const restartDelay = 200;
 const restartKey = ref(0);
+const isOpen = ref(false);
+
+function closeNav() {
+  isOpen.value = false;
+}
 
 onMounted(() => {
   const totalLetters = firstText.length + secondText.length;
@@ -21,11 +27,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-dvh w-full relative info">
-    <div class="pt-2 container">
-      <Navbar />
-      <div class="max-w-170 pt-21.5">
-        <h1 class="font-bold text-5xl uppercase text-primary">
+  <div class="h-dvh w-full relative info overflow-x-hidden">
+    <div class="container">
+      <div class="pt-2 max-md:pt-5.5">
+        <div class="md:hidden max-md:flex relative z-20">
+          <HamburgerMenu v-model="isOpen" />
+        </div>
+        <Navbar :open="isOpen" @close="closeNav" />
+      </div>
+      <div
+        class="max-w-170 pt-21.5 max-xl:pt-16 max-md:text-center max-xl:max-w-120 relative z-2"
+      >
+        <h1
+          class="font-bold text-5xl uppercase text-primary max-xl:text-4xl max-lg:text-[28px]"
+        >
           Showcase who you are with one
           <span>
             <a :href="link" class="" :key="restartKey">
@@ -56,15 +71,17 @@ onMounted(() => {
             </a>
           </span>
         </h1>
-        <p class="text-primary text-2xl pt-8 pr-30">
+        <p
+          class="text-primary text-2xl pt-8 pr-30 max-md:pt-6 max-md:pr-0 max-md:text-center relative z-2 max-md:text-xl"
+        >
           A single link, endless possibilities — bio, business card, landing
           page, and more.
         </p>
-        <StartFree class="mt-13.5" />
+        <StartFree class="mt-13.5 max-md:mt-6" />
       </div>
       <img
         src="../assets/img/phone-gr.svg"
-        class="absolute right-0 bottom-0 h-148 w-auto object-cover"
+        class="absolute right-0 bottom-0 h-148 w-auto object-cover max-lg:h-108 z-0"
       />
     </div>
   </div>

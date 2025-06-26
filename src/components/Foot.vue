@@ -45,12 +45,16 @@ const networks = [
 ];
 </script>
 <template>
-  <footer class="py-8">
-    <div class="container">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-7">
+  <footer class="py-8 overflow-x-hidden">
+    <div class="container max-sm:flex max-sm:flex-col-reverse ">
+      <div
+        class="flex items-center justify-between max-md:flex-col max-md:items-start max-md:gap-8 max-sm:w-full"
+      >
+        <div
+          class="flex items-center gap-7 max-sm:grid max-sm:grid-cols-2 max-sm:w-full"
+        >
           <button
-            class="h-10.5 px-3 items-center flex gap-1.5 text-fiolet rounded-lg border border-fiolet hover:cursor-pointer transition duration-300 hover:bg-fiolet hover:text-white"
+            class="h-10.5 px-3 items-center max-sm:justify-center flex gap-1.5 text-fiolet rounded-lg border border-fiolet hover:cursor-pointer transition duration-300 hover:bg-fiolet hover:text-white"
           >
             <playMarket class="text-2xl" />
             <div class="flex flex-col">
@@ -59,7 +63,7 @@ const networks = [
             </div>
           </button>
           <button
-            class="h-10.5 px-3 items-center flex gap-1.5 text-fiolet rounded-lg border border-fiolet hover:cursor-pointer transition duration-300 hover:bg-fiolet hover:text-white"
+            class="h-10.5 px-3 items-center max-sm:justify-center flex gap-1.5 text-fiolet rounded-lg border border-fiolet hover:cursor-pointer transition duration-300 hover:bg-fiolet hover:text-white"
           >
             <apple class="text-2xl" />
             <div class="flex flex-col">
@@ -68,15 +72,22 @@ const networks = [
             </div>
           </button>
         </div>
-        <ul class="flex items-center gap-6">
+        <ul
+          class="flex items-center gap-6 max-sm:justify-between max-sm:w-full"
+        >
           <li v-for="(item, i) in networks" :key="i" class="">
             <a :href="item.href">
-              <component :is="item.icon" class="text-[48px]" />
+              <component
+                :is="item.icon"
+                class="text-[48px] max-sm:text-[40px]"
+              />
             </a>
           </li>
         </ul>
       </div>
-      <ul class="flex items-center gap-11 mt-10">
+      <ul
+        class="flex items-center gap-11 mt-10 max-sm:flex-col max-sm:mt-0 max-sm:mb-8 max-sm:gap-5"
+      >
         <li
           v-for="link in links"
           :key="link.name"
