@@ -6,10 +6,10 @@ import { ref } from "vue";
 const check = ref(true);
 </script>
 <template>
-  <div class="container">
-    <div class="info max-sm:container rounded-4xl mt-17 max-md:mt-10">
+  <div class="container max-sm:!px-0">
+    <div class="info rounded-4xl mt-17 max-md:mt-10">
       <div
-        class="max-md:pt-15 max-md:pb-8 max-md:px-9 py-10 px-20 w-full flex flex-col items-center"
+        class="max-md:pt-15 max-md:pb-8 max-md:px-9 max-sm:px-9.5 py-10 px-20 w-full flex flex-col items-center"
       >
         <h2
           class="text-5xl font-bold text-primary text-center max-md:text-3xl max-xl:text-4xl max-sm:text-[26px]"
