@@ -33,7 +33,7 @@ const goLink = (link) => {
 </template>
 <style scoped>
 .package {
-  background-image: linear-gradient(163deg, #ff00ff 0%, #3700ff 100%);
+  background-image: linear-gradient(163deg, #06ab4f  0%, #ff00ff 100%);
   border-radius: 10px;
   transition: all 0.25s cubic-bezier(0, 0, 0, 1);
 }

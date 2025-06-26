@@ -11,9 +11,9 @@ import FeatureCard from "./FeatureCard.vue";
 import { ref, nextTick, onMounted } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 
-const modules = [Navigation];
+const modules = [Navigation, Autoplay];
 const prevEl = ref(null);
 const nextEl = ref(null);
 
@@ -120,6 +120,7 @@ onMounted(() => {
       <Swiper
         :modules="modules"
         :loop="true"
+        :autoplay="{ delay: 2000 }"
         :breakpoints="{
           320: {
             slidesPerView: 1,

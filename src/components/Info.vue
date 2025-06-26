@@ -4,7 +4,7 @@ import Navbar from "./Navbar.vue";
 import StartFree from "./StartFree.vue";
 import HamburgerMenu from "./MenuBar.vue";
 
-const firstText = "all-inclusive ".split(""); 
+const firstText = "all-inclusive ".split("");
 const secondText = "link".split("");
 const link =
   "https://www.figma.com/design/N6Yzn7QkUmAMDExor5VSUU/visitbio-full-design?node-id=2051-4&t=h0DGcR5xlnGBIZVA-0";
@@ -29,14 +29,14 @@ onMounted(() => {
 <template>
   <div class="h-[670px] max-sm:h-dvh w-full relative info overflow-x-hidden">
     <div class="container">
-      <div class="pt-2 max-md:pt-5.5">
+      <!-- <div class="pt-2 max-md:pt-5.5">
         <div class="md:hidden max-md:flex relative z-20">
           <HamburgerMenu v-model="isOpen" />
         </div>
         <Navbar :open="isOpen" @close="closeNav" />
-      </div>
+      </div> -->
       <div
-        class="max-w-170 pt-21.5 max-xl:pt-16 max-md:text-center max-xl:max-w-120 relative z-2"
+        class="max-w-170 pt-39 max-xl:pt-28 max-md:text-center max-xl:max-w-120 relative z-2"
       >
         <h1
           class="font-bold text-5xl uppercase text-primary max-xl:text-4xl max-lg:text-[28px]"
@@ -86,6 +86,4 @@ onMounted(() => {
     </div>
   </div>
 </template>
-<style>
-
-</style>
+<style></style>

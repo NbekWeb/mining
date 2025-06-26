@@ -90,25 +90,26 @@ onMounted(() => {
         </span>
       </span>
     </h2>
-    <div class="flex items-center gap-5 mx-auto max-w-max pt-5 max-sm:w-full">
+    <div
+      class="flex items-center gap-5 mx-auto max-w-max pt-10 max-sm:w-full relative"
+    >
+      <div class="absolute max-sm:-right-20 top-0 -right-25">
+        <img
+          src="../assets/img/arrow.svg"
+          class="h-auto object-contain w-14.5 absolute"
+        />
+        <button
+          class="text-sm text-white bg-green-500 flex items-center justify-center w-24 h-6 rounded-lg ml-7.5 mt-2 max-sm:ml-5"
+        >
+          Save 20%
+        </button>
+      </div>
       <span class="text-lg text-primary max-md:ml-7.5 max-sm:ml-5"
         >Monthly</span
       >
       <CustomSwitch v-model="isOn" />
-      <div class="relative pr-26">
-        <div class="absolute right-0 -top-8.5">
-          <img
-            src="../assets/img/arrow.svg"
-            class="h-auto object-contain w-14.5 absolute"
-          />
-          <button
-            class="text-sm text-white bg-green-500 flex items-center justify-center w-24 h-6 rounded-lg ml-7.5 mt-2 max-sm:ml-5"
-          >
-            Save 20%
-          </button>
-        </div>
-        <span class="text-lg text-primary">Yearly</span>
-      </div>
+
+      <span class="text-lg text-primary">Yearly</span>
     </div>
     <div
       class="mt-7.5 w-full grid grid-cols-3 gap-7.5 items-center mb-15 max-md:grid-cols-1 max-md:mb-7.5"

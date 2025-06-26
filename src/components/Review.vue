@@ -85,10 +85,6 @@ onMounted(() => {
             slidesPerView: 3,
             spaceBetween: 25,
           },
-          1280: {
-            slidesPerView: 4,
-            spaceBetween: 30,
-          },
         }"
         :loop="true"
         :autoplay="{ delay: 5000 }"

@@ -14,7 +14,7 @@ const props = defineProps({
 </script>
 <template>
   <div
-    class="border rounded-2xl p-7 transition-transform duration-300 hover:scale-103 max-sm:p-6 flex flex-col items-center"
+    class="border rounded-2xl p-7 transition-transform duration-300 hover:scale-103 active:scale-103 max-sm:p-6 flex flex-col items-center"
     :class="
       data.popular ? 'border-green-500 bg-white ' : 'border-gray-50  bg-gray-50'
     "
@@ -58,7 +58,7 @@ const props = defineProps({
       </div>
     </div>
     <button
-      class="rounded-lg border border-fiolet w-full h-12.5 text-xl font-bold flex items-center justify-center hover:bg-green-500 transition-all ease-in-out duration-500 hover:border-green-500 hover:text-white hover:cursor-pointer"
+      class="rounded-lg border border-fiolet w-full h-12.5 text-xl font-bold flex items-center justify-center hover:bg-green-500 active:bg-green-500 transition-all ease-in-out duration-500 hover:border-green-500 active:border-green-500 hover:text-white active:text-white hover:cursor-pointer"
       :class="data.popular ? 'bg-fiolet text-white' : 'bg-white text-fiolet'"
     >
       Get Started

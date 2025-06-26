@@ -101,10 +101,23 @@ onMounted(() => {
         </div>
       </div>
       <div class="mt-13 pb-15 flex justify-center max-md:mt-7.5 max-md:pb-7.5">
+      
         <button
-          class="border-fiolet max-sm:w-full justify-center border-2 rounded-lg h-16 flex items-center text-xl text-white font-bold bg-fiolet px-9.5 hover:cursor-pointer"
+          class="relative h-16 hover:cursor-pointer group text-white text-xl font-bold hover:p-[1px] flex items-center rounded-r-xl max-sm:h-15 max-sm:rounded-l-xl max-sm:rounded-xl transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
         >
-          Read more
+          <span
+            class="absolute inset-0 rounded-xl bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          ></span>
+          <span
+            class="relative z-10 flex items-center h-full w-full justify-center px-6 bg-fiolet rounded-xl"
+          >
+            <div class="relative z-10 flex items-center space-x-2">
+              <span
+                class="transition-all px-9.5 duration-500 group-hover:translate-x-1"
+                >    Read more</span
+              >
+            </div>
+          </span>
         </button>
       </div>
     </div>

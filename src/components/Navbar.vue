@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits } from "vue";
+import { defineEmits,watch } from "vue";
 
 const emit = defineEmits(["close"]);
 
@@ -36,10 +36,20 @@ const goLink = (link) => {
     emit("close");
   }
 };
+watch(
+  () => props.open,
+  (val) => {
+    if (val) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }
+);
 </script>
 <template>
   <div
-    class="w-full rounded navbar transition-transform duration-300 ease-in-out flex items-center justify-between pl-8 pr-2.5 h-17.5 max-lg:pl-2.5 max-lg:h-15 max-md:absolute left-0 top-0 max-md:h-dvh max-md:flex-col py-10 max-md:z-10"
+    class="w-full rounded navbar transition-transform duration-300 ease-in-out flex items-center justify-between pl-8 pr-2.5 h-17.5 max-lg:pl-2.5 max-lg:h-15 max-md:fixed left-0 top-0 max-md:h-dvh max-md:flex-col  max-md:z-40 max-md:py-10"
     :class="open ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'"
   >
     <ul class="flex items-center gap-11 max-lg:gap-5 max-md:flex-col">
