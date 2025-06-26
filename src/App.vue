@@ -4,6 +4,8 @@ import Feature from "./components/Feature.vue";
 import Trusted from "./components/Trusted.vue";
 import Review from "./components/Review.vue";
 import Trends from "./components/Trends.vue";
+import Prices from "./components/Prices.vue";
+import Foot from "./components/Foot.vue";
 
 </script>
 
@@ -14,6 +16,8 @@ import Trends from "./components/Trends.vue";
     <Trusted/>
     <Review/>
     <Trends/>
+    <Prices/>
+    <Foot/>
   </div>
 </template>
 

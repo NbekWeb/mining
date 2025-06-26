@@ -19,11 +19,14 @@ input {
   --color-primary: #0b090b;
   --color-gray-600: #696969;
   --color-gray-800: #8b8b8b;
+  --color-gray-890: #898989;
+  --color-gray-900: #D9D9D9;
   --color-fiolet: #6f33de;
   --color-gray-50: #f5f5f5;
   --color-green-200: #2ac76e;
   --color-green-500: #06ab4f;
   --radius-lg: 10px;
+  --radius-2xl: 20px;
   --text-4xl: 45px;
   --text-5xl: 50px;
 }
@@ -80,6 +83,10 @@ input {
 }
 .trend {
   background: url("../img/trend-fon.jpg") no-repeat center center;
+  background-size: cover;
+}
+footer {
+  background: url("../img/foot.png") no-repeat center center;
   background-size: cover;
 }
 @keyframes spin-letter {
