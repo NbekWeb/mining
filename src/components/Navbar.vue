@@ -49,7 +49,7 @@ watch(
 </script>
 <template>
   <div
-    class="w-full rounded navbar transition-transform duration-300 ease-in-out flex items-center justify-between pl-8 pr-2.5 h-17.5 max-lg:pl-2.5 max-lg:h-15 max-md:fixed left-0 top-0 max-md:h-dvh max-md:flex-col  max-md:z-40 max-md:py-10"
+    class="w-full rounded navbar transition-transform duration-300 ease-in-out flex items-center justify-between pl-8 pr-2.5 h-17.5 max-lg:pl-2.5 max-lg:h-15 max-md:fixed left-0 top-0 max-md:h-screen max-md:flex-col  max-md:z-40 max-md:py-10"
     :class="open ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'"
   >
     <ul class="flex items-center gap-11 max-lg:gap-5 max-md:flex-col">
@@ -65,14 +65,14 @@ watch(
         ></span>
       </li>
     </ul>
-    <div class="flex items-center gap-7.5  max-md:justify-between max-md:w-full">
+    <div class="flex items-center gap-7.5 max-sm:gap-1  max-md:justify-between max-md:w-full max-sm:flex-wrap ">
       <button
-        class="h-13 max-md:px-12 nav-btn px-8.5 text-white font-bold text-lg flex items-center rounded bg-gray-800 login max-lg:h-10"
+        class="h-13 max-md:px-12 nav-btn px-8.5 text-white font-bold text-lg flex items-center rounded  bg-gray-800 login max-lg:h-10 max-[360px]:w-full"
       >
         <span> Login </span>
       </button>
       <button
-        class="h-13 px-8.5  text-white font-bold text-lg flex items-center rounded bg-green-200 start nav-btn max-lg:h-10"
+        class="h-13 px-8.5  text-white font-bold text-lg flex items-center rounded bg-green-200 start nav-btn max-lg:h-10 max-[360px]:w-full"
       >
         <span> Start for free </span>
       </button>

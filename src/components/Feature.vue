@@ -120,7 +120,7 @@ onMounted(() => {
       <Swiper
         :modules="modules"
         :loop="true"
-        :autoplay="{ delay: 2000 }"
+        :autoplay="{ delay: 5000 }"
         :breakpoints="{
           320: {
             slidesPerView: 1,

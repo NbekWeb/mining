@@ -59,7 +59,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="container">
+  <div class="container overflow-x-hidden">
     <h2
       class="font-bold mb-12.5 text-primary text-center text-5xl mt-27 max-sm:text-[26px] max-md:mt-15 max-md:mb-5"
     >
@@ -91,7 +91,7 @@ onMounted(() => {
       </span>
     </h2>
     <div
-      class="flex items-center gap-5 mx-auto max-w-max pt-10 max-sm:w-full relative"
+      class="flex items-center gap-5 mx-auto max-w-max pt-10 max-sm:w-full relative "
     >
       <div class="absolute max-sm:-right-20 top-0 -right-25">
         <img
@@ -104,7 +104,7 @@ onMounted(() => {
           Save 20%
         </button>
       </div>
-      <span class="text-lg text-primary max-md:ml-7.5 max-sm:ml-5"
+      <span class="text-lg text-primary "
         >Monthly</span
       >
       <CustomSwitch v-model="isOn" />

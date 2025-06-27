@@ -40,7 +40,7 @@ onMounted(() => {
         class="font-bold max-md:pt-15 pt-22.5 mb-12.5 text-primary text-center text-5xl max-sm:text-[26px]"
       >
         Thoughts, Tips &
-        <span class="" :key="restartKey">
+        <span class="inline-block" :key="restartKey">
           <template v-for="(letter, index) in firstText" :key="'f' + index">
             <span
               class="inline-block animate-letter text-fiolet"
@@ -73,7 +73,7 @@ onMounted(() => {
             },
           }"
           :loop="true"
-          :autoplay="{ delay: 1500 }"
+          :autoplay="{ delay: 5000 }"
           :navigation="{
             prevEl: '.swiper-button-prev-trends',
             nextEl: '.swiper-button-next-trends',
@@ -101,7 +101,6 @@ onMounted(() => {
         </div>
       </div>
       <div class="mt-13 pb-15 flex justify-center max-md:mt-7.5 max-md:pb-7.5">
-      
         <button
           class="relative h-16 hover:cursor-pointer group text-white text-xl font-bold hover:p-[1px] flex items-center rounded-r-xl max-sm:h-15 max-sm:rounded-l-xl max-sm:rounded-xl transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
         >
@@ -114,7 +113,8 @@ onMounted(() => {
             <div class="relative z-10 flex items-center space-x-2">
               <span
                 class="transition-all px-9.5 duration-500 group-hover:translate-x-1"
-                >    Read more</span
+              >
+                Read more</span
               >
             </div>
           </span>
