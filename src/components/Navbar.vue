@@ -65,7 +65,7 @@ watch(
         ></span>
       </li>
     </ul>
-    <div class="flex items-center gap-7.5 max-sm:gap-1  max-md:justify-between max-md:w-full max-sm:flex-wrap ">
+    <div class="flex items-center gap-7.5 max-sm:gap-2.5  max-md:justify-between max-md:w-full max-sm:flex-wrap  ">
       <button
         class="h-13 max-md:px-12 nav-btn px-8.5 text-white font-bold text-lg flex items-center rounded  bg-gray-800 login max-lg:h-10 max-[480px]:w-full"
       >
