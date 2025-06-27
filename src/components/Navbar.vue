@@ -67,12 +67,12 @@ watch(
     </ul>
     <div class="flex items-center gap-7.5 max-sm:gap-1  max-md:justify-between max-md:w-full max-sm:flex-wrap ">
       <button
-        class="h-13 max-md:px-12 nav-btn px-8.5 text-white font-bold text-lg flex items-center rounded  bg-gray-800 login max-lg:h-10 max-[360px]:w-full"
+        class="h-13 max-md:px-12 nav-btn px-8.5 text-white font-bold text-lg flex items-center rounded  bg-gray-800 login max-lg:h-10 max-[400px]:w-full"
       >
         <span> Login </span>
       </button>
       <button
-        class="h-13 px-8.5  text-white font-bold text-lg flex items-center rounded bg-green-200 start nav-btn max-lg:h-10 max-[360px]:w-full"
+        class="h-13 px-8.5  text-white font-bold text-lg flex items-center rounded bg-green-200 start nav-btn max-lg:h-10 max-[400px]:w-full"
       >
         <span> Start for free </span>
       </button>
