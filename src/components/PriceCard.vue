@@ -24,7 +24,7 @@ const props = defineProps({
       v-if="data.popular"
       >Most Popular</span
     >
-    <span class="text-gray-890 font-bold text-base max-sm:text-sm">
+    <span class="text-fiolet font-bold text-base max-sm:text-sm">
       {{ data.name }}
     </span>
     <div class="flex items-end gap-0 mt-4 mb-2.5">

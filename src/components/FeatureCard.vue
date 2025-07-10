@@ -13,6 +13,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  title: {
+    type: String,
+    required: true,
+  },
 });
 
 const emit = defineEmits(["changeSelect"]);
@@ -32,12 +36,28 @@ const changeSelect = () => {
       class="text-4xl text-green-500 max-lg:text-3xl transform transition duration-300"
       :class="selected && 'text-white -translate-y-[14px]'"
     />
-    <p
-      class="text-primary text-xl transform transition duration-300 max-lg:text-sm "
-      :class="selected ? 'text-white -translate-y-[14px]' : 'group-hover:text-green-500'"
-    >
-      {{ content }}
-    </p>
+    <div>
+      <h3
+      class="text-2xl max-lg:text-base font-medium mb-2 transition duration-300 transform max-lg:mb-1"
+        :class="
+          selected
+            ? 'text-white -translate-y-[14px]'
+            : 'group-hover:text-green-500'
+        "
+      >
+        {{ title }}
+      </h3>
+      <p
+        class="text-primary/60 text-xl transform transition duration-300 max-lg:text-sm"
+        :class="
+          selected
+            ? 'text-white/80 -translate-y-[14px]'
+            : 'group-hover:text-green-500'
+        "
+      >
+        {{ content }}
+      </p>
+    </div>
   </div>
 </template>
 <style scoped></style>

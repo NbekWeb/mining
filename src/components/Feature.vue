@@ -11,11 +11,9 @@ import FeatureCard from "./FeatureCard.vue";
 import { ref, nextTick, onMounted } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css/navigation";
-import { Navigation, Autoplay } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 
-const modules = [Navigation, Autoplay];
-const prevEl = ref(null);
-const nextEl = ref(null);
+const modules = [Pagination, Autoplay];
 
 const selected = ref(0);
 const imgOpacity = ref(0);
@@ -25,32 +23,38 @@ const features = [
     content: "Select a template or craft your own unique design",
     icon: Graph,
     img: phone,
+    title: "Unlimited premium templates",
   },
   {
     content: "Gain daily insights into your growth with advanced analytics",
     icon: GroupUser,
     img: phone,
+    title: "Deep analytics",
   },
 
   {
     content: "Gain daily insights into your growth with advanced analytics",
     icon: Computer,
     img: phone,
+    title: "Deep analytics",
   },
   {
     content: "Bring your sites to life on your own domain name",
     icon: Tablet,
     img: phone,
+    title: "Custom domain",
   },
   {
     content: "Add your go-to apps and content seamlessly",
     icon: Rocet,
     img: phone,
+    title: "Seamless integrations",
   },
   {
     content: "Add your go-to apps and content seamlessly",
     icon: Rocet,
     img: phone,
+    title: "Seamless integrations",
   },
 ];
 
@@ -104,6 +108,7 @@ onMounted(() => {
           :icon="item.icon"
           :content="item.content"
           :selected="selected == i"
+          :title="item.title"
           @changeSelect="changeSelect(i)"
         />
       </template>
@@ -116,7 +121,7 @@ onMounted(() => {
         />
       </transition>
     </div>
-    <div class="relative md:hidden px-3">
+    <div class="relative md:hidden px-3 ">
       <Swiper
         :modules="modules"
         :loop="true"
@@ -127,12 +132,15 @@ onMounted(() => {
             spaceBetween: 10,
           },
         }"
-        :navigation="{
-          prevEl: '.swiper-button-prev-feature',
-          nextEl: '.swiper-button-next-feature',
+        :pagination="{
+          clickable: true,
+          el: '.swiper-pagination',
         }"
       >
-        <SwiperSlide v-for="(item, i) in features" :key="i">
+        <div
+          class="swiper-pagination !flex h-5 justify-center items-center w-full gap-2"
+        ></div>
+        <SwiperSlide v-for="(item, i) in features" :key="i" class="pt-10">
           <div class="bg-gray-50 rounded-lg py-5 px-4">
             <div
               class="w-full rounded-lg bg-white py-3 px-4 flex flex-col gap-2 items-center"
@@ -141,9 +149,14 @@ onMounted(() => {
                 :is="item.icon"
                 class="text-4xl max-sm:text-[40px] text-green-500"
               />
-              <p class="text-primary text-lg text-center">
-                {{ item.content }}
-              </p>
+              <div>
+                <h3 class="text-primary text-xl text-center font-semibold">
+                  {{ item.title }}
+                </h3>
+                <p class="text-primary text-lg text-center">
+                  {{ item.content }}
+                </p>
+              </div>
             </div>
 
             <img
@@ -153,32 +166,38 @@ onMounted(() => {
           </div>
         </SwiperSlide>
       </Swiper>
-      <div
-        class="w-full absolute top-1/2 z-10 -translate-y-1/2 transform flex justify-between"
-      >
-        <button
-          ref="prevEl"
-          class="-ml-8 swiper-button-prev-feature p-1 hover:cursor-pointer z-10"
-        >
-          <Chevron class="text-fiolet text-lg" />
-        </button>
-        <button
-          ref="nextEl"
-          class="p-1 -mr-2 z-10 swiper-button-next-feature relative hover:cursor-pointer"
-        >
-          <Chevron class="text-fiolet text-base rotate-180" />
-        </button>
-      </div>
     </div>
   </div>
 </template>
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.15s ease;
 }
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+:deep(.swiper-pagination) {
+  top: 0 !important;
+}
+
+:deep(.swiper-pagination-bullet) {
+  width: 12px;
+  height: 12px;
+  background-color: #d9d9d9;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+:deep(.swiper-pagination-bullet-active) {
+  background-color: #6f33de;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+:deep(.swiper-pagination-bullet:hover) {
+  background-color: #6f33de;
+  opacity: 0.8;
 }
 </style>

@@ -1,11 +1,14 @@
 <script setup>
-import { defineEmits,watch } from "vue";
+import { defineEmits, watch } from "vue";
+import HamburgerMenu from "./MenuBar.vue";
 
-const emit = defineEmits(["close"]);
+import { ref } from "vue";
 
-const props = defineProps({
-  open: Boolean,
-});
+function closeNav() {
+  isOpen.value = false;
+}
+
+const isOpen = ref(false);
 
 const link =
   "https://www.figma.com/design/N6Yzn7QkUmAMDExor5VSUU/visitbio-full-design?node-id=2073-3&t=lTeU8QKKl1lr2HGl-0";
@@ -33,11 +36,13 @@ const goLink = (link) => {
   window.open(link, "_blank");
 
   if (window.innerWidth <= 768) {
-    emit("close");
+    closeNav();
   }
 };
+
+// Watch for menu state changes to handle body overflow
 watch(
-  () => props.open,
+  () => isOpen.value,
   (val) => {
     if (val) {
       document.body.style.overflow = "hidden";
@@ -49,34 +54,82 @@ watch(
 </script>
 <template>
   <div
-    class="w-full rounded navbar transition-transform duration-300 ease-in-out flex items-center justify-between pl-8 pr-2.5 h-17.5 max-lg:pl-2.5 max-lg:h-15 max-md:fixed left-0 top-0 max-md:h-screen max-md:flex-col  max-md:z-40 max-md:py-10"
-    :class="open ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'"
+    class="w-full rounded navbar transition-transform duration-300 ease-in-out flex items-center justify-between pl-8 pr-2.5 h-17.5 max-lg:pl-2.5 max-lg:h-15 max-md:fixed left-0 top-0 max-md:py-10"
   >
-    <ul class="flex items-center gap-11 max-lg:gap-5 max-md:flex-col">
-      <li
-        v-for="link in links"
-        :key="link.name"
-        @click="goLink(link.href)"
-        class="relative group font-bold text-gray-600 hover:text-purple-600 transition-colors duration-300 cursor-pointer"
-      >
-        <span class="block pb-0.5 text-base">{{ link.name }}</span>
-        <span
-          class="absolute left-0 bottom-0 h-[2px] w-0 bg-purple-600 transition-all duration-300 group-hover:w-full"
-        ></span>
-      </li>
-    </ul>
-    <div class="flex items-center gap-7.5 max-sm:gap-2.5  max-md:justify-between max-md:w-full max-sm:flex-wrap  ">
-      <button
-        class="h-13 max-md:px-12 nav-btn px-8.5 text-white font-bold text-lg flex items-center rounded  bg-gray-800 login max-lg:h-10 max-[480px]:w-full"
-      >
-        <span> Login </span>
-      </button>
-      <button
-        class="h-13 px-8.5  text-white font-bold text-lg flex items-center rounded bg-green-200 start nav-btn max-lg:h-10 max-[480px]:w-full"
-      >
-        <span> Start for free </span>
-      </button>
+    <img src="../assets/img/logo.jpeg" class="w-auto h-14 object-contain" />
+
+    <!-- Desktop Menu -->
+    <div class="hidden lg:flex items-center gap-11">
+      <ul class="flex items-center gap-11">
+        <li
+          v-for="link in links"
+          :key="link.name"
+          @click="goLink(link.href)"
+          class="relative group font-bold text-gray-600 hover:text-purple-600 transition-colors duration-300 cursor-pointer"
+        >
+          <span class="block pb-0.5 text-base">{{ link.name }}</span>
+          <span
+            class="absolute left-0 bottom-0 h-[2px] w-0 bg-purple-600 transition-all duration-300 group-hover:w-full"
+          ></span>
+        </li>
+      </ul>
+      <div class="flex items-center gap-7.5">
+        <button
+          class="h-13 nav-btn px-8.5 text-white font-bold text-lg flex items-center rounded bg-gray-800 login"
+        >
+          <span> Login </span>
+        </button>
+        <button
+          class="h-13 px-8.5 text-white font-bold text-lg flex items-center rounded bg-green-200 start nav-btn"
+        >
+          <span> Start for free </span>
+        </button>
+      </div>
     </div>
+
+    <div class="lg:hidden flex relative z-50">
+      <HamburgerMenu v-model="isOpen" />
+    </div>
+
+    <div
+      class="lg:hidden fixed top-0 right-0 h-full w-80 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-40"
+      :class="
+        isOpen ? 'translate-x-0 min-w-100 max-sm:w-full' : 'translate-x-full'
+      "
+    >
+      <div class="flex flex-col h-full p-8 items-start justify-between w-full">
+        <img src="../assets/img/logo.jpeg" class="w-auto h-14 object-contain" />
+        <ul class="flex flex-col gap-6   mx-auto text-center">
+          <li
+            v-for="link in links"
+            :key="link.name"
+            @click="goLink(link.href)"
+            class="font-bold text-gray-600 hover:text-purple-600 transition-colors duration-300 cursor-pointer text-xl"
+          >
+            {{ link.name }}
+          </li>
+        </ul>
+
+        <div class="flex flex-col gap-4 w-full">
+          <button
+            class="h-13 nav-btn px-8.5 text-white font-bold text-lg flex items-center justify-center rounded bg-gray-800 login"
+          >
+            <span> Login </span>
+          </button>
+          <button
+            class="h-13 px-8.5 text-white font-bold text-lg flex items-center justify-center rounded bg-green-200 start nav-btn"
+          >
+            <span> Start for free </span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      v-if="isOpen"
+      @click="closeNav"
+      class="lg:hidden fixed inset-0 bg-black/40 z-30"
+    ></div>
   </div>
 </template>
 <style scoped>

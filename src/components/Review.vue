@@ -6,14 +6,13 @@ import "swiper/css";
 
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation, Autoplay } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import girl from "../assets/img/girl.png";
 import Chevron from "./icons/chevron.vue";
 import { ref, onMounted } from "vue";
 
-const modules = [Navigation, Autoplay];
-const prevEl = ref(null);
-const nextEl = ref(null);
+const modules = [Pagination, Autoplay];
+
 
 const slide = {
   content:
@@ -88,41 +87,29 @@ onMounted(() => {
         }"
         :loop="true"
         :autoplay="{ delay: 5000 }"
-        :navigation="{
-          prevEl: '.swiper-button-prev-custom',
-          nextEl: '.swiper-button-next-custom',
+        :pagination="{
+          clickable: true,
+          el: '.swiper-pagination',
         }"
+        class="review-swiper"
       >
-        <SwiperSlide v-for="i in 10" :key="i">
+        <div
+          class="swiper-pagination !flex h-5 justify-center items-center w-full gap-2"
+        ></div>
+        <SwiperSlide v-for="i in 4" :key="i" class="pt-10">
           <ReviewCard :data="slide" />
         </SwiperSlide>
       </Swiper>
-      <div
-        class="w-full absolute top-1/2 z-10 -translate-y-1/2 transform flex justify-between"
-      >
-        <button
-          ref="prevEl"
-          class="-ml-11 swiper-button-prev-custom p-1 hover:cursor-pointer z-10 max-xl:-ml-8"
-        >
-          <Chevron class="text-fiolet text-xl max-sm:text-base" />
-        </button>
-        <button
-          ref="nextEl"
-          class="p-1 -mr-11 z-10 swiper-button-next-custom relative hover:cursor-pointer max-xl:-mr-8"
-        >
-          <Chevron class="text-fiolet text-xl rotate-180 max-sm:text-base" />
-        </button>
-      </div>
     </div>
     <div class="mt-13 mb-15 flex justify-center max-md:my-7.5">
       <button
-        class="relative h-16 hover:cursor-pointer group text-white text-xl font-bold hover:p-[1px] flex items-center rounded-r-xl max-sm:h-15 max-sm:rounded-l-xl max-sm:rounded-xl transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
+        class="relative h-16 hover:cursor-pointer group text-white text-xl font-bold hover:p-[1px] flex items-center rounded-r-xl max-sm:h-15 max-sm:rounded-l-xl max-sm:rounded-xl transition-transform duration-300  ease-in-out hover:scale-105 active:scale-95"
       >
         <span
           class="absolute inset-0 rounded-xl bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         ></span>
         <span
-          class="relative z-10 flex items-center h-full w-full justify-center px-6 bg-fiolet rounded-xl"
+          class="relative z-10 flex items-center h-full w-full justify-center px-6 bg-fiolet rounded-xl hover:bg-green-500"
         >
           <div class="relative z-10 flex items-center space-x-2">
             <span
@@ -132,7 +119,33 @@ onMounted(() => {
           </div>
         </span>
       </button>
+   
     </div>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+
+
+:deep(.swiper-pagination) {
+  top: 0;
+}
+
+:deep(.swiper-pagination-bullet) {
+  width: 12px;
+  height: 12px;
+  background-color: #d9d9d9;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+:deep(.swiper-pagination-bullet-active) {
+  background-color: #6f33de;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+:deep(.swiper-pagination-bullet:hover) {
+  background-color: #6f33de;
+  opacity: 0.8;
+}
+</style>

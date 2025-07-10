@@ -6,11 +6,11 @@ import "swiper/css";
 
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation, Autoplay } from "swiper/modules";
+import { Navigation, Autoplay,Pagination } from "swiper/modules";
 import girl from "../assets/img/girl.png";
 import Chevron from "./icons/chevron.vue";
 
-const modules = [Navigation, Autoplay];
+const modules = [Navigation, Autoplay,Pagination];
 const prevEl = ref(null);
 const nextEl = ref(null);
 
@@ -51,7 +51,7 @@ onMounted(() => {
           </template>
         </span>
       </h2>
-      <div class="relative">
+      <div class="relative ">
         <Swiper
           :modules="modules"
           :breakpoints="{
@@ -74,31 +74,19 @@ onMounted(() => {
           }"
           :loop="true"
           :autoplay="{ delay: 5000 }"
-          :navigation="{
-            prevEl: '.swiper-button-prev-trends',
-            nextEl: '.swiper-button-next-trends',
-          }"
+         
+           :pagination="{
+          clickable: true,
+          el: '.swiper-pagination',
+        }"
         >
-          <SwiperSlide v-for="i in 3" :key="i">
+          <div
+            class="swiper-pagination !flex h-5 justify-center items-center w-full gap-2"
+          ></div>
+          <SwiperSlide v-for="i in 4" :key="i" class="pt-10">
             <TrendCard :data="slide" />
           </SwiperSlide>
         </Swiper>
-        <div
-          class="w-full absolute top-21 z-10 xl:hidden justify-between max-xl:flex"
-        >
-          <button
-            ref="prevEl"
-            class="-ml-8 swiper-button-prev-trends p-1 hover:cursor-pointer z-10"
-          >
-            <Chevron class="text-fiolet text-xl max-md:text-lg" />
-          </button>
-          <button
-            ref="nextEl"
-            class="p-1 -mr-8 z-10 swiper-button-next-trends relative hover:cursor-pointer"
-          >
-            <Chevron class="text-fiolet text-xl rotate-180 max-md:text-lg" />
-          </button>
-        </div>
       </div>
       <div class="mt-13 pb-15 flex justify-center max-md:mt-7.5 max-md:pb-7.5">
         <button
@@ -108,7 +96,7 @@ onMounted(() => {
             class="absolute inset-0 rounded-xl bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           ></span>
           <span
-            class="relative z-10 flex items-center h-full w-full justify-center px-6 bg-fiolet rounded-xl"
+            class="relative z-10 flex items-center h-full w-full justify-center px-6 bg-fiolet rounded-xl hover:bg-green-500"
           >
             <div class="relative z-10 flex items-center space-x-2">
               <span
@@ -123,4 +111,26 @@ onMounted(() => {
     </div>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+:deep(.swiper-pagination) {
+  top: 0;
+}
+
+:deep(.swiper-pagination-bullet) {
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  opacity: 0.95;
+  transition: all 0.3s ease;
+}
+
+:deep(.swiper-pagination-bullet-active) {
+  background-color: #6f33de;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+:deep(.swiper-pagination-bullet:hover) {
+  background-color: #6f33de;
+  opacity: 0.8;
+}</style>

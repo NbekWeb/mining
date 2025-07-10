@@ -27,94 +27,163 @@ const links = [
 ];
 const networks = [
   {
-    icon: tw,
+    icon: insta,
     href: "#",
   },
+ 
   {
     icon: tikTok,
     href: "#",
   },
   {
-    icon: insta,
+    icon: tw,
     href: "#",
   },
+
   {
     icon: yt,
     href: "#",
   },
 ];
+
+const getContainerClass = (index) => {
+  const classes = ["One", "Two", "Three", "Four"];
+  return classes[index] || "One";
+};
 </script>
 <template>
   <footer class="py-8 overflow-x-hidden">
-    <div class="container max-sm:flex max-sm:flex-col-reverse">
+    <div class="container max-sm:flex">
       <div
-        class="flex items-center justify-between max-md:flex-col max-md:items-start max-md:gap-8 max-sm:w-full"
+        class="flex items-start justify-between max-sm:items-center max-md:flex-col max-md:items-start max-md:gap-8 max-sm:w-full"
       >
-        <div
-          class="flex items-center gap-7 max-sm:grid max-sm:grid-cols-2 max-sm:w-full"
-        >
-          <button
-            class="h-10.5 px-3 items-center max-sm:justify-center flex gap-1.5 text-fiolet rounded-lg border border-fiolet hover:cursor-pointer transition duration-300 hover:bg-fiolet hover:text-white"
+        <div class="flex flex-col gap-10">
+          <img
+            src="../assets/img/logo.jpeg"
+            alt="logo"
+            class="h-14 object-contain"
+          />
+          <ul
+            class="flex items-center gap-11 max-sm:flex-col max-sm:mt-0 max-sm:mb-8 max-sm:gap-5"
           >
-            <playMarket class="text-2xl" />
-            <div class="flex flex-col">
-              <span class="text-[7px]">Available on the</span>
-              <span class="text-xs font-medium">Play Market</span>
-            </div>
-          </button>
-          <button
-            class="h-10.5 px-3 items-center max-sm:justify-center flex gap-1.5 text-fiolet rounded-lg border border-fiolet hover:cursor-pointer transition duration-300 hover:bg-fiolet hover:text-white"
-          >
-            <apple class="text-2xl" />
-            <div class="flex flex-col">
-              <span class="text-[7px]">Download on the</span>
-              <span class="text-xs font-medium">App Store</span>
-            </div>
-          </button>
+            <li
+              v-for="link in links"
+              :key="link.name"
+              class="relative group font-bold text-gray-600 hover:text-purple-600 transition-colors duration-300 cursor-pointer"
+            >
+              <a :href="link.href" class="block pb-0.5 text-base">{{
+                link.name
+              }}</a>
+              <span
+                class="absolute left-0 bottom-0 h-[2px] w-0 bg-purple-600 transition-all duration-300 group-hover:w-full"
+              ></span>
+            </li>
+          </ul>
         </div>
-        <ul
-          class="flex items-center gap-6 max-sm:justify-between max-sm:w-full"
-        >
-          <li v-for="(item, i) in networks" :key="i" class="">
-            <a :href="item.href" class="socialContainer">
-              <component
-                :is="item.icon"
-                class="text-[48px] max-sm:text-[40px] socialSvg"
-              />
+
+        <div class="flex flex-col gap-10">
+          <div class="card">
+            <a
+              v-for="(item, i) in networks"
+              :key="i"
+              :href="item.href"
+              :class="`socialContainer container${getContainerClass(i)}`"
+            >
+              <component :is="item.icon" class="socialSvg text-2xl" />
             </a>
-          </li>
-        </ul>
+          </div>
+          <div
+            class="flex items-center gap-7 max-sm:grid max-sm:grid-cols-2 max-sm:w-full"
+          >
+            <button
+              class="h-10.5 px-3 items-center max-sm:justify-center flex gap-1.5 text-fiolet rounded-lg border border-fiolet hover:cursor-pointer transition duration-300 hover:bg-fiolet hover:text-white"
+            >
+              <playMarket class="text-2xl" />
+              <div class="flex flex-col">
+                <span class="text-[7px]">Available on the</span>
+                <span class="text-xs font-medium">Play Market</span>
+              </div>
+            </button>
+            <button
+              class="h-10.5 px-3 items-center max-sm:justify-center flex gap-1.5 text-fiolet rounded-lg border border-fiolet hover:cursor-pointer transition duration-300 hover:bg-fiolet hover:text-white"
+            >
+              <apple class="text-2xl" />
+              <div class="flex flex-col">
+                <span class="text-[7px]">Download on the</span>
+                <span class="text-xs font-medium">App Store</span>
+              </div>
+            </button>
+          </div>
+        </div>
       </div>
-      <ul
-        class="flex items-center gap-11 mt-10 max-sm:flex-col max-sm:mt-0 max-sm:mb-8 max-sm:gap-5"
-      >
-        <li
-          v-for="link in links"
-          :key="link.name"
-          class="relative group font-bold text-gray-600 hover:text-purple-600 transition-colors duration-300 cursor-pointer"
-        >
-          <a :href="link.href" class="block pb-0.5 text-base">{{
-            link.name
-          }}</a>
-          <span
-            class="absolute left-0 bottom-0 h-[2px] w-0 bg-purple-600 transition-all duration-300 group-hover:w-full"
-          ></span>
-        </li>
-      </ul>
     </div>
   </footer>
 </template>
 <style scoped>
+.card {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  /* box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.055); */
+}
+
 .socialContainer {
+  width: 52px;
+  height: 52px;
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   transition-duration: 0.3s;
 }
+
+.containerOne {
+  color: #d62976;
+}
 .containerOne:hover {
   background-color: #d62976;
+  color: #fff;
   transition-duration: 0.3s;
+  transform: scale(1.5);
+  border-radius: 15px;
+}
+
+.containerTwo {
+  color: rgb(44, 44, 44);
+}
+.containerTwo:hover {
+  background-color: rgb(44, 44, 44);
+  color: #fff;
+  transition-duration: 0.3s;
+  transform: scale(1.5);
+  border-radius: 15px;
+}
+
+.containerThree {
+  color: #00acee;
+}
+
+.containerThree:hover {
+  background-color: #00acee;
+  color: #fff;
+  transition-duration: 0.3s;
+  transform: scale(1.5);
+  border-radius: 15px;
+}
+
+.containerFour {
+  color: #d62976;
+}
+.containerFour:hover {
+  background-color: #d62976;
+  color: #fff;
+  transition-duration: 0.3s;
+  transform: scale(1.5);
+  border-radius: 15px;
 }
 
 .socialContainer:active {
@@ -128,7 +197,7 @@ const networks = [
 
 @keyframes slide-in-top {
   0% {
-    transform: translateY(-50px);
+    transform: translateY(50px);
     opacity: 0;
   }
 
