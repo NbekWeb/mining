@@ -19,6 +19,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 const modules = [Pagination, Autoplay];
 
 const selected = ref(0);
+const previousSelected = ref(0);
 const imgOpacity = ref(0);
 const isTransitioning = ref(false);
 
@@ -64,19 +65,20 @@ const features = [
 
 function changeSelect(i) {
   if (selected.value === i || isTransitioning.value) return;
-  
+
   isTransitioning.value = true;
+  previousSelected.value = selected.value;
   imgOpacity.value = 0;
-  
+
   setTimeout(() => {
     selected.value = i;
     nextTick(() => {
       setTimeout(() => {
         imgOpacity.value = 100;
         isTransitioning.value = false;
-      }, 50);
+      }, 200);
     });
-  }, 100);
+  }, 150);
 }
 const firstText = "Exclusive".split("");
 const animationDuration = 60;
@@ -122,18 +124,25 @@ onMounted(() => {
           @changeSelect="changeSelect(i)"
         />
       </template>
-      <div class="absolute left-1/2 -translate-x-1/2 top-0 h-full w-auto inline-block ">
+      <div
+        class="absolute left-1/2 -translate-x-1/2 top-0 h-full w-auto inline-block"
+      >
+        <img :src="ph" class="h-full w-auto object-contain" />
+        <!-- Previous image (shrinking) -->
         <img
-          :src="ph"
-          class="h-full w-auto object-contain"
+          v-if="isTransitioning && features[previousSelected]"
+          :key="'prev-' + previousSelected"
+          :src="features[previousSelected].img"
+          class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition-all duration-300 ease-in-out scale-1"
         />
+        <!-- Current image (growing) -->
         <img
           v-if="features[selected]"
-          :key="selected"
+          :key="'current-' + selected"
           :src="features[selected].img"
           :style="{ opacity: imgOpacity / 100 }"
-          class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition-all duration-400 ease-in-out"
-          :class="imgOpacity === 0 ? 'scale-50' : 'scale-100'"
+          class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition-all duration-500 ease-in-out"
+          :class="imgOpacity === 0 ? 'scale-25' : 'scale-100'"
         />
       </div>
     </div>
@@ -174,11 +183,14 @@ onMounted(() => {
                 </p>
               </div>
             </div>
-
-            <img
-              :src="item.img"
-              class="mt-6 w-full h-auto pb-2 object-contain mx-auto"
-            />
+            <div class="w-full h-auto inline-block relative mt-6">
+              <img :src="ph" class="h-full w-auto object-contain" />
+              <img
+                :src="item.img"
+                class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition-all duration-400 ease-in-out"
+                
+              />
+            </div>
           </div>
         </SwiperSlide>
       </Swiper>
