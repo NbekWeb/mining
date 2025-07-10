@@ -30,7 +30,7 @@ const networks = [
     icon: insta,
     href: "#",
   },
- 
+
   {
     icon: tikTok,
     href: "#",
@@ -87,9 +87,9 @@ const getContainerClass = (index) => {
               v-for="(item, i) in networks"
               :key="i"
               :href="item.href"
-              :class="`socialContainer container${getContainerClass(i)}`"
+              :class="`socialContainer group container${getContainerClass(i)}`"
             >
-              <component :is="item.icon" class="socialSvg text-2xl" />
+              <component :is="item.icon" class="socialSvg text-4xl group-hover:text-2xl" />
             </a>
           </div>
           <div
@@ -141,8 +141,12 @@ const getContainerClass = (index) => {
   transition-duration: 0.3s;
 }
 
-.containerOne {
-  color: #d62976;
+
+.containerOne,
+.containerTwo,
+.containerThree,
+.containerFour {
+  color: #6f33de;
 }
 .containerOne:hover {
   background-color: #d62976;
@@ -152,19 +156,12 @@ const getContainerClass = (index) => {
   border-radius: 15px;
 }
 
-.containerTwo {
-  color: rgb(44, 44, 44);
-}
 .containerTwo:hover {
   background-color: rgb(44, 44, 44);
   color: #fff;
   transition-duration: 0.3s;
   transform: scale(1.5);
   border-radius: 15px;
-}
-
-.containerThree {
-  color: #00acee;
 }
 
 .containerThree:hover {
@@ -175,9 +172,7 @@ const getContainerClass = (index) => {
   border-radius: 15px;
 }
 
-.containerFour {
-  color: #d62976;
-}
+
 .containerFour:hover {
   background-color: #d62976;
   color: #fff;

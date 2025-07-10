@@ -96,7 +96,7 @@ onMounted(() => {
             class="absolute inset-0 rounded-xl bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           ></span>
           <span
-            class="relative z-10 flex items-center h-full w-full justify-center px-6 bg-fiolet rounded-xl hover:bg-green-500"
+            class="relative z-10 flex items-center h-full w-full justify-center px-6 bg-fiolet transition-all duration-300 rounded-xl hover:bg-green-500"
           >
             <div class="relative z-10 flex items-center space-x-2">
               <span

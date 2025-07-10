@@ -58,33 +58,30 @@ watch(
   >
     <img src="../assets/img/logo.jpeg" class="w-auto h-14 object-contain" />
 
-    <!-- Desktop Menu -->
-    <div class="hidden lg:flex items-center gap-11">
-      <ul class="flex items-center gap-11">
-        <li
-          v-for="link in links"
-          :key="link.name"
-          @click="goLink(link.href)"
-          class="relative group font-bold text-gray-600 hover:text-purple-600 transition-colors duration-300 cursor-pointer"
-        >
-          <span class="block pb-0.5 text-base">{{ link.name }}</span>
-          <span
-            class="absolute left-0 bottom-0 h-[2px] w-0 bg-purple-600 transition-all duration-300 group-hover:w-full"
-          ></span>
-        </li>
-      </ul>
-      <div class="flex items-center gap-7.5">
-        <button
-          class="h-13 nav-btn px-8.5 text-white font-bold text-lg flex items-center rounded bg-gray-800 login"
-        >
-          <span> Login </span>
-        </button>
-        <button
-          class="h-13 px-8.5 text-white font-bold text-lg flex items-center rounded bg-green-200 start nav-btn"
-        >
-          <span> Start for free </span>
-        </button>
-      </div>
+    <ul class="flex items-center gap-11 max-lg:hidden">
+      <li
+        v-for="link in links"
+        :key="link.name"
+        @click="goLink(link.href)"
+        class="relative group font-bold text-gray-600 hover:text-purple-600 transition-colors duration-300 cursor-pointer"
+      >
+        <span class="block pb-0.5 text-base">{{ link.name }}</span>
+        <span
+          class="absolute left-0 bottom-0 h-[2px] w-0 bg-purple-600 transition-all duration-300 group-hover:w-full"
+        ></span>
+      </li>
+    </ul>
+    <div class="flex items-center gap-7.5 max-lg:hidden">
+      <button
+        class="h-13 nav-btn px-8.5 text-white font-bold text-lg flex items-center rounded bg-gray-800 login"
+      >
+        <span> Login </span>
+      </button>
+      <button
+        class="h-13 px-8.5 text-white font-bold text-lg flex items-center rounded bg-green-200 start nav-btn"
+      >
+        <span> Start for free </span>
+      </button>
     </div>
 
     <div class="lg:hidden flex relative z-50">
@@ -98,8 +95,8 @@ watch(
       "
     >
       <div class="flex flex-col h-full p-8 items-start justify-between w-full">
-        <img src="../assets/img/logo.jpeg" class="w-auto h-14 object-contain" />
-        <ul class="flex flex-col gap-6   mx-auto text-center">
+        <img src="../assets/img/logo.jpeg" class="w-auto h-14 object-contain mx-auto" />
+        <ul class="flex flex-col gap-6 mx-auto text-center">
           <li
             v-for="link in links"
             :key="link.name"

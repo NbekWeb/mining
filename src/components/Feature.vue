@@ -5,6 +5,9 @@ import GroupUser from "./icons/GroupUser.vue";
 import Rocet from "./icons/Rocet.vue";
 import Tablet from "./icons/Tablet.vue";
 import phone from "../assets/img/phone.png";
+import ph from "../assets/img/ph.png";
+import st from "../assets/img/st.png";
+import girl from "../assets/img/girl.png";
 import Chevron from "./icons/chevron.vue";
 import FeatureCard from "./FeatureCard.vue";
 
@@ -17,56 +20,63 @@ const modules = [Pagination, Autoplay];
 
 const selected = ref(0);
 const imgOpacity = ref(0);
+const isTransitioning = ref(false);
 
 const features = [
   {
     content: "Select a template or craft your own unique design",
     icon: Graph,
-    img: phone,
+    img: st,
     title: "Unlimited premium templates",
   },
   {
     content: "Gain daily insights into your growth with advanced analytics",
     icon: GroupUser,
-    img: phone,
+    img: girl,
     title: "Deep analytics",
   },
 
   {
     content: "Gain daily insights into your growth with advanced analytics",
     icon: Computer,
-    img: phone,
+    img: st,
     title: "Deep analytics",
   },
   {
     content: "Bring your sites to life on your own domain name",
     icon: Tablet,
-    img: phone,
+    img: girl,
     title: "Custom domain",
   },
   {
     content: "Add your go-to apps and content seamlessly",
     icon: Rocet,
-    img: phone,
+    img: st,
     title: "Seamless integrations",
   },
   {
     content: "Add your go-to apps and content seamlessly",
     icon: Rocet,
-    img: phone,
+    img: girl,
     title: "Seamless integrations",
   },
 ];
 
 function changeSelect(i) {
-  if (selected.value === i) return;
+  if (selected.value === i || isTransitioning.value) return;
+  
+  isTransitioning.value = true;
   imgOpacity.value = 0;
-  selected.value = i;
-  nextTick(() => {
-    setTimeout(() => {
-      imgOpacity.value = 100;
-    }, 200);
-  });
+  
+  setTimeout(() => {
+    selected.value = i;
+    nextTick(() => {
+      setTimeout(() => {
+        imgOpacity.value = 100;
+        isTransitioning.value = false;
+      }, 50);
+    });
+  }, 100);
 }
 const firstText = "Exclusive".split("");
 const animationDuration = 60;
@@ -112,16 +122,22 @@ onMounted(() => {
           @changeSelect="changeSelect(i)"
         />
       </template>
-      <transition name="fade" mode="out-in">
+      <div class="absolute left-1/2 -translate-x-1/2 top-0 h-full w-auto inline-block ">
+        <img
+          :src="ph"
+          class="h-full w-auto object-contain"
+        />
         <img
           v-if="features[selected]"
           :key="selected"
           :src="features[selected].img"
-          class="absolute left-1/2 -translate-x-1/2 top-0 h-full w-auto object-contain"
+          :style="{ opacity: imgOpacity / 100 }"
+          class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition-all duration-400 ease-in-out"
+          :class="imgOpacity === 0 ? 'scale-50' : 'scale-100'"
         />
-      </transition>
+      </div>
     </div>
-    <div class="relative md:hidden px-3 ">
+    <div class="relative md:hidden px-3">
       <Swiper
         :modules="modules"
         :loop="true"
@@ -170,14 +186,6 @@ onMounted(() => {
   </div>
 </template>
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.15s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
 :deep(.swiper-pagination) {
   top: 0 !important;
 }
