@@ -57,7 +57,7 @@ const getContainerClass = (index) => {
       <div
         class="flex items-start justify-between max-sm:items-center max-md:flex-col max-md:items-start max-md:gap-8 max-sm:w-full"
       >
-        <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-10 items-start max-sm:items-center">
           <img
             src="../assets/img/logo.jpeg"
             alt="logo"
