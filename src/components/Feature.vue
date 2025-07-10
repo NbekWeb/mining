@@ -76,9 +76,9 @@ function changeSelect(i) {
       setTimeout(() => {
         imgOpacity.value = 100;
         isTransitioning.value = false;
-      }, 80);
+      }, 30);
     });
-  }, 150);
+  }, 60);
 }
 const firstText = "Exclusive".split("");
 const animationDuration = 60;
@@ -141,7 +141,7 @@ onMounted(() => {
           :key="'current-' + selected"
           :src="features[selected].img"
           :style="{ opacity: imgOpacity / 100 }"
-          class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition-all duration-500 ease-in-out"
+          class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition-all duration-300 ease-in-out"
           :class="imgOpacity === 0 ? 'scale-25' : 'scale-100'"
         />
       </div>
