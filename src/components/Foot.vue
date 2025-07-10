@@ -174,7 +174,7 @@ const getContainerClass = (index) => {
 
 
 .containerFour:hover {
-  background-color: #d62976;
+  background-color: #FF0033;
   color: #fff;
   transition-duration: 0.3s;
   transform: scale(1.5);

@@ -73,7 +73,7 @@ onMounted(() => {
             },
           }"
           :loop="true"
-          :autoplay="{ delay: 5000 }"
+          :autoplay="{ delay: 4000 }"
          
            :pagination="{
           clickable: true,

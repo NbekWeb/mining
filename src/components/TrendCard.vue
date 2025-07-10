@@ -20,7 +20,6 @@ const goLink = (link) => {
       <img :src="data.img" class="h-48.5 rounded-lg object-cover w-full" />
       <div class="p-0.5 bg-white rounded-b-lg">
         <div class="p-2">
-
           <h4
             class="font-bold text-[26px] mt-7.5 mb-5 max-md:text-xl max-md:mt-5 max-md:mb-2.5"
           >
@@ -36,7 +35,7 @@ const goLink = (link) => {
 </template>
 <style scoped>
 .package {
-  background-image: linear-gradient(163deg, #06ab4f 0%, #ff00ff 100%);
+  background-image: linear-gradient(163deg, #ff00ff 0%, #3700ff 100%);
   border-radius: 10px;
   transition: all 0.25s cubic-bezier(0, 0, 0, 1);
 }

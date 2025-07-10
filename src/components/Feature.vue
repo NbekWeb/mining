@@ -76,7 +76,7 @@ function changeSelect(i) {
       setTimeout(() => {
         imgOpacity.value = 100;
         isTransitioning.value = false;
-      }, 200);
+      }, 80);
     });
   }, 150);
 }
@@ -150,7 +150,7 @@ onMounted(() => {
       <Swiper
         :modules="modules"
         :loop="true"
-        :autoplay="{ delay: 5000 }"
+        :autoplay="{ delay: 4000 }"
         :breakpoints="{
           320: {
             slidesPerView: 1,
@@ -184,7 +184,7 @@ onMounted(() => {
               </div>
             </div>
             <div class="w-full h-auto inline-block relative mt-6">
-              <img :src="ph" class="h-full w-auto object-contain" />
+              <img :src="ph" class="h-auto w-full object-contain" />
               <img
                 :src="item.img"
                 class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition-all duration-400 ease-in-out"

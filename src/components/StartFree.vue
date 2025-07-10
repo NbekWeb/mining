@@ -4,7 +4,7 @@
     :class="{ 'active': isActive }"
   >
     <div
-      class="h-full box-effect-sm relative flex items-center gap-2 pl-4 max-lg:bg-white max-sm:h-15 max-sm:rounded-md max-sm:border-fiolet group-hover:border-transparent border-l-2 border-y-2 max-sm:border-2 border-fiolet rounded-l-lg"
+      class="h-full box-effect-sm relative flex items-center gap-2 pl-4 max-lg:bg-white max-sm:h-15 max-sm:rounded-md max-sm:border-fiolet border-l-2 border-y-2 max-sm:border-2 border-fiolet rounded-l-lg"
       :class="isActive && 'border-transparent'"
     >
       <span> visitb.io/ </span>
@@ -57,19 +57,19 @@ const isActive = ref(false);
 }
 
 @media (min-width: 640px) {
-  .box-effect:hover,
+  /* .box-effect:hover, */
   .box-effect:focus,
   .box-effect.active {
     box-shadow: 0 0 0 2px #06ab4f;
   }
-  .box-effect:hover button,
+  /* .box-effect:hover button, */
   .box-effect:focus button,
   .box-effect.active button {
     border-right: 1px solid #06ab4f;
   }
 }
 @media (max-width: 640px) {
-  .box-effect-sm:hover,
+  /* .box-effect-sm:hover, */
   .box-effect-sm:focus,
   .box-effect-sm.active {
     box-shadow: 0 0 0 2px #06ab4f;
