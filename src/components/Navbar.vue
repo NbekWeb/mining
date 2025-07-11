@@ -94,7 +94,7 @@ watch(
         isOpen ? 'translate-x-0 min-w-100 max-sm:w-full' : 'translate-x-full'
       "
     >
-      <div class="flex flex-col h-full p-8 items-start justify-between w-full">
+      <div class="flex flex-col h-full p-8 items-start justify-between w-full max-sm:p-4">
         <img src="../assets/img/logo.jpeg" class="w-auto h-14 object-contain mx-auto" />
         <ul class="flex flex-col gap-6 mx-auto text-center">
           <li
