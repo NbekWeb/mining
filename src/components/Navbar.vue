@@ -89,12 +89,12 @@ watch(
     </div>
 
     <div
-      class="lg:hidden fixed top-0 right-0 h-full w-80 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-40"
+      class="lg:hidden fixed top-0 right-0  h-full w-80 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-40"
       :class="
-        isOpen ? 'translate-x-0 min-w-100 max-sm:w-full' : 'translate-x-full'
+        isOpen ? 'translate-x-0 min-w-100 max-sm:w-full max-sm:min-w-full' : 'translate-x-full'
       "
     >
-      <div class="flex flex-col h-full p-8 items-start justify-between w-full max-sm:p-4">
+      <div class="flex flex-col h-full p-8 items-start justify-between w-full max-sm:p-4 ">
         <img src="../assets/img/logo.jpeg" class="w-auto h-14 object-contain mx-auto" />
         <ul class="flex flex-col gap-6 mx-auto text-center">
           <li
@@ -107,9 +107,9 @@ watch(
           </li>
         </ul>
 
-        <div class="flex flex-col gap-4 w-full">
+        <div class="flex flex-col gap-4 w-full  max-sm:w-full">
           <button
-            class="h-13 nav-btn px-8.5 text-white font-bold text-lg flex items-center justify-center rounded bg-gray-800 login"
+            class="h-13 nav-btn px-8.5  text-white font-bold text-lg flex items-center justify-center rounded bg-gray-800 login"
           >
             <span> Login </span>
           </button>
