@@ -121,6 +121,9 @@ onMounted(() => {
       >
         <img :src="ph" class="h-full w-auto object-contain" />
         <!-- Current image with slide animation -->
+         <div class="h-[calc(100%-23px)] w-[calc(100%-25px)] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-white rounded-2xl">
+
+         </div>
         <img
           v-if="features[selected]"
           :key="'current-' + selected"
