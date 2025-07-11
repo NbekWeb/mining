@@ -19,8 +19,6 @@ import { Pagination, Autoplay } from "swiper/modules";
 const modules = [Pagination, Autoplay];
 
 const selected = ref(0);
-const previousSelected = ref(0);
-const imgOpacity = ref(0);
 const isTransitioning = ref(false);
 
 const features = [
@@ -67,18 +65,13 @@ function changeSelect(i) {
   if (selected.value === i || isTransitioning.value) return;
 
   isTransitioning.value = true;
-  previousSelected.value = selected.value;
-  imgOpacity.value = 0;
-
+  
   setTimeout(() => {
     selected.value = i;
-    nextTick(() => {
-      setTimeout(() => {
-        imgOpacity.value = 100;
-        isTransitioning.value = false;
-      }, 30);
-    });
-  }, 60);
+    setTimeout(() => {
+      isTransitioning.value = false;
+    }, 150);
+  }, 75);
 }
 const firstText = "Exclusive".split("");
 const animationDuration = 60;
@@ -86,7 +79,6 @@ const restartDelay = 4000;
 const restartKey = ref(0);
 
 onMounted(() => {
-  imgOpacity.value = 100;
   const totalLetters = firstText.length;
   setInterval(() => {
     restartKey.value++;
@@ -128,21 +120,13 @@ onMounted(() => {
         class="absolute left-1/2 -translate-x-1/2 top-0 h-full w-auto inline-block"
       >
         <img :src="ph" class="h-full w-auto object-contain" />
-        <!-- Previous image (shrinking) -->
-        <img
-          v-if="isTransitioning && features[previousSelected]"
-          :key="'prev-' + previousSelected"
-          :src="features[previousSelected].img"
-          class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition-all duration-300 ease-in-out scale-1"
-        />
-        <!-- Current image (growing) -->
+        <!-- Current image with slide animation -->
         <img
           v-if="features[selected]"
           :key="'current-' + selected"
           :src="features[selected].img"
-          :style="{ opacity: imgOpacity / 100 }"
-          class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition-all duration-300 ease-in-out"
-          :class="imgOpacity === 0 ? 'scale-25' : 'scale-100'"
+          class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 slide-animation"
+          :class="isTransitioning ? 'slide-out' : 'slide-in'"
         />
       </div>
     </div>
@@ -187,8 +171,7 @@ onMounted(() => {
               <img :src="ph" class="h-auto w-full object-contain" />
               <img
                 :src="item.img"
-                class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition-all duration-400 ease-in-out"
-                
+                class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
               />
             </div>
           </div>
@@ -219,5 +202,19 @@ onMounted(() => {
 :deep(.swiper-pagination-bullet:hover) {
   background-color: #6f33de;
   opacity: 0.8;
+}
+
+.slide-animation {
+  transition: all .15s ease-in-out;
+}
+
+.slide-out {
+  transform: scale(0) translateX(0);
+  opacity: 0;
+}
+
+.slide-in {
+  transform: scale(1) translateX(0);
+  opacity: 1;
 }
 </style>
