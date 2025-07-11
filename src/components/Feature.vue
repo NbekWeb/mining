@@ -120,16 +120,16 @@ onMounted(() => {
         class="absolute left-1/2 -translate-x-1/2 top-0 h-full w-auto inline-block"
       >
         <img :src="ph" class="h-full w-auto object-contain" />
-        <!-- Current image with slide animation -->
-         <div class="h-[calc(100%-23px)] w-[calc(100%-25px)] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-white rounded-2xl">
+                <!-- Current image with fade animation -->
+        <div class="h-[calc(100%-23px)] w-[calc(100%-25px)] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-white rounded-2xl">
 
-         </div>
+        </div>
         <img
           v-if="features[selected]"
           :key="'current-' + selected"
           :src="features[selected].img"
-          class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 slide-animation"
-          :class="isTransitioning ? 'slide-out' : 'slide-in'"
+          class="h-[calc(100%-23px)] w-[calc(100%-25px)] object-cover rounded-2xl absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 fade-animation"
+          :class="isTransitioning ? 'fade-out' : 'fade-in'"
         />
       </div>
     </div>
@@ -207,17 +207,15 @@ onMounted(() => {
   opacity: 0.8;
 }
 
-.slide-animation {
-  transition: all .15s ease-in-out;
+.fade-animation {
+  transition: opacity .15s linear;
 }
 
-.slide-out {
-  transform: scale(0) translateX(0);
+.fade-out {
   opacity: 0;
 }
 
-.slide-in {
-  transform: scale(1) translateX(0);
+.fade-in {
   opacity: 1;
 }
 </style>
