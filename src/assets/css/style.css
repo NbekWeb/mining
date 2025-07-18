@@ -1,8 +1,82 @@
 @import "tailwindcss";
 
-* {
-  font-family: "Roboto", sans-serif;
+/* TildaSans Font Family */
+@font-face {
+  font-family: "TildaSans";
+  src: url("../fonts/TildaSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
+
+@font-face {
+  font-family: "TildaSans";
+  src: url("../fonts/TildaSans-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TildaSans";
+  src: url("../fonts/TildaSans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TildaSans";
+  src: url("../fonts/TildaSans-Semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TildaSans";
+  src: url("../fonts/TildaSans-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TildaSans";
+  src: url("../fonts/TildaSans-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TildaSans";
+  src: url("../fonts/TildaSans-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  font-family: "TildaSans", sans-serif;
+  scroll-behavior: smooth;
+}
+
+@theme {
+  --color-blue-500: #0066ff;
+  --color-blue-600: #0f5ae0;
+  --color-blue-700: #124fc2;
+  --radius-lg: 10px;
+  --radius-2xl: 20px;
+  --text-4xl: 45px;
+  --text-5xl: 50px;
+  --color-white: #fff;
+  --color-gray-500: #fafcff;
+  --color-gray-600: #646464;
+  --color-gray-300: #eff1f5;
+  --color-orange-500: #ff8562;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -10,103 +84,13 @@ a {
 input::placeholder {
   color: #8f8f8f;
 }
-input {
-  outline: none;
-  border: none;
-  background-color: transparent;
-}
-@theme {
-  --color-primary: #0b090b;
-  --color-gray-600: #696969;
-  --color-gray-800: #8b8b8b;
-  --color-gray-890: #898989;
-  --color-gray-900: #d9d9d9;
-  --color-fiolet: #6f33de;
-  --color-gray-50: #f5f5f5;
-  --color-green-200: #2ac76e;
-  --color-green-500: #06ab4f;
-  --radius-lg: 10px;
-  --radius-2xl: 20px;
-  --text-4xl: 45px;
-  --text-5xl: 50px;
-}
 
-.container {
-  max-width: 1170px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-@media (max-width: 1170px) {
-  .container {
-    padding: 0 38px;
-    max-width: 100%;
-  }
-}
-
-.nav-btn {
-  display: inline-block;
-
-  text-align: center;
-  transition: all 0.5s;
+button {
   cursor: pointer;
+  transition: all 0.4s ease;
 }
 
-.nav-btn span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-.nav-btn span:after {
-  content: "»";
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -15px;
-  transition: 0.5s;
-}
-
-.nav-btn:hover span {
-  padding-right: 15px;
-}
-
-.nav-btn:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
-.info {
-  background: url("../img/info-fon.jpg") no-repeat center center;
-  background-size: cover;
-}
-.trend {
-  background: url("../img/trend-fon.jpg") no-repeat center center;
-  background-size: cover;
-}
-footer {
-  background: url("../img/foot.png") no-repeat center center;
-  background-size: cover;
-}
-@keyframes spin-letter {
-  0% {
-    -webkit-transform: rotateY(0);
-    transform: rotateY(0);
-  }
-  25% {
-    -webkit-transform: rotateY(360deg);
-    transform: rotateY(360deg);
-  }
-  100% {
-    -webkit-transform: rotateY(360deg);
-    transform: rotateY(360deg);
-  }
-}
-
-.animate-letter {
-  display: inline-block;
-  animation: spin-letter .7s ease-in-out forwards;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+.ant-input,
+.ant-input-affix-wrapper {
+  padding: 8px;
 }
