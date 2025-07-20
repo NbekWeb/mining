@@ -20,10 +20,8 @@ const useAuth = defineStore("auth", {
         })
         .catch((error) => {
           if (error?.response?.data?.detail?.[0]) {
-            message.error('Login or password is incorrect!');
-          }
-          else{
-
+            message.error("Login or password is incorrect!");
+          } else {
             message.error("Something went wrong!");
           }
         })
@@ -60,16 +58,33 @@ const useAuth = defineStore("auth", {
         })
         .catch((error) => {
           if (error?.response?.data?.current_password?.[0]) {
-            
             message.error(error?.response?.data?.current_password?.[0]);
           } else {
             message.error("Something went wrong!");
           }
-          errorCallback()
+          errorCallback();
         })
         .finally(() => {});
     },
 
+    forgotPassword(data, callback = () => {}) {
+      api({
+        url: "auth/request-password-reset/",
+        method: "POST",
+        data,
+      })
+        .then(({ data }) => {
+          callback();
+        })
+        .catch((error) => {
+          if (error?.response?.data?.non_field_errors?.[0]) {
+            message.error(error?.response?.data?.non_field_errors?.[0]);
+          } else {
+            message.error("Something went wrong!");
+          }
+        })
+        .finally(() => {});
+    },
     getUser(callback = () => {}) {
       const core = useCore();
       core.loadingUrl.add("user");

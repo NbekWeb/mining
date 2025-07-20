@@ -78,6 +78,8 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { message } from "ant-design-vue";
+import useAuth from "../../stores/auth.pinia";
+const authStore = useAuth();
 
 const loginFormRef = ref();
 
@@ -97,8 +99,9 @@ const rules = {
 };
 
 const handleLogin = () => {
-  console.log("Login data:", formState);
-  message.success("Logged in successfully!");
+  authStore.forgotPassword(formState, () => {
+    message.success("Password reset link sent to your email!");
+  });
 };
 </script>
 
