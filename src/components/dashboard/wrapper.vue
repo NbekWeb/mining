@@ -100,7 +100,16 @@
         'ml-0',
       ]"
     >
-      <a-spin :spinning="loadingUrl.length > 0">
+      <a-spin
+        :spinning="
+          loadingUrl.has('mining') ||
+          loadingUrl.has('mining/products-user/') ||
+          loadingUrl.has('mining/products/') ||
+          loadingUrl.has('user') ||
+          loadingUrl.has('coins') ||
+          loadingUrl.has('withdraws')
+        "
+      >
         <!-- Mobile top spacing -->
         <div class="lg:hidden h-16"></div>
 

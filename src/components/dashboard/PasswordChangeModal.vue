@@ -13,9 +13,9 @@
       layout="vertical"
       @finish="handlePasswordChange"
     >
-      <a-form-item name="oldPassword" label="Your old password">
+      <a-form-item name="current_password" label="Your old password">
         <a-input-password
-          v-model:value="passwordForm.oldPassword"
+          v-model:value="passwordForm.current_password"
           placeholder="Your old password"
           size="large"
         >
@@ -25,9 +25,9 @@
         </a-input-password>
       </a-form-item>
 
-      <a-form-item name="newPassword" label="New password">
+      <a-form-item name="new_password" label="New password">
         <a-input-password
-          v-model:value="passwordForm.newPassword"
+          v-model:value="passwordForm.new_password"
           placeholder="New password"
           size="large"
         >
@@ -37,9 +37,9 @@
         </a-input-password>
       </a-form-item>
 
-      <a-form-item name="repeatPassword" label="Repeat password">
+      <a-form-item name="confirm_password" label="Repeat password">
         <a-input-password
-          v-model:value="passwordForm.repeatPassword"
+          v-model:value="passwordForm.confirm_password"
           placeholder="Repeat password"
           size="large"
         >
@@ -71,6 +71,9 @@
 import { ref, reactive, watch } from "vue";
 import { EyeIcon, KeyIcon } from "lucide-vue-next";
 import { message } from "ant-design-vue";
+import useAuth from "../../stores/auth.pinia";
+
+const authStore = useAuth();
 
 // Props
 const props = defineProps({
@@ -89,23 +92,25 @@ const loading = ref(false);
 
 // Password form data
 const passwordForm = reactive({
-  oldPassword: "",
-  newPassword: "",
-  repeatPassword: "",
+  current_password: "",
+  new_password: "",
+  confirm_password: "",
 });
 
 // Password validation rules
 const passwordRules = {
-  oldPassword: [{ required: true, message: "Please enter your old password" }],
-  newPassword: [
+  current_password: [
+    { required: true, message: "Please enter your old password" },
+  ],
+  new_password: [
     { required: true, message: "Please enter a new password" },
     { min: 6, message: "Password must be at least 6 characters" },
   ],
-  repeatPassword: [
+  confirm_password: [
     { required: true, message: "Please repeat your password" },
     {
       validator: (rule, value) => {
-        if (value !== passwordForm.newPassword) {
+        if (value !== passwordForm.new_password) {
           return Promise.reject("Passwords do not match");
         }
         return Promise.resolve();
@@ -139,31 +144,26 @@ const handleCancel = () => {
 
 // Reset form
 const resetForm = () => {
-  passwordForm.oldPassword = "";
-  passwordForm.newPassword = "";
-  passwordForm.repeatPassword = "";
+  passwordForm.current_password = "";
+  passwordForm.new_password = "";
+  passwordForm.confirm_password = "";
 };
 
 // Handle password change
 const handlePasswordChange = async (values) => {
   loading.value = true;
-  try {
-    // Here you would typically make an API call to change the password
-    console.log("Password change values:", values);
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    message.success("Password changed successfully!");
-    visible.value = false;
-    resetForm();
-    
-    // Emit success event
-    emit("password-changed", values);
-  } catch (error) {
-    message.error("Failed to change password. Please try again.");
-  } finally {
-    loading.value = false;
-  }
+  authStore.changePassword(
+    { ...values },
+    () => {
+      message.success("Password changed successfully!");
+      visible.value = false;
+      resetForm();
+      loading.value = false;
+    },
+    () => {
+      loading.value = false;
+      passwordForm.current_password = "";
+    }
+  );
 };
-</script> 
+</script>

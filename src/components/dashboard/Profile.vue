@@ -40,7 +40,9 @@
             Deposit balance
           </h3>
         </div>
-        <div class="text-2xl sm:text-3xl font-bold text-gray-900">$     {{ Math.round(user.balance) }}</div>
+        <div class="text-2xl sm:text-3xl font-bold text-gray-900">
+          $ {{ Math.round(user.balance) }}
+        </div>
       </div>
 
       <!-- Profitability -->
@@ -54,8 +56,10 @@
           </h3>
         </div>
         <div class="text-xl sm:text-2xl font-bold text-gray-900">
-          <div class="text-green-600">$0/day</div>
-          <div class="text-gray-600 text-base sm:text-lg">$0/month</div>
+          <div class="text-green-600">${{ allMineDay }}/day</div>
+          <div class="text-gray-600 text-base sm:text-lg">
+            ${{ allMineMonth }}/month
+          </div>
         </div>
       </div>
     </div>
@@ -85,11 +89,13 @@ import useMiners from "../../stores/mine.pinia";
 import useAuth from "../../stores/auth.pinia";
 import { storeToRefs } from "pinia";
 
-
 const minersStore = useMiners();
 const authStore = useAuth();
 const { minings } = storeToRefs(minersStore);
 const { user } = storeToRefs(authStore);
+
+const allMineDay = ref(0);
+const allMineMonth = ref(0);
 
 // Modal state
 const showPasswordModal = ref(false);
@@ -101,7 +107,16 @@ const handlePasswordChanged = (values) => {
 };
 
 onMounted(() => {
-  minersStore.getUserMinings();
+  minersStore.getUserMinings((data) => {
+    // Calculate total daily and monthly profitability
+
+    if (data && data.length > 0) {
+      data.forEach((miner) => {
+        allMineDay.value += parseFloat(miner.product.per_day);
+        allMineMonth.value += parseFloat(miner.product.per_month);
+      });
+    }
+  });
   authStore.getUser();
 });
 </script>

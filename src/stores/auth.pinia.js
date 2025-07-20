@@ -8,7 +8,7 @@ const useAuth = defineStore("auth", {
     user: {},
   }),
   actions: {
-    postLogin(data, callback=()=>{}) {
+    postLogin(data, callback = () => {}) {
       api({
         url: "auth/login/",
         method: "POST",
@@ -19,11 +19,17 @@ const useAuth = defineStore("auth", {
           callback();
         })
         .catch((error) => {
-          message.error("Something went wrong!");
+          if (error?.response?.data?.detail?.[0]) {
+            message.error('Login or password is incorrect!');
+          }
+          else{
+
+            message.error("Something went wrong!");
+          }
         })
         .finally(() => {});
     },
-    postRegis(data, callback=()=>{}) {
+    postRegis(data, callback = () => {}) {
       api({
         url: "auth/register/",
         method: "POST",
@@ -42,22 +48,29 @@ const useAuth = defineStore("auth", {
         })
         .finally(() => {});
     },
-    changePassword(data, callback=()=>{}) {
+    changePassword(data, callback = () => {}, errorCallback = () => {}) {
       api({
         url: "auth/change-password/",
         method: "POST",
         data,
       })
         .then(({ data }) => {
+          message.success("Password changed successfully!");
           callback();
         })
         .catch((error) => {
-          message.error("Something went wrong!");
+          if (error?.response?.data?.current_password?.[0]) {
+            
+            message.error(error?.response?.data?.current_password?.[0]);
+          } else {
+            message.error("Something went wrong!");
+          }
+          errorCallback()
         })
         .finally(() => {});
     },
 
-    getUser(callback=()=>{}) {
+    getUser(callback = () => {}) {
       const core = useCore();
       core.loadingUrl.add("user");
       api({

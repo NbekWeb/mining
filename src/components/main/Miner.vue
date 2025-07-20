@@ -19,7 +19,7 @@ const seen = ref(false);
 function handleJoinUs() {
   const token = localStorage.getItem("access_token");
   if (token) {
-    router.push("/account");
+    router.push("/dashboard");
   } else {
     router.push("/login");
   }

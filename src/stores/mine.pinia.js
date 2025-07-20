@@ -8,6 +8,9 @@ const useMine = defineStore("mine", {
     minings: [],
     user_minings: [],
     deposit_wallets: [],
+    deposits: [],
+    coins: [],
+    withdraws: [],
   }),
   actions: {
     getMinings() {
@@ -25,19 +28,20 @@ const useMine = defineStore("mine", {
           core.loadingUrl.delete("mining/products/");
         });
     },
-    getUserMinings() {
+    getUserMinings(callback = () => {}) {
       const core = useCore();
-      core.loadingUrl.add("mining");
+      core.loadingUrl.add("mining/products-user/");
       api({
         url: "mining/products-user/",
         method: "GET",
       })
         .then(({ data }) => {
           this.user_minings = data;
+          callback(data);
         })
         .catch((error) => {})
         .finally(() => {
-          core.loadingUrl.delete("mining");
+          core.loadingUrl.delete("mining/products-user/");
         });
     },
     getDeposit() {
@@ -49,6 +53,92 @@ const useMine = defineStore("mine", {
       })
         .then(({ data }) => {
           this.deposit_wallets = data;
+        })
+        .catch((error) => {})
+        .finally(() => {
+          core.loadingUrl.delete("mining");
+        });
+    },
+    getDeposits() {
+      const core = useCore();
+      core.loadingUrl.add("mining");
+      api({
+        url: "mining/balance-requests/",
+        method: "GET",
+      })
+        .then(({ data }) => {
+          this.deposits = data.results;
+        })
+        .catch((error) => {})
+        .finally(() => {
+          core.loadingUrl.delete("mining");
+        });
+    },
+    getCoins() {
+      const core = useCore();
+      core.loadingUrl.add("coins");
+      api({
+        url: "mining/kripto-currencies/",
+        method: "GET",
+      })
+        .then(({ data }) => {
+          this.coins = data;
+        })
+        .catch((error) => {})
+        .finally(() => {
+          core.loadingUrl.delete("coins");
+        });
+    },
+    getWithdraws(params) {
+      const core = useCore();
+      core.loadingUrl.add("withdraws");
+      api({
+        url: "mining/withdrawals/",
+        method: "GET",
+        params,
+      })
+        .then(({ data }) => {
+          this.withdraws = data.results;
+        })
+        .catch((error) => {})
+        .finally(() => {
+          core.loadingUrl.delete("withdraws");
+        });
+    },
+    postWithdraws(data,callback = () => {},errorCallback = () => {}) {
+      const core = useCore();
+      core.loadingUrl.add("withdraws");
+      api({
+        url: "mining/withdrawals/",
+        method: "POST",
+        data,
+      })
+        .then(({ data }) => {
+          callback();
+        })
+        .catch((error) => {
+          if (error?.response?.data?.non_field_errors?.[0]) {
+            message.error(error?.response?.data?.non_field_errors?.[0]);
+          }
+          else{
+            message.error("Something went wrong!");
+          }
+          errorCallback();
+        })
+        .finally(() => {
+          core.loadingUrl.delete("withdraws");
+        });
+    },
+    postDeposits(data, callback = () => {}) {
+      const core = useCore();
+      core.loadingUrl.add("mining");
+      api({
+        url: "mining/balance-requests/",
+        method: "POST",
+        data,
+      })
+        .then(({ data }) => {
+          callback();
         })
         .catch((error) => {})
         .finally(() => {

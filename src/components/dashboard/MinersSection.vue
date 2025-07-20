@@ -22,7 +22,7 @@
     </div>
 
     <!-- Miner Items -->
-    <div v-else class="space-y-4">
+    <div v-else class=" grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-5">
       <template v-for="miner in user_minings" :key="miner">
         <div
           class="flex items-center justify-between p-4 border border-gray-200 rounded-lg relative"
@@ -33,14 +33,14 @@
             >
               <CpuIcon class="w-8 h-8 text-gray-600" />
             </div> -->
-            <img :src="miner.image" alt="miner" class="w-16 h-16 object-cover rounded-lg" />
+            <img :src="miner.product?.image" alt="miner" class="w-16 h-16 object-cover rounded-lg" />
             <div>
-              <h4 class="font-semibold text-gray-900">{{ miner.name }}</h4>
+              <h4 class="font-semibold text-gray-900">{{ miner.product?.name }}</h4>
               <div class="text-sm text-gray-600">
-                <span>Price: $ {{ Math.round(miner.price) }}</span>
+                <span>Price: $ {{ Math.round(miner.product?.price) }}</span>
                 <span class="mx-2">•</span>
                 <span
-                  >Profit: ${{ Number(miner.per_day).toFixed(1) }}/day (${{ Number(miner.per_month).toFixed(1) }}/month)</span
+                  >Profit: ${{ Number(miner.product?.per_day).toFixed(1) }}/day (${{ Number(miner.product?.per_month).toFixed(1) }}/month)</span
                 >
               </div>
             </div>
