@@ -29,6 +29,7 @@
         </div>
         <div class="text-2xl sm:text-3xl font-bold text-green-600 mb-2">
           {{ Math.round(user.available_balance) }} $
+          <span class="text-xs text-orange-500 ml-2 align-middle">updated after: {{ 60 - secondsSinceUpdate }}s</span>
         </div>
       </div>
 
@@ -76,7 +77,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import {
   WalletIcon,
   TagIcon,
@@ -100,16 +101,23 @@ const allMineMonth = ref(0);
 // Modal state
 const showPasswordModal = ref(false);
 
+// Timer state
+const secondsSinceUpdate = ref(0);
+let intervalId = null;
+let timerId = null;
+
 // Handle password change success
 const handlePasswordChanged = (values) => {
-  console.log("Password changed successfully:", values);
-  // You can add any additional logic here after password change
+};
+
+const refreshUser = () => {
+  authStore.getUser();
+  secondsSinceUpdate.value = 0;
 };
 
 onMounted(() => {
   minersStore.getUserMinings((data) => {
     // Calculate total daily and monthly profitability
-
     if (data && data.length > 0) {
       data.forEach((miner) => {
         allMineDay.value += parseFloat(miner.product.per_day);
@@ -117,6 +125,23 @@ onMounted(() => {
       });
     }
   });
-  authStore.getUser();
+  refreshUser();
+  
+  // Start timer for updating user info every 60 seconds
+  intervalId = setInterval(() => {
+    refreshUser();
+  }, 60000);
+
+  // Start seconds counter
+  timerId = setInterval(() => {
+    if (secondsSinceUpdate.value < 60) {
+      secondsSinceUpdate.value++;
+    }
+  }, 1000);
+});
+
+onUnmounted(() => {
+  if (intervalId) clearInterval(intervalId);
+  if (timerId) clearInterval(timerId);
 });
 </script>
