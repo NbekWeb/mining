@@ -104,6 +104,7 @@ router.beforeEach((to, from, next) => {
   const accessToken = localStorage.getItem('access_token');
 
   if (authRequired && !accessToken) {
+    console.log('authRequired haromi');
     next('/login');
   } else {
     next();
