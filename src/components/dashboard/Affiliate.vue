@@ -53,9 +53,9 @@
 
       <div class="mb-4">
         <label class="block text-sm font-medium text-gray-700 mb-2">
-          Your code to attract referrals:
+          Your link to attract referrals:
         </label>
-        <div class="flex gap-2">
+        <div class="flex gap-2 max-sm:flex-col">
           <a-input
             v-model:value="referralCode"
             readonly
@@ -94,11 +94,7 @@ const bonusBalance = ref("0.5");
 const copying = ref(false);
 
 // Extract referral code from user's referral link
-const extractReferralCode = (referralLink) => {
-  if (!referralLink) return "";
-  const match = referralLink.match(/ref=([^&]+)/);
-  return match ? match[1] : "";
-};
+
 
 // Copy referral code function
 const copyReferralCode = async () => {
@@ -117,7 +113,7 @@ onMounted(() => {
   authStore.getUser(() => {
     // Set referral code from user's referral link
     if (user.value?.referral_link) {
-      referralCode.value = extractReferralCode(user.value.referral_link);
+      referralCode.value = user.value.referral_link;
     }
   });
 });

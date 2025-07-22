@@ -100,7 +100,8 @@ router.beforeEach((to, from, next) => {
 
   // List of public routes
   const publicPages = ['/', '/login', '/register', '/pass'];
-  const authRequired = !publicPages.includes(to.path);
+  const isRegisterRoute = to.path.startsWith('/register');
+  const authRequired = !publicPages.includes(to.path) && !isRegisterRoute;
   const accessToken = localStorage.getItem('access_token');
 
   if (authRequired && !accessToken) {

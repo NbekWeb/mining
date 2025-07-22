@@ -69,12 +69,6 @@
             placeholder="Confirm your password"
           />
         </a-form-item>
-        <a-form-item label="Referral Code (optional)" name="referral_code">
-          <a-input
-            v-model:value="formState.referral_code"
-            placeholder="Enter referral code (optional)"
-          />
-        </a-form-item>
 
         <!-- Button -->
         <a-form-item>
@@ -101,12 +95,13 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted } from "vue";
 import { message } from "ant-design-vue";
 import useAuth from "../../stores/auth.pinia";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
+const route = useRoute();
 const authStore = useAuth();
 
 const loginFormRef = ref();
@@ -118,6 +113,11 @@ const formState = reactive({
   password: "",
   confirm_password: "",
   referral_code: "",
+});
+
+onMounted(() => {
+  // Set referral_code from ?ref= query param if present
+  formState.referral_code = route.query.ref ? String(route.query.ref) : "";
 });
 
 const rules = {
@@ -163,7 +163,6 @@ const rules = {
       trigger: "blur",
     },
   ],
-  referral_code: [], // not required
 };
 
 const handleLogin = () => {
