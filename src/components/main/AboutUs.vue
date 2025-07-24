@@ -2,16 +2,20 @@
   <section
     id="about"
     ref="aboutSection"
-    :class="{ 'animate': seen }"
+    :class="{ animate: seen }"
     class="about-section bg-gray-500 py-17 max-sm:pb-10"
   >
     <div class="container mx-auto px-5">
-      <h2 class="text-4xl font-bold text-gray-800 text-center pb-12 max-xl:pb-8 max-sm:pb-0">
+      <h2
+        class="text-4xl font-bold text-gray-800 text-center pb-12 max-xl:pb-8 max-sm:pb-0"
+      >
         Why Dubai?
       </h2>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <div class="responsive-iframe-wrapper relative bg-black rounded-lg my-auto">
+        <div
+          class="responsive-iframe-wrapper relative bg-black rounded-lg my-auto"
+        >
           <iframe
             id="vimeo-iframe-976895216-1570615162963"
             width="100%"
@@ -37,22 +41,19 @@
 
           <ol class="space-y-4 text-gray-600 pl-5">
             <li>
-              You purchase a miner through our
-              <a
-                href="https://www.instagram.com/mining.base/"
-                target="_blank"
-                class="!text-orange-500 font-semibold"
-                >Instagram</a
-              >. All available miners are shown on the website.
+              Miners can be purchased directly through our website. All
+              available models are displayed in the
+              <span @click="buyingNow"
+                class="!text-orange-500 hover:cursor-pointer font-semibold"
+                >Buy</span
+              >
+              section.
             </li>
-            <li>
-              We install it on our farm within 24 hours.
-            </li>
+            <li>We install it on our farm within 24 hours.</li>
             <li>
               We share the profit in the ratio of 40% to us and 60% to our
-              clients. We take upon ourselves all expenses for renting
-              premises, maintaining staff, paying for electricity, and
-              maintaining miners
+              clients. We take upon ourselves all expenses for renting premises,
+              maintaining staff, paying for electricity, and maintaining miners
             </li>
           </ol>
 
@@ -74,26 +75,38 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 
-const aboutSection = ref(null)
-const seen = ref(false)
+const router = useRouter();
+
+function buyingNow() {
+  const token = localStorage.getItem("access_token");
+  if (token) {
+    router.push("/buy-miners");
+  } else {
+    router.push("/login");
+  }
+}
+
+const aboutSection = ref(null);
+const seen = ref(false);
 
 onMounted(() => {
   const observer = new IntersectionObserver(
     (entries) => {
-      const entry = entries[0]
+      const entry = entries[0];
       if (entry.isIntersecting && !seen.value) {
-        seen.value = true
-        observer.unobserve(aboutSection.value)
+        seen.value = true;
+        observer.unobserve(aboutSection.value);
       }
     },
     { threshold: 0.3 }
-  )
+  );
   if (aboutSection.value) {
-    observer.observe(aboutSection.value)
+    observer.observe(aboutSection.value);
   }
-})
+});
 </script>
 
 <style scoped>

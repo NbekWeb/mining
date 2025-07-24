@@ -43,14 +43,14 @@
           2
         </div>
         <p class="mt-6 text-lg text-gray-600 max-xl:text-base">
-          Message us on
+          You can contact us via
           <a
             href="https://www.instagram.com/mining.base/"
             target="_blank"
             class="!text-orange-400 font-semibold"
             >Instagram</a
-          >
-          which miner you'd like to purchase.
+          > for additional consultation. We will help you choose the most
+          suitable miner for you
         </p>
       </div>
       <!-- Arrow 2 -->
