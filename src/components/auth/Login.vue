@@ -17,10 +17,11 @@
     <div
       class="h-full w-full bg-white flex flex-col items-center justify-center px-12"
     >
-      <img
+      <!-- <img
         src="https://static.tildacdn.pro/tild3436-3538-4461-a530-303938666331/image.png"
         class="object-contain h-20 mb-2"
-      />
+      /> -->
+      <logo class="mb-2 text-5xl " />
 
       <h1 class="text-2xl !font-bold text-gray-800 !mb-8 !mt-10 max-sm:!my-5">
         Log In To Your Account
@@ -86,6 +87,7 @@ import { reactive, ref } from "vue";
 import { message } from "ant-design-vue";
 import useAuth from "../../stores/auth.pinia";
 import { useRouter } from "vue-router";
+import logo from "../logo.vue";
 
 const router = useRouter();
 const authStore = useAuth();
