@@ -5,11 +5,13 @@
       class="lg:hidden fixed top-0 left-0 right-0 bg-white shadow-lg z-50 h-16 flex items-center justify-between px-4"
     >
       <router-link to="/" class="flex items-center space-x-2">
-        <img
+        <!-- <img
           src="https://static.tildacdn.pro/tild3436-3538-4461-a530-303938666331/image.png"
           alt="logo"
           class="w-auto object-contain h-8"
-        />
+        /> -->
+        
+        <Logo class="text-3xl text-[#1c1c1c]" />
       </router-link>
       <HamburgerMenu v-model="isSidebarOpen" color="#000" />
     </header>
@@ -27,11 +29,12 @@
       >
         <router-link to="/dashboard">
           <div class="flex items-center space-x-2">
-            <img
+            <!-- <img
               src="https://static.tildacdn.pro/tild3436-3538-4461-a530-303938666331/image.png"
               alt="logo"
               class="w-auto object-contain h-10"
-            />
+            /> -->
+            <Logo class="text-3xl text-[#1c1c1c]" />
           </div>
         </router-link>
       </div>
@@ -129,6 +132,7 @@ import { Button as AButton } from "ant-design-vue";
 import HamburgerMenu from "../HamburgerMenu.vue";
 import useCore from "../../stores/core.pinia";
 import { storeToRefs } from "pinia";
+import Logo from "../logo.vue";
 import {
   HomeIcon,
   UserIcon,

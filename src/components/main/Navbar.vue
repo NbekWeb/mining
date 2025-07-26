@@ -4,7 +4,8 @@
       <div class="flex items-center justify-between h-16 text-white">
         <!-- Logo -->
         <div class="flex items-center">
-          <img src="../../assets/img/logo.png" alt="Logo" class="h-8 w-auto" />
+          <Logo class="text-4xl text-white" />
+          <!-- <img src="../../assets/img/logo.png" alt="Logo" class="h-8 w-auto" /> -->
         </div>
 
         <!-- Navigation Links - Hidden on mobile -->
@@ -180,6 +181,7 @@
 import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 import HamburgerMenu from "../HamburgerMenu.vue";
 import { useRouter } from "vue-router";
+import Logo from "../logo.vue";
 
 const router = useRouter();
 

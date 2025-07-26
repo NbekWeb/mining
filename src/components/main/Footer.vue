@@ -3,7 +3,8 @@
     <div class="container mx-auto p-5">
       <!-- Logo -->
       <div class="flex justify-center mb-6">
-        <img src="../../assets/img/logo.png" alt="MA Logo" class="h-16" />
+        <Logo class="text-5xl text-white" />
+        <!-- <img src="../../assets/img/logo.png" alt="MA Logo" class="h-16" /> -->
       </div>
       <!-- Copyright Text -->
       <div class="text-center text-white mb-6">
@@ -30,4 +31,5 @@
 // Footer component
 // Instagram icon is now inline SVG
 import { Instagram } from "lucide-vue-next";
+import Logo from "../logo.vue";
 </script>
