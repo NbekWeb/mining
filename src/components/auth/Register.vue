@@ -24,7 +24,7 @@
         src="https://static.tildacdn.pro/tild3436-3538-4461-a530-303938666331/image.png"
         class="object-contain h-20 mb-2"
       /> -->
-      <logo class=" text-5xl mt-3" />
+      <logo class=" text-5xl mt-5" />
 
       <h1 class="text-2xl !font-bold text-gray-800 !mb-8 !mt-10 max-sm:!my-5">
         Create Your Account
