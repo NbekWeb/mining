@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen bg-gray-50">
+  <div class="flex h-screen bg-gray-50 w-full overflow-x-hidden">
     <!-- Mobile Header -->
     <header
       class="lg:hidden fixed top-0 left-0 right-0 bg-white shadow-lg z-50 h-16 flex items-center justify-between px-4"
