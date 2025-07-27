@@ -1,5 +1,5 @@
 <template>
-  <nav class="w-full bg-black ">
+  <nav class="w-full bg-black">
     <div class="container mx-auto px-5">
       <div class="flex items-center justify-between h-16 text-white">
         <!-- Logo -->
@@ -57,12 +57,32 @@
           </a>
         </div>
 
-        <button
-          @click="handleJoinUs"
-          class="hidden lg:block bg-blue-500 hover:bg-white hover:!text-blue-500 px-6 py-2 rounded-2xl hover:border-blue-500 border border-transparent uppercase font-medium !text-white"
-        >
-          Join Us
-        </button>
+        <!-- User Info or Join Us Button - Hidden on mobile -->
+        <div class="hidden lg:block">
+          <div v-if="user?.first_name" class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
+              <!-- Avatar -->
+              <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                {{ user.first_name.charAt(0).toUpperCase() }}
+              </div>
+              <!-- User Name -->
+              <span class="text-white font-medium">{{ user.first_name }}</span>
+            </div>
+            <button
+              @click="handleDashboard"
+              class="bg-blue-500 hover:bg-white hover:!text-blue-500 px-4 py-2 rounded-2xl hover:border-blue-500 border border-transparent uppercase font-medium !text-white text-sm transition-all duration-300"
+            >
+              Dashboard
+            </button> 
+          </div>
+          <button
+            v-else
+            @click="handleJoinUs"
+            class="bg-blue-500 hover:bg-white hover:!text-blue-500 px-6 py-2 rounded-2xl hover:border-blue-500 border border-transparent uppercase font-medium !text-white"
+          >
+            Join Us
+          </button>
+        </div>
 
         <div class="lg:hidden">
           <HamburgerMenu v-model="isMobileMenuOpen" />
@@ -165,7 +185,25 @@
         </div>
 
         <div class="mt-auto mb-5">
+          <!-- User Info or Join Us Button for Mobile -->
+          <div v-if="user?.first_name" class="flex flex-col items-center gap-4">
+            <div class="flex items-center gap-3">
+              <!-- Avatar -->
+              <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-lg">
+                {{ user.first_name.charAt(0).toUpperCase() }}
+              </div>
+              <!-- User Name -->
+              <span class="text-white font-medium text-lg">{{ user.first_name }}</span>
+            </div>
+            <button
+              @click="handleDashboard"
+              class="w-full bg-blue-500 hover:bg-white hover:!text-blue-500 px-6 py-3 rounded-2xl hover:border-blue-500 border border-transparent uppercase font-medium !text-white transition-all duration-300"
+            >
+              Dashboard
+            </button>
+          </div>
           <button
+            v-else
             @click="handleJoinUs"
             class="w-full bg-blue-500 hover:bg-white hover:!text-blue-500 px-6 py-3 rounded-2xl hover:border-blue-500 border border-transparent uppercase font-medium !text-white transition-all duration-300"
           >
@@ -182,9 +220,12 @@ import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 import HamburgerMenu from "../HamburgerMenu.vue";
 import { useRouter } from "vue-router";
 import Logo from "../logo.vue";
+import useAuth from "../../stores/auth.pinia";
+import { storeToRefs } from "pinia";
 
+const auth = useAuth();
 const router = useRouter();
-
+const { user } = storeToRefs(auth);
 const isMobileMenuOpen = ref(false);
 
 const closeMobileMenu = () => {
@@ -202,6 +243,11 @@ function handleJoinUs() {
   closeMobileMenu();
 }
 
+function handleDashboard() {
+  router.push("/dashboard");
+  closeMobileMenu();
+}
+
 // Watch menu state to toggle body scroll
 watch(isMobileMenuOpen, (newValue) => {
   document.body.style.overflow = newValue ? "hidden" : "auto";
@@ -216,6 +262,10 @@ const handleResize = () => {
 
 onMounted(() => {
   window.addEventListener("resize", handleResize);
+  const token = localStorage.getItem("access_token");
+  if (token) {
+    auth.getUser();
+  }
 });
 
 onBeforeUnmount(() => {
