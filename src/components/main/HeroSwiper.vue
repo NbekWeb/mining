@@ -7,7 +7,7 @@ const router = useRouter();
 function buyingNow() {
   const token = localStorage.getItem("access_token");
   if (token) {
-    router.push("/buy-miners");
+    router.push("/dashboard/buy-miners");
   } else {
     router.push("/login");
   }
