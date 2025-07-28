@@ -53,7 +53,6 @@ const useAuth = defineStore("auth", {
         data,
       })
         .then(({ data }) => {
-          message.success("Password changed successfully!");
           callback();
         })
         .catch((error) => {
@@ -85,6 +84,26 @@ const useAuth = defineStore("auth", {
         })
         .finally(() => {});
     },
+    resetPassword(data, callback = () => {}) {
+      api({
+        url: "auth/reset-password/",
+        method: "PATCH",
+        data,
+      })
+        .then(({ data }) => {
+          callback();
+        })
+        .catch((error) => {
+          if (error?.response?.data?.non_field_errors?.[0]) {
+            message.error(error?.response?.data?.non_field_errors?.[0]);
+          } else if (error?.response?.data?.password?.[0]) {
+            message.error(error?.response?.data?.password?.[0]);
+          } else {
+            message.error("Something went wrong!");
+          }
+        })
+        .finally(() => {});
+    },
     getUser(callback = () => {}) {
       const core = useCore();
       core.loadingUrl.add("user");
@@ -98,6 +117,50 @@ const useAuth = defineStore("auth", {
         })
         .catch((error) => {
           message.error("Something went wrong!");
+        })
+        .finally(() => {
+          core.loadingUrl.delete("user");
+        });
+    },
+    updateProfile(data, callback = () => {}) {
+      const core = useCore();
+      core.loadingUrl.add("user");
+      
+      // Create FormData for file upload
+      const formData = new FormData();
+      
+      // Add text fields
+      if (data.first_name) formData.append('first_name', data.first_name);
+      if (data.last_name) formData.append('last_name', data.last_name);
+      if (data.email) formData.append('email', data.email);
+      
+      // Add avatar file if present
+      if (data.avatar) {
+        formData.append('avatar', data.avatar);
+      }
+      
+      api({
+        url: "auth/profile/",
+        method: "PUT",
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+        .then(({ data }) => {
+          this.user = { ...this.user, ...data };
+          callback();
+        })
+        .catch((error) => {
+          if (error?.response?.data?.email?.[0]) {
+            message.error(error?.response?.data?.email?.[0]);
+          } else if (error?.response?.data?.first_name?.[0]) {
+            message.error(error?.response?.data?.first_name?.[0]);
+          } else if (error?.response?.data?.last_name?.[0]) {
+            message.error(error?.response?.data?.last_name?.[0]);
+          } else {
+            message.error("Failed to update profile!");
+          }
         })
         .finally(() => {
           core.loadingUrl.delete("user");

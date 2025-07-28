@@ -1,18 +1,45 @@
 <template>
   <div class="p-4 sm:p-6">
     <div
-      class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-10 text-white gap-4 sm:gap-0"
+      class="flex flex-row justify-between items-center mb-6 sm:mb-10 text-white gap-4 sm:gap-0"
     >
       <h1 class="text-xl sm:text-2xl font-bold text-gray-900 !mb-0">
         My Profile
       </h1>
-      <button
-        @click="showPasswordModal = true"
-        class="flex items-center gap-2 px-3 sm:px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm sm:text-base w-full sm:w-auto justify-center"
-      >
-        <ShieldIcon class="w-4 h-4 sm:w-5 sm:h-5" />
-        <span>Change Password</span>
-      </button>
+      <a-dropdown>
+        <div class="flex items-center gap-3 cursor-pointer">
+          <a-avatar 
+            :size="48" 
+            :style="{ backgroundColor: '#1890ff' }"
+            :src="user.avatar"
+          >
+            {{ userInitials }}
+          </a-avatar>
+          <span class="text-gray-900 font-medium max-sm:hidden">{{ user.first_name }}</span>
+        </div>
+        <template #overlay>
+          <a-menu>
+            <a-menu-item key="edit" @click="showEditModal = true">
+              <div class="flex items-center gap-2">
+                <UserIcon class="w-4 h-4" />
+                <span>Edit Profile</span>
+              </div>
+            </a-menu-item>
+            <a-menu-item key="password" @click="showPasswordModal = true">
+              <div class="flex items-center gap-2">
+                <LockIcon class="w-4 h-4" />
+                <span>Change Password</span>
+              </div>
+            </a-menu-item>
+            <a-menu-item key="logout" @click="handleLogout">
+              <div class="flex items-center gap-2 text-red-500">
+                <LogOutIcon class="w-4 h-4" />
+                <span>Log Out</span>
+              </div>
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
     </div>
 
     <!-- Financial Information Grid -->
@@ -73,23 +100,35 @@
       v-model:open="showPasswordModal"
       @password-changed="handlePasswordChanged"
     />
+
+    <!-- Edit Profile Modal Component -->
+    <EditProfileModal
+      v-model:open="showEditModal"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import {
   WalletIcon,
   TagIcon,
   TrendingUpIcon,
   ShieldIcon,
+  UserIcon,
+  LockIcon,
+  LogOutIcon,
 } from "lucide-vue-next";
+import { Avatar } from "ant-design-vue";
 import PasswordChangeModal from "./PasswordChangeModal.vue";
+import EditProfileModal from "./EditProfileModal.vue";
 import MinersSection from "./MinersSection.vue";
 import useMiners from "../../stores/mine.pinia";
 import useAuth from "../../stores/auth.pinia";
 import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const minersStore = useMiners();
 const authStore = useAuth();
 const { minings } = storeToRefs(minersStore);
@@ -100,15 +139,31 @@ const allMineMonth = ref(0);
 
 // Modal state
 const showPasswordModal = ref(false);
+const showEditModal = ref(false);
 
 // Timer state
 const secondsSinceUpdate = ref(0);
 let intervalId = null;
 let timerId = null;
 
+// Computed properties
+const userInitials = computed(() => {
+  const firstName = user.value?.first_name || '';
+  const lastName = user.value?.last_name || '';
+  return (firstName.charAt(0) + '.' + lastName.charAt(0)).toUpperCase()+'.';
+});
+
 // Handle password change success
 const handlePasswordChanged = (values) => {
 };
+
+// Handle logout
+const handleLogout = () => {
+  localStorage.removeItem('access_token');
+  router.push('/login');
+};
+
+
 
 const refreshUser = () => {
   authStore.getUser();

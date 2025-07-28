@@ -7,7 +7,6 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["update:modelValue"]);
-
 const toggleMenu = () => {
   emit("update:modelValue", !props.modelValue);
 };

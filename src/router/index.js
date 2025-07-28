@@ -35,6 +35,14 @@ const routes = [
     },
   },
   {
+    path: "/reset-password/:uidb64/:token",
+    name: "ResetPassword",
+    component: () => import("../components/auth/ResetPassword.vue"),
+    meta: {
+      title: "Reset Password - Mining Platform",
+    },
+  },
+  {
     path: "/dashboard",
     name: "Dashboard",
     component: () => import("../components/dashboard/wrapper.vue"),
@@ -101,7 +109,8 @@ router.beforeEach((to, from, next) => {
   // List of public routes
   const publicPages = ['/', '/login', '/register', '/pass'];
   const isRegisterRoute = to.path.startsWith('/register');
-  const authRequired = !publicPages.includes(to.path) && !isRegisterRoute;
+  const isResetPasswordRoute = to.path.startsWith('/reset-password');
+  const authRequired = !publicPages.includes(to.path) && !isRegisterRoute && !isResetPasswordRoute;
   const accessToken = localStorage.getItem('access_token');
 
   if (authRequired && !accessToken) {
