@@ -84,7 +84,7 @@ const useAuth = defineStore("auth", {
         })
         .finally(() => {});
     },
-    resetPassword(data, callback = () => {}) {
+    resetPassword(data, callback = () => {},errorCallback=()=>{}) {
       api({
         url: "auth/reset-password/",
         method: "PATCH",
@@ -98,9 +98,12 @@ const useAuth = defineStore("auth", {
             message.error(error?.response?.data?.non_field_errors?.[0]);
           } else if (error?.response?.data?.password?.[0]) {
             message.error(error?.response?.data?.password?.[0]);
+          } else if (error?.response?.data?.detail) {
+            message.error(error?.response?.data?.detail);
           } else {
             message.error("Something went wrong!");
           }
+          errorCallback()
         })
         .finally(() => {});
     },
@@ -125,26 +128,26 @@ const useAuth = defineStore("auth", {
     updateProfile(data, callback = () => {}) {
       const core = useCore();
       core.loadingUrl.add("user");
-      
+
       // Create FormData for file upload
       const formData = new FormData();
-      
+
       // Add text fields
-      if (data.first_name) formData.append('first_name', data.first_name);
-      if (data.last_name) formData.append('last_name', data.last_name);
-      if (data.email) formData.append('email', data.email);
-      
+      if (data.first_name) formData.append("first_name", data.first_name);
+      if (data.last_name) formData.append("last_name", data.last_name);
+      if (data.email) formData.append("email", data.email);
+
       // Add avatar file if present
       if (data.avatar) {
-        formData.append('avatar', data.avatar);
+        formData.append("avatar", data.avatar);
       }
-      
+
       api({
         url: "auth/profile/",
         method: "PUT",
         data: formData,
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       })
         .then(({ data }) => {

@@ -100,7 +100,7 @@ const validateConfirmPassword = (rule, value) => {
 const rules = {
   password: [
     { required: true, message: "Please enter your new password", trigger: "blur" },
-    { min: 6, message: "Password must be at least 6 characters", trigger: "blur" },
+    { min: 8, message: "Password must be at least 8 characters", trigger: "blur" },
   ],
   confirm_password: [
     { required: true, message: "Please confirm your password", trigger: "blur" },
@@ -118,6 +118,8 @@ const handleReset = () => {
 
   authStore.resetPassword(resetData, () => {
     message.success("Password reset successfully! Please login with your new password.");
+    router.push("/login");
+  },()=>{
     router.push("/login");
   });
 };

@@ -33,7 +33,7 @@
                   {{ userInitials }}
                 </a-avatar>
                 <div
-                  class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 hover:opacity-100 transition-opacity"
+                  class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full max-sm:opacity-60 opacity-0 hover:opacity-100 transition-opacity"
                 >
                   <CameraIcon class="w-6 h-6 text-white" />
                 </div>
