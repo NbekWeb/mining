@@ -44,8 +44,23 @@
       </a-collapse>
     </div>
 
+    <!-- Balance Warning Section -->
+    <div v-if="user && parseFloat(user.balance) <= 0" class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+      <div class="flex items-start gap-3">
+        <ExclamationCircleOutlined class="text-yellow-600 text-lg mt-0.5 flex-shrink-0" />
+        <div>
+          <h3 class="text-sm font-medium text-yellow-800 mb-1">
+            Top up your balance to activate referrals
+          </h3>
+          <p class="text-sm text-yellow-700">
+            Your current balance is ${{ user.balance || '0' }}. You need to have a positive balance for referrals to work properly.
+          </p>
+        </div>
+      </div>
+    </div>
+
     <!-- Referral Code Section -->
-    <div class="bg-white rounded-lg shadow p-6">
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
       <div class="flex items-center gap-2 mb-4">
         <LinkOutlined class="text-blue-500 text-lg" />
         <h2 class="text-lg font-bold text-gray-900">REFERRAL CODE</h2>
@@ -75,23 +90,109 @@
         </div>
       </div>
     </div>
+
+    <!-- Referrals Table Section -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center gap-2 mb-4">
+        <TeamOutlined class="text-green-500 text-lg" />
+        <h2 class="text-lg font-bold text-gray-900">YOUR REFERRALS</h2>
+      </div>
+
+      <div v-if="friends && friends.length > 0">
+        <a-table
+          :columns="columns"
+          :data-source="friends"
+          :pagination="false"
+          :row-key="(record) => record.id"
+          class="referrals-table"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'name'">
+              <span class="font-medium">
+                {{ record.referred_user.first_name }} {{ record.referred_user.last_name }}
+              </span>
+            </template>
+            <template v-else-if="column.key === 'bonus_percent'">
+              <a-tag color="blue">{{ record.bonus_percent }}%</a-tag>
+            </template>
+            <template v-else-if="column.key === 'bonus_amount'">
+              <span class="font-semibold text-green-600">${{ record.bonus_amount }}</span>
+            </template>
+            <template v-else-if="column.key === 'created_at'">
+              <span class="text-gray-900 text-sm">
+                {{ formatDate(record.created_at) }}
+              </span>
+            </template>
+          </template>
+        </a-table>
+      </div>
+
+      <div v-else class="text-center py-12">
+        <UserOutlined class="text-gray-300 text-6xl mb-4" />
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No referrals yet</h3>
+        <p class="text-gray-500 mb-4">
+          Start sharing your referral link to earn rewards!
+        </p>
+        <a-button type="primary" @click="copyReferralCode">
+          <CopyOutlined />
+          Copy Referral Link
+        </a-button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { message } from "ant-design-vue";
-import { LinkOutlined, CopyOutlined } from "@ant-design/icons-vue";
+import { LinkOutlined, CopyOutlined, TeamOutlined, UserOutlined, ExclamationCircleOutlined } from "@ant-design/icons-vue";
 import { storeToRefs } from "pinia";
 import useAuth from "../../stores/auth.pinia";
+import dayjs from "dayjs";
 
 const authStore = useAuth();
 const { user } = storeToRefs(authStore);
+const { friends } = storeToRefs(authStore);
 // Reactive data
 const activeKeys = ref(["2"]); // Start with second panel open
 const referralCode = ref("");
-const bonusBalance = ref("0.5");
 const copying = ref(false);
+
+// Table columns configuration
+const columns = [
+  {
+    title: 'Name',
+    key: 'name',
+    dataIndex: 'referred_user',
+    width: '30%',
+  },
+  {
+    title: 'Bonus %',
+    key: 'bonus_percent',
+    dataIndex: 'bonus_percent',
+    width: '20%',
+    align: 'center',
+  },
+  {
+    title: 'Bonus Amount',
+    key: 'bonus_amount',
+    dataIndex: 'bonus_amount',
+    width: '25%',
+    align: 'center',
+  },
+  {
+    title: 'Date',
+    key: 'created_at',
+    dataIndex: 'created_at',
+    width: '25%',
+    align: 'center',
+  },
+];
+
+// Format date using dayjs
+const formatDate = (dateString) => {
+  return dayjs(dateString).format('DD/MM/YYYY');
+};
 
 // Extract referral code from user's referral link
 
@@ -116,6 +217,7 @@ onMounted(() => {
       referralCode.value = user.value.referral_link;
     }
   });
+  authStore.getFriends();
 });
 </script>
 
@@ -138,5 +240,21 @@ onMounted(() => {
 .affiliate-collapse :deep(.ant-collapse-item-active) {
   border-color: #3b82f6 !important;
   background-color: #eff6ff !important;
+}
+
+.referrals-table :deep(.ant-table-thead > tr > th) {
+  background-color: #f8fafc !important;
+  font-weight: 600 !important;
+  color: #374151 !important;
+  border-bottom: 2px solid #e5e7eb !important;
+}
+
+.referrals-table :deep(.ant-table-tbody > tr:hover > td) {
+  background-color: #f9fafb !important;
+}
+
+.referrals-table :deep(.ant-table-tbody > tr > td) {
+  border-bottom: 1px solid #f3f4f6 !important;
+  padding: 12px 16px !important;
 }
 </style>

@@ -6,6 +6,7 @@ import useCore from "./core.pinia";
 const useAuth = defineStore("auth", {
   state: () => ({
     user: {},
+    friends: [],
   }),
   actions: {
     postLogin(data, callback = () => {}) {
@@ -78,13 +79,15 @@ const useAuth = defineStore("auth", {
         .catch((error) => {
           if (error?.response?.data?.non_field_errors?.[0]) {
             message.error(error?.response?.data?.non_field_errors?.[0]);
+          } else if (error?.response?.data?.error) {
+            message.error(error?.response?.data?.error);
           } else {
             message.error("Something went wrong!");
           }
         })
         .finally(() => {});
     },
-    resetPassword(data, callback = () => {},errorCallback=()=>{}) {
+    resetPassword(data, callback = () => {}, errorCallback = () => {}) {
       api({
         url: "auth/reset-password/",
         method: "PATCH",
@@ -103,7 +106,7 @@ const useAuth = defineStore("auth", {
           } else {
             message.error("Something went wrong!");
           }
-          errorCallback()
+          errorCallback();
         })
         .finally(() => {});
     },
@@ -165,6 +168,22 @@ const useAuth = defineStore("auth", {
             message.error("Failed to update profile!");
           }
         })
+        .finally(() => {
+          core.loadingUrl.delete("user");
+        });
+    },
+    getFriends() {
+      const core = useCore();
+      core.loadingUrl.add("user");
+
+      api({
+        url: "auth/refral/user/",
+        method: "GET",
+      })
+        .then(({ data }) => {
+          this.friends = data?.results;
+        })
+        .catch((error) => {})
         .finally(() => {
           core.loadingUrl.delete("user");
         });
