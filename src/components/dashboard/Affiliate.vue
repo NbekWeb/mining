@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 sm:p-6">
+  <div class="p-4 sm:p-6 max-w-full border overflow-x-hidden">
     <h1 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
       Affiliate Program
     </h1>
@@ -45,15 +45,21 @@
     </div>
 
     <!-- Balance Warning Section -->
-    <div v-if="user && parseFloat(user.balance) <= 0" class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+    <div
+      v-if="user && parseFloat(user.balance) <= 0"
+      class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6"
+    >
       <div class="flex items-start gap-3">
-        <ExclamationCircleOutlined class="text-yellow-600 text-lg mt-0.5 flex-shrink-0" />
+        <ExclamationCircleOutlined
+          class="text-yellow-600 text-lg mt-0.5 flex-shrink-0"
+        />
         <div>
           <h3 class="text-sm font-medium text-yellow-800 mb-1">
             Top up your balance to activate referrals
           </h3>
           <p class="text-sm text-yellow-700">
-            Your current balance is ${{ user.balance || '0' }}. You need to have a positive balance for referrals to work properly.
+            Your current balance is ${{ user.balance || "0" }}. You need to have
+            a positive balance for referrals to work properly.
           </p>
         </div>
       </div>
@@ -92,31 +98,38 @@
     </div>
 
     <!-- Referrals Table Section -->
-    <div class="bg-white rounded-lg shadow p-6">
+    <div class="bg-white rounded-lg shadow p-6 max-sm:max-w-[calc(100vw-35px)]">
       <div class="flex items-center gap-2 mb-4">
         <TeamOutlined class="text-green-500 text-lg" />
         <h2 class="text-lg font-bold text-gray-900">YOUR REFERRALS</h2>
       </div>
 
-      <div v-if="friends && friends.length > 0">
+      <div
+        v-if="friends && friends.length > 0"
+       
+      >
         <a-table
           :columns="columns"
           :data-source="friends"
           :pagination="false"
           :row-key="(record) => record.id"
           class="referrals-table"
+          :scroll="{ x: 500 }"
         >
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'name'">
               <span class="font-medium">
-                {{ record.referred_user.first_name }} {{ record.referred_user.last_name }}
+                {{ record.referred_user.first_name }}
+                {{ record.referred_user.last_name }}
               </span>
             </template>
             <template v-else-if="column.key === 'bonus_percent'">
               <a-tag color="blue">{{ record.bonus_percent }}%</a-tag>
             </template>
             <template v-else-if="column.key === 'bonus_amount'">
-              <span class="font-semibold text-green-600">${{ record.bonus_amount }}</span>
+              <span class="font-semibold text-green-600"
+                >${{ record.bonus_amount }}</span
+              >
             </template>
             <template v-else-if="column.key === 'created_at'">
               <span class="text-gray-900 text-sm">
@@ -145,7 +158,13 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { message } from "ant-design-vue";
-import { LinkOutlined, CopyOutlined, TeamOutlined, UserOutlined, ExclamationCircleOutlined } from "@ant-design/icons-vue";
+import {
+  LinkOutlined,
+  CopyOutlined,
+  TeamOutlined,
+  UserOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons-vue";
 import { storeToRefs } from "pinia";
 import useAuth from "../../stores/auth.pinia";
 import dayjs from "dayjs";
@@ -161,41 +180,40 @@ const copying = ref(false);
 // Table columns configuration
 const columns = [
   {
-    title: 'Name',
-    key: 'name',
-    dataIndex: 'referred_user',
-    width: '30%',
+    title: "Name",
+    key: "name",
+    dataIndex: "referred_user",
+    width: "30%",
   },
   {
-    title: 'Bonus %',
-    key: 'bonus_percent',
-    dataIndex: 'bonus_percent',
-    width: '20%',
-    align: 'center',
+    title: "Bonus %",
+    key: "bonus_percent",
+    dataIndex: "bonus_percent",
+    width: "20%",
+    align: "center",
   },
   {
-    title: 'Bonus Amount',
-    key: 'bonus_amount',
-    dataIndex: 'bonus_amount',
-    width: '25%',
-    align: 'center',
+    title: "Bonus Amount",
+    key: "bonus_amount",
+    dataIndex: "bonus_amount",
+    width: "25%",
+    align: "center",
   },
   {
-    title: 'Date',
-    key: 'created_at',
-    dataIndex: 'created_at',
-    width: '25%',
-    align: 'center',
+    title: "Date",
+    key: "created_at",
+    dataIndex: "created_at",
+    width: "25%",
+    align: "center",
   },
 ];
 
 // Format date using dayjs
 const formatDate = (dateString) => {
-  return dayjs(dateString).format('DD/MM/YYYY');
+  return dayjs(dateString).format("DD/MM/YYYY");
 };
 
 // Extract referral code from user's referral link
-
 
 // Copy referral code function
 const copyReferralCode = async () => {
