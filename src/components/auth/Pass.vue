@@ -53,7 +53,7 @@
         <!-- Button -->
         <a-form-item>
           <a-button type="primary" html-type="submit" block class="!h-10">
-            <span class="text-base !font-bold"> Log in </span>
+            <span class="text-base !font-bold"> Send Link </span>
           </a-button>
           <div class="flex items-center justify-between text-orange-500 mt-2">
             <router-link
