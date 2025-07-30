@@ -9,7 +9,7 @@
       <p class="text-white/80 text-center text-base leading-5 pt-3">
         Forgot your password? No worries. Enter the email
         <br class="max-lg:hidden" />
-        address you used during registration and we’ll send you a
+        address you used during registration and we'll send you a
         <br class="max-lg:hidden" />
         link to reset it.
       </p>
@@ -19,58 +19,73 @@
     <div
       class="h-full w-full bg-white flex flex-col items-center justify-center px-12"
     >
-      <img
-        src="https://static.tildacdn.pro/tild3436-3538-4461-a530-303938666331/image.png"
-        class="object-contain h-20 mb-2"
-      />
+     <logo class="mb-2 text-5xl " />
 
-      <h1 class="text-2xl !font-bold text-gray-800 !mb-8 !mt-10 max-sm:!my-5">
-        Password Reset
-      </h1>
-      <p class="text-black/70 leading-5 font-medium text-base text-center">
-        To reset your password, enter the email address that
-        <br class="max-sm:hidden" />
-        you’ve used to sign up
-      </p>
+      <!-- Success State -->
+      <div v-if="isSuccess" class="text-center">
+        <h1 class="text-2xl !font-bold text-gray-800 !mb-8 !mt-10 max-sm:!my-5">
+          Check Your Email
+        </h1>
+        <p class="text-black/70 leading-5 font-medium text-base text-center mb-8">
+          Password reset link sent to your email. Please check your inbox.
+        </p>
+        <a-button 
+          type="primary" 
+          @click="$router.push('/login')" 
+          class="!h-10 !px-8"
+        >
+          <span class="text-base !font-bold">Back to Login</span>
+        </a-button>
+      </div>
 
-      <!-- Ant Design Form -->
-      <a-form
-        :model="formState"
-        :rules="rules"
-        ref="loginFormRef"
-        @finish="handleLogin"
-        layout="vertical"
-        class="w-full max-w-sm"
-      >
-        <!-- Email -->
-        <a-form-item label="Email" name="email">
-          <a-input
-            v-model:value="formState.email"
-            placeholder="Enter your email"
-          />
-        </a-form-item>
+      <!-- Form State -->
+      <div v-else>
+        <h1 class="text-2xl !font-bold text-gray-800 !mb-8 !mt-10 max-sm:!my-5">
+          Password Reset
+        </h1>
+        <p class="text-black/70 leading-5 font-medium text-base text-center">
+          To reset your password, enter the email address that
+          <br class="max-sm:hidden" />
+          you've used to sign up
+        </p>
 
-        <!-- Button -->
-        <a-form-item>
-          <a-button type="primary" html-type="submit" block class="!h-10">
-            <span class="text-base !font-bold"> Send Link </span>
-          </a-button>
-          <div class="flex items-center justify-between text-orange-500 mt-2">
-            <router-link
-              to="/login"
-              class="duration-300 transition-all hover:text-orange-600 !font-semibold"
-              >Log in</router-link
-            >
-            <router-link
-              to="/register"
-              class="duration-300 transition-all hover:text-orange-600 !font-semibold"
-              >Create  account</router-link
-            >
-          </div>
-        </a-form-item>
+        <!-- Ant Design Form -->
+        <a-form
+          :model="formState"
+          :rules="rules"
+          ref="loginFormRef"
+          @finish="handleLogin"
+          layout="vertical"
+          class="w-full max-w-sm"
+        >
+          <!-- Email -->
+          <a-form-item label="Email" name="email">
+            <a-input
+              v-model:value="formState.email"
+              placeholder="Enter your email"
+            />
+          </a-form-item>
 
-      
-      </a-form>
+          <!-- Button -->
+          <a-form-item>
+            <a-button type="primary" html-type="submit" block class="!h-10">
+              <span class="text-base !font-bold"> Send Link </span>
+            </a-button>
+            <div class="flex items-center justify-between text-orange-500 mt-2">
+              <router-link
+                to="/login"
+                class="duration-300 transition-all hover:text-orange-600 !font-semibold"
+                >Log in</router-link
+              >
+              <router-link
+                to="/register"
+                class="duration-300 transition-all hover:text-orange-600 !font-semibold"
+                >Create  account</router-link
+              >
+            </div>
+          </a-form-item>
+        </a-form>
+      </div>
     </div>
   </div>
 </template>
@@ -79,9 +94,11 @@
 import { reactive, ref } from "vue";
 import { message } from "ant-design-vue";
 import useAuth from "../../stores/auth.pinia";
-const authStore = useAuth();
+import logo from "../logo.vue";
 
+const authStore = useAuth();
 const loginFormRef = ref();
+const isSuccess = ref(false);
 
 const formState = reactive({
   email: "",
@@ -100,7 +117,7 @@ const rules = {
 
 const handleLogin = () => {
   authStore.forgotPassword(formState, () => {
-    message.success("Password reset link sent to your email!");
+    isSuccess.value = true;
   });
 };
 </script>
