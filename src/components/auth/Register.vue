@@ -117,6 +117,7 @@
                 v-model:value="verificationForm.code[index]"
                 :placeholder="(index + 1).toString()"
                 maxlength="1"
+                inputmode="numeric"
                 class="w-12 h-12 text-center text-xl font-bold"
                 @input="handleCodeInput(index, $event)"
                 @keydown="handleKeydown(index, $event)"
