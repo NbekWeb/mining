@@ -22,6 +22,8 @@ const useAuth = defineStore("auth", {
         .catch((error) => {
           if (error?.response?.data?.detail?.[0]) {
             message.error("Login or password is incorrect!");
+          } else if (error?.response?.data?.non_field_errors?.[0]) {
+            message.error(error?.response?.data?.non_field_errors?.[0]);
           } else {
             message.error("Something went wrong!");
           }
@@ -29,13 +31,58 @@ const useAuth = defineStore("auth", {
         .finally(() => {});
     },
     postRegis(data, callback = () => {}) {
+      const core = useCore();
+      core.loadingUrl.add("register");
       api({
         url: "auth/register/",
         method: "POST",
         data,
       })
         .then(({ data }) => {
-          localStorage.setItem("access_token", data.tokens.access);
+          // localStorage.setItem("access_token", data.tokens.access);
+          callback();
+        })
+        .catch((error) => {
+          if (error?.response?.data?.non_field_errors?.[0]) {
+            message.error(error?.response?.data?.non_field_errors?.[0]);
+          } else {
+            message.error("Something went wrong!");
+          }
+        })
+        .finally(() => {
+          core.loadingUrl.delete("register");
+        });
+    },
+    verifyEmail(data, callback = () => {}) {
+      api({
+        url: "auth/email/verification/",
+        method: "POST",
+        data,
+      })
+        .then(({ data }) => {
+          localStorage.setItem("access_token", data.access);
+          callback();
+        })
+        .catch((error) => {
+          if (error?.response?.data?.non_field_errors?.[0]) {
+            message.error(error?.response?.data?.non_field_errors?.[0]);
+          } else if (error?.response?.data?.code?.[0]) {
+            message.error(error?.response?.data?.code?.[0]);
+          } else if (error?.response?.data?.error) {
+            message.error(error?.response?.data?.error);
+          } else {
+            message.error("Invalid verification code!");
+          }
+        })
+        .finally(() => {});
+    },
+    resendVerificationCode(data, callback = () => {}) {
+      api({
+        url: "auth/reset/verification/code/",
+        method: "POST",
+        data,
+      })
+        .then(({ data }) => {
           callback();
         })
         .catch((error) => {
