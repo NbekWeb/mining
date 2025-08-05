@@ -28,7 +28,7 @@ onMounted(() => {
   });
   mine.getMinings();
   mine.getLevels();
-
+  mine.getNetworks();
 });
 </script>
 

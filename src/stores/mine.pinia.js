@@ -184,6 +184,21 @@ const useMine = defineStore("mine", {
           core.loadingUrl.delete("levels");
         });
     },
+    getNetworks() {
+      const core = useCore();
+      // core.loadingUrl.add("levels");
+      api({
+        url: "mining/social-network/",
+        method: "GET",
+      })
+        .then(({ data }) => {
+          this.networks = data;
+        })
+        .catch((error) => {})
+        .finally(() => {
+          // core.loadingUrl.delete("levels");
+        });
+    },
   },
 });
 

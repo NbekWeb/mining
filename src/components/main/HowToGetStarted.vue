@@ -45,7 +45,7 @@
         <p class="mt-6 text-lg text-gray-600 max-xl:text-base">
           You can contact us via
           <a
-            href="https://www.instagram.com/mining.base/"
+            :href="instagramUrl"
             target="_blank"
             class="!text-orange-400 font-semibold"
             >Instagram</a
@@ -79,12 +79,27 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
+import useMine from "../../stores/mine.pinia";
+import { storeToRefs } from "pinia";
+
+const mineStore = useMine();
+const { networks } = storeToRefs(mineStore);
 
 const howToSection = ref(null);
 const seen = ref(false);
 
+// Computed property to get Instagram URL from networks data
+const instagramUrl = computed(() => {
+  const instagramNetwork = networks.value.find(
+    network => network.network.toLowerCase() === 'instagram'
+  );
+  return instagramNetwork?.url || 'https://www.instagram.com/mining.base/';
+});
+
 onMounted(() => {
+  // Fetch networks data
+  
   const observer = new IntersectionObserver(
     (entries) => {
       const entry = entries[0];
