@@ -35,7 +35,7 @@
               <div class="flex items-start gap-2">
                 <div class="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
                 <div>
-                  <p class="font-medium mb-1 text-gray-800">Delivery & Installation Period</p>
+                  <p class="font-medium mb-1 text-gray-800">Delivery and Installation Period</p>
                   <p class="text-gray-600 text-xs">Your miner will be delivered and installed within 24 hours</p>
                 </div>
               </div>
