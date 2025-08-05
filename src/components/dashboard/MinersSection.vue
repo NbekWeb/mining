@@ -23,7 +23,7 @@
 
     <!-- Miner Items -->
     <div v-else class="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-5">
-      <template v-for="group in groupedMiners" :key="`${group.productId}-${group.isActive}`">
+      <template v-for="group in groupedMiners" :key="`${group.productId}-${group.isActive}-${group.deliveryDate || 'no-date'}`">
         <a-popover
           v-if="!group.isActive"
           placement="bottom"
@@ -36,7 +36,9 @@
                 <div class="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
                 <div>
                   <p class="font-medium mb-1 text-gray-800">Delivery and Installation Period</p>
-                  <p class="text-gray-600 text-xs">Your miner will be delivered and installed within 24 hours</p>
+                  <p class="text-gray-600 text-xs">
+                    {{ group.deliveryDate ? `Your miner will be delivered and installed on ${group.deliveryDate}` : 'Your miner will be delivered and installed within 24 hours' }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -70,7 +72,7 @@
           </div>
         </a-popover>
         
-        <!-- Active miners without popover -->
+        <!-- Active miners (no popover) -->
         <div
           v-else
           class="flex items-center justify-between p-4 border border-gray-200 rounded-lg relative transition-all duration-200"
@@ -107,6 +109,7 @@ import { CpuIcon } from "lucide-vue-next";
 import useMiners from "../../stores/mine.pinia";
 import { storeToRefs } from "pinia";
 import { computed, ref, onMounted, onUnmounted } from "vue";
+import dayjs from "dayjs";
 
 const minersStore = useMiners();
 const { user_minings } = storeToRefs(minersStore);
@@ -127,25 +130,52 @@ onUnmounted(() => {
   window.removeEventListener('resize', checkMobile);
 });
 
-// Group miners by product.id and is_active
+// Format delivery date using dayjs
+const formatDeliveryDate = (dateString) => {
+  if (!dateString) return null;
+  return dayjs(dateString).format("DD-MMMM,YYYY");
+};
+
+// Group miners by product.id, is_active, and delivery_date (only for inactive miners)
 const groupedMiners = computed(() => {
   if (!user_minings.value) return [];
   
   const groups = {};
   
   user_minings.value.forEach(miner => {
-    const key = `${miner.product?.id}-${miner.is_active}`;
+    const deliveryDate = formatDeliveryDate(miner.product?.delivery_date);
     
-    if (!groups[key]) {
-      groups[key] = {
-        productId: miner.product?.id,
-        isActive: miner.is_active,
-        product: miner.product,
-        count: 0
-      };
+    // For active miners, don't consider delivery_date in grouping
+    if (miner.is_active) {
+      const key = `${miner.product?.id}-${miner.is_active}`;
+      
+      if (!groups[key]) {
+        groups[key] = {
+          productId: miner.product?.id,
+          isActive: miner.is_active,
+          product: miner.product,
+          deliveryDate: null, // Active miners don't need delivery date
+          count: 0
+        };
+      }
+      groups[key].count++;
+    } else {
+      // For inactive miners, group by delivery_date if it exists
+      const key = deliveryDate 
+        ? `${miner.product?.id}-${miner.is_active}-${deliveryDate}`
+        : `${miner.product?.id}-${miner.is_active}`;
+      
+      if (!groups[key]) {
+        groups[key] = {
+          productId: miner.product?.id,
+          isActive: miner.is_active,
+          product: miner.product,
+          deliveryDate: deliveryDate,
+          count: 0
+        };
+      }
+      groups[key].count++;
     }
-    
-    groups[key].count++;
   });
   
   return Object.values(groups);
