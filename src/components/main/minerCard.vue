@@ -4,7 +4,7 @@
     data-aos="zoom-in"
     :data-aos-delay="delay"
   >
-    <img class="w-full h-auto object-contain" :src="data?.image" />
+    <img class="w-full h-75 object-cover" :src="data?.image" />
     <div class="py-6 px-7">
       <h5 class="text-lg text-black font-semibold text-center">
         {{ data?.name }}

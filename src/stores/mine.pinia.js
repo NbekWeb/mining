@@ -12,6 +12,7 @@ const useMine = defineStore("mine", {
     coins: [],
     withdraws: [],
     levels: [],
+    networks: [],
   }),
   actions: {
     getMinings() {
@@ -106,7 +107,7 @@ const useMine = defineStore("mine", {
           core.loadingUrl.delete("withdraws");
         });
     },
-    postWithdraws(data,callback = () => {},errorCallback = () => {}) {
+    postWithdraws(data, callback = () => {}, errorCallback = () => {}) {
       const core = useCore();
       core.loadingUrl.add("withdraws");
       api({
@@ -120,8 +121,7 @@ const useMine = defineStore("mine", {
         .catch((error) => {
           if (error?.response?.data?.non_field_errors?.[0]) {
             message.error(error?.response?.data?.non_field_errors?.[0]);
-          }
-          else{
+          } else {
             message.error("Something went wrong!");
           }
           errorCallback();

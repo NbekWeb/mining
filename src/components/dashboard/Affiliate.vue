@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 sm:p-6 max-w-full  overflow-x-hidden">
+  <div class="p-4 sm:p-6 max-w-full overflow-x-hidden">
     <h1 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
       Affiliate Program
     </h1>
@@ -44,8 +44,6 @@
       </a-collapse>
     </div>
 
-   
-
     <!-- User Status Section -->
     <div class="bg-white rounded-lg shadow p-6 mb-6">
       <div class="flex items-center gap-2 mb-4">
@@ -57,8 +55,16 @@
           {{ user.status?.name || 'No Status' }}
         </a-tag>
         <span class="text-gray-600 text-sm font-medium">
-          {{ Math.floor(user.status?.percent) || '0' }}%  of your friend's investments
+          {{ Math.floor(user.status?.percent) || '5' }}% of your friend's investments
         </span>
+      </div>
+      <div v-if="!user.status && levels?.[0]" class="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg max-w-max">
+        <div class="flex items-center gap-2">
+          <ExclamationCircleOutlined class="text-yellow-500" />
+          <span class="text-yellow-700 text-sm">
+            To get <strong>{{ levels[0].name }}</strong> status, invest minimum ${{ levels[0].price }}
+          </span>
+        </div>
       </div>
     </div>
 
@@ -101,10 +107,7 @@
         <h2 class="text-lg font-bold text-gray-900 !mb-0">YOUR REFERRALS</h2>
       </div>
 
-      <div
-        v-if="friends && friends.length > 0"
-       
-      >
+      <div v-if="friends && friends.length > 0">
         <a-table
           :columns="columns"
           :data-source="friends"
@@ -122,7 +125,9 @@
             </template>
 
             <template v-else-if="column.key === 'bonus_percent'">
-              <a-tag color="blue">{{ Math.floor(record.bonus_percent) }}%</a-tag>
+              <a-tag color="blue"
+                >{{ Math.floor(record.bonus_percent) }}%</a-tag
+              >
             </template>
             <template v-else-if="column.key === 'bonus_amount'">
               <span class="font-semibold text-green-600"
@@ -166,11 +171,13 @@ import {
 } from "@ant-design/icons-vue";
 import { storeToRefs } from "pinia";
 import useAuth from "../../stores/auth.pinia";
+import useMine from "../../stores/mine.pinia";
 import dayjs from "dayjs";
-
+const mineStore = useMine();
 const authStore = useAuth();
 const { user } = storeToRefs(authStore);
 const { friends } = storeToRefs(authStore);
+const { levels } = storeToRefs(mineStore);
 // Reactive data
 const activeKeys = ref(["2"]); // Start with second panel open
 const referralCode = ref("");
@@ -235,6 +242,7 @@ onMounted(() => {
     }
   });
   authStore.getFriends();
+  mineStore.getLevels();
 });
 </script>
 
