@@ -27,6 +27,8 @@ onMounted(() => {
     behavior: "smooth",
   });
   mine.getMinings();
+  mine.getLevels();
+
 });
 </script>
 

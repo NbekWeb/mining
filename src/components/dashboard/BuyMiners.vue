@@ -54,13 +54,46 @@
             type="primary"
             size="large"
             class="w-full bg-blue-500 hover:bg-blue-600 border-blue-500"
-            @click="handleBuyMiner(miner)"
+            @click="showConfirmationModal(miner)"
           >
             BUY
           </a-button>
         </div>
       </div>
     </div>
+
+    <!-- Confirmation Modal -->
+    <a-modal
+      v-model:open="isModalVisible"
+      title="Confirm Purchase"
+      :footer="null"
+      centered
+      width="400px"
+    >
+      <div class="text-center">
+        <p class="text-lg text-gray-700 mb-6">
+          Are you sure you want to buy this for ${{ selectedMinerPrice }}?
+        </p>
+        
+        <div class="flex gap-3 justify-center">
+          <a-button
+            size="large"
+            @click="cancelPurchase"
+            class="px-6"
+          >
+            Cancel
+          </a-button>
+          <a-button
+            type="primary"
+            size="large"
+            @click="confirmPurchase"
+            class="px-6 bg-blue-500 hover:bg-blue-600 border-blue-500"
+          >
+            Buy
+          </a-button>
+        </div>
+      </div>
+    </a-modal>
   </div>
 </template>
 
@@ -73,11 +106,38 @@ import { storeToRefs } from "pinia";
 const minersStore = useMiners();
 const { minings } = storeToRefs(minersStore);
 
-// Handle buy miner
-const handleBuyMiner = (miner) => {
-  minersStore.buyMining(miner.id, () => {
-    message.success(`Successfully added ${miner.name} to cart!`);
-  });
+// Modal state
+const isModalVisible = ref(false);
+const selectedMiner = ref(null);
+const selectedMinerPrice = ref(0);
+
+// Show confirmation modal
+const showConfirmationModal = (miner) => {
+  selectedMiner.value = miner;
+  selectedMinerPrice.value = Math.round(miner.price);
+  isModalVisible.value = true;
+};
+
+// Cancel purchase
+const cancelPurchase = () => {
+  isModalVisible.value = false;
+  selectedMiner.value = null;
+  selectedMinerPrice.value = 0;
+};
+
+// Confirm purchase
+const confirmPurchase = () => {
+  if (selectedMiner.value) {
+    const minerName = selectedMiner.value.name; // Store the name before clearing
+    minersStore.buyMining(selectedMiner.value.id, () => {
+      message.success(`Successfully added ${minerName} to cart!`);
+    });
+  }
+  
+  // Close modal
+  isModalVisible.value = false;
+  selectedMiner.value = null;
+  selectedMinerPrice.value = 0;
 };
 
 onMounted(() => {
@@ -96,5 +156,20 @@ onMounted(() => {
 :deep(.ant-btn-primary:hover) {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+/* Modal styles */
+:deep(.ant-modal-content) {
+  border-radius: 12px;
+}
+
+:deep(.ant-modal-header) {
+  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+:deep(.ant-modal-title) {
+  font-weight: 600;
+  font-size: 18px;
 }
 </style>

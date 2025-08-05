@@ -33,12 +33,21 @@
       :selected-deposit="selectedDeposit"
     />
 
-    <!-- Deposit Modal -->
+    <!-- First Modal - Amount Input -->
     <DepositModal 
-      v-model:visible="modalVisible"
+      v-model:visible="showFirstModal"
       :selected-wallet="selectedWallet"
       :loading="loadingUrl.has('mining/deposit-wallets/')"
-      @add-deposit="handleAddDeposit"
+      @show-confirmation="handleShowConfirmation"
+    />
+    
+    <!-- Second Modal - Payment Confirmation -->
+    <DepositConfirmationModal
+      v-model:visible="showSecondModal"
+      :deposit-data="depositData"
+      :loading="loading"
+      @confirm-payment="handleConfirmPayment"
+      @cancel-deposit="handleCancelDeposit"
     />
   </div>
 </template>
@@ -53,19 +62,24 @@ import DepositWalletsGrid from "./DepositWalletsGrid.vue";
 import DepositsTable from "./DepositsTable.vue";
 import AddressModal from "./AddressModal.vue";
 import DepositModal from "./DepositModal.vue";
+import DepositConfirmationModal from "./DepositConfirmationModal.vue";
 import EmptyState from "./EmptyState.vue";
 
 const minersStore = useMine();
 const coreStore = useCore();
-const { deposit_wallets, deposits,coins } = storeToRefs(minersStore);
+const { deposit_wallets, deposits, coins } = storeToRefs(minersStore);
 const { loadingUrl } = storeToRefs(coreStore);
 
 // Reactive state
 const loading = ref(false);
-const modalVisible = ref(false);
 const addressModalVisible = ref(false);
-const selectedWallet = ref(null);
 const selectedDeposit = ref(null);
+
+// Modal states for two-step deposit process
+const showFirstModal = ref(false);
+const showSecondModal = ref(false);
+const depositData = ref(null);
+const selectedWallet = ref(null);
 
 onMounted(() => {
   minersStore.getDeposits();
@@ -73,10 +87,10 @@ onMounted(() => {
   minersStore.getCoins();
 });
 
-// Open deposit modal
+// Open deposit modal (first step)
 const openDepositModal = (wallet) => {
   selectedWallet.value = wallet;
-  modalVisible.value = true;
+  showFirstModal.value = true;
 };
 
 // Open address modal
@@ -85,14 +99,41 @@ const openAddressModal = (deposit) => {
   addressModalVisible.value = true;
 };
 
-// Handle add deposit
-const handleAddDeposit = (depositData) => {
-  minersStore.postDeposits(depositData, () => {
+// Handle show confirmation (from first modal to second modal)
+const handleShowConfirmation = (data) => {
+  depositData.value = data;
+  showSecondModal.value = true;
+};
+
+// Handle confirm payment (from second modal)
+const handleConfirmPayment = (data) => {
+  loading.value = true;
+  
+  // Format currency to 8 decimal places
+  const formattedData = {
+    ...data,
+    currency: parseFloat(data.currency).toFixed(8)
+  };
+  
+  // Make API call to confirm the deposit
+  minersStore.postDeposits(formattedData, () => {
     message.success("Deposit request sent successfully!");
-    modalVisible.value = false;
+    showSecondModal.value = false;
+    depositData.value = null;
+    loading.value = false;
+    
     // Refresh deposits list
     minersStore.getDeposits();
   });
+};
+
+// Handle cancel deposit (from second modal)
+const handleCancelDeposit = () => {
+  showSecondModal.value = false;
+  depositData.value = null;
+  
+  // Show info message
+  message.info("Deposit cancelled");
 };
 </script>
 

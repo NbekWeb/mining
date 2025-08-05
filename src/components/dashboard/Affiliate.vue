@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 sm:p-6 max-w-full border overflow-x-hidden">
+  <div class="p-4 sm:p-6 max-w-full  overflow-x-hidden">
     <h1 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
       Affiliate Program
     </h1>
@@ -46,11 +46,27 @@
 
    
 
+    <!-- User Status Section -->
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <div class="flex items-center gap-2 mb-4">
+        <CrownOutlined class="text-yellow-500 text-lg" />
+        <h2 class="text-lg font-bold text-gray-900 !mb-0">YOUR STATUS</h2>
+      </div>
+      <div class="flex items-center gap-3">
+        <a-tag color="gold" size="large" class="text-base font-semibold">
+          {{ user.status?.name || 'No Status' }}
+        </a-tag>
+        <span class="text-gray-600 text-sm font-medium">
+          {{ Math.floor(user.status?.percent) || '0' }}%  of your friend's investments
+        </span>
+      </div>
+    </div>
+
     <!-- Referral Code Section -->
     <div class="bg-white rounded-lg shadow p-6 mb-6">
       <div class="flex items-center gap-2 mb-4">
         <LinkOutlined class="text-blue-500 text-lg" />
-        <h2 class="text-lg font-bold text-gray-900">REFERRAL CODE</h2>
+        <h2 class="text-lg font-bold text-gray-900 !mb-0">REFERRAL CODE</h2>
       </div>
 
       <div class="mb-4">
@@ -82,7 +98,7 @@
     <div class="bg-white rounded-lg shadow p-6 max-sm:max-w-[calc(100vw-35px)]">
       <div class="flex items-center gap-2 mb-4">
         <TeamOutlined class="text-green-500 text-lg" />
-        <h2 class="text-lg font-bold text-gray-900">YOUR REFERRALS</h2>
+        <h2 class="text-lg font-bold text-gray-900 !mb-0">YOUR REFERRALS</h2>
       </div>
 
       <div
@@ -104,8 +120,9 @@
                 {{ record.referred_user.last_name }}
               </span>
             </template>
+
             <template v-else-if="column.key === 'bonus_percent'">
-              <a-tag color="blue">{{ record.bonus_percent }}%</a-tag>
+              <a-tag color="blue">{{ Math.floor(record.bonus_percent) }}%</a-tag>
             </template>
             <template v-else-if="column.key === 'bonus_amount'">
               <span class="font-semibold text-green-600"
@@ -145,6 +162,7 @@ import {
   TeamOutlined,
   UserOutlined,
   ExclamationCircleOutlined,
+  CrownOutlined,
 } from "@ant-design/icons-vue";
 import { storeToRefs } from "pinia";
 import useAuth from "../../stores/auth.pinia";

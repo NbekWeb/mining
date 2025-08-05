@@ -8,14 +8,16 @@
       </h1>
       <a-dropdown>
         <div class="flex items-center gap-3 cursor-pointer">
-          <a-avatar 
-            :size="48" 
+          <a-avatar
+            :size="48"
             :style="{ backgroundColor: '#1890ff' }"
             :src="user.avatar"
           >
             {{ userInitials }}
           </a-avatar>
-          <span class="text-gray-900 font-medium max-sm:hidden">{{ user.first_name }}</span>
+          <span class="text-gray-900 font-medium max-sm:hidden">{{
+            user.first_name
+          }}</span>
         </div>
         <template #overlay>
           <a-menu>
@@ -56,7 +58,9 @@
         </div>
         <div class="text-2xl sm:text-3xl font-bold text-green-600 mb-2">
           {{ Math.round(user.available_balance) }} $
-          <span class="text-xs text-orange-500 ml-2 align-middle">updated after: {{ 60 - secondsSinceUpdate }}s</span>
+          <span class="text-xs text-orange-500 ml-2 align-middle"
+            >updated after: {{ 60 - secondsSinceUpdate }}s</span
+          >
         </div>
       </div>
 
@@ -92,7 +96,6 @@
       </div>
     </div>
 
-    <!-- MINERS Section Component -->
     <MinersSection />
 
     <!-- Password Change Modal Component -->
@@ -102,9 +105,7 @@
     />
 
     <!-- Edit Profile Modal Component -->
-    <EditProfileModal
-      v-model:open="showEditModal"
-    />
+    <EditProfileModal v-model:open="showEditModal" />
   </div>
 </template>
 
@@ -148,22 +149,19 @@ let timerId = null;
 
 // Computed properties
 const userInitials = computed(() => {
-  const firstName = user.value?.first_name || '';
-  const lastName = user.value?.last_name || '';
-  return (firstName.charAt(0) + '.' + lastName.charAt(0)).toUpperCase()+'.';
+  const firstName = user.value?.first_name || "";
+  const lastName = user.value?.last_name || "";
+  return (firstName.charAt(0) + "." + lastName.charAt(0)).toUpperCase() + ".";
 });
 
 // Handle password change success
-const handlePasswordChanged = (values) => {
-};
+const handlePasswordChanged = (values) => {};
 
 // Handle logout
 const handleLogout = () => {
-  localStorage.removeItem('access_token');
-  router.push('/login');
+  localStorage.removeItem("access_token");
+  router.push("/login");
 };
-
-
 
 const refreshUser = () => {
   authStore.getUser();
@@ -181,7 +179,7 @@ onMounted(() => {
     }
   });
   refreshUser();
-  
+
   // Start timer for updating user info every 60 seconds
   intervalId = setInterval(() => {
     refreshUser();

@@ -22,33 +22,79 @@
     </div>
 
     <!-- Miner Items -->
-    <div v-else class=" grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-5">
-      <template v-for="miner in user_minings" :key="miner">
+    <div v-else class="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-5">
+      <template v-for="group in groupedMiners" :key="`${group.productId}-${group.isActive}`">
+        <a-popover
+          v-if="!group.isActive"
+          placement="bottom"
+          :trigger="isMobile ? 'click' : 'hover'"
+          :overlay-style="{ maxWidth: '300px' }"
+        >
+          <template #content>
+            <div class="p-2">
+              <div class="flex items-start gap-2">
+                <div class="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <p class="font-medium mb-1 text-gray-800">Delivery & Installation Period</p>
+                  <p class="text-gray-600 text-xs">Your miner will be delivered and installed within 24 hours</p>
+                </div>
+              </div>
+            </div>
+          </template>
+          <div
+            :class="[
+              'flex items-center justify-between p-4 border border-gray-200 rounded-lg relative transition-all duration-200 hover:shadow-md cursor-pointer'
+            ]"
+          >
+            <div class="flex items-center gap-4">
+              <img :src="group.product?.image" alt="miner" class="w-16 h-16 object-cover rounded-lg" />
+              <div>
+                <h4 class="font-semibold text-gray-900">{{ group.product?.name }}</h4>
+                <div class="text-sm text-gray-600">
+                  <span>Price: $ {{ Math.round(group.product?.price) }}</span>
+                  <span class="mx-2">•</span>
+                  <span
+                    >Profit: ${{ Number(group.product?.per_day).toFixed(1) }}/day (${{ Number(group.product?.per_month).toFixed(1) }}/month)</span
+                  >
+                </div>
+                <div class="text-xs text-gray-500 mt-1">
+                  Status: {{ group.isActive ? 'Active' : 'Inactive' }}
+                </div>
+              </div>
+            </div>
+            <div
+              class="bg-yellow-500 text-white absolute top-2 right-2 max-sm:w-6 max-sm:h-6 max-sm:text-xs rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold transition-colors hover:bg-yellow-600"
+            >
+              x{{ group.count }}
+            </div>
+          </div>
+        </a-popover>
+        
+        <!-- Active miners without popover -->
         <div
-          class="flex items-center justify-between p-4 border border-gray-200 rounded-lg relative"
+          v-else
+          class="flex items-center justify-between p-4 border border-gray-200 rounded-lg relative transition-all duration-200"
         >
           <div class="flex items-center gap-4">
-            <!-- <div
-              class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center"
-            >
-              <CpuIcon class="w-8 h-8 text-gray-600" />
-            </div> -->
-            <img :src="miner.product?.image" alt="miner" class="w-16 h-16 object-cover rounded-lg" />
+            <img :src="group.product?.image" alt="miner" class="w-16 h-16 object-cover rounded-lg" />
             <div>
-              <h4 class="font-semibold text-gray-900">{{ miner.product?.name }}</h4>
+              <h4 class="font-semibold text-gray-900">{{ group.product?.name }}</h4>
               <div class="text-sm text-gray-600">
-                <span>Price: $ {{ Math.round(miner.product?.price) }}</span>
+                <span>Price: $ {{ Math.round(group.product?.price) }}</span>
                 <span class="mx-2">•</span>
                 <span
-                  >Profit: ${{ Number(miner.product?.per_day).toFixed(1) }}/day (${{ Number(miner.product?.per_month).toFixed(1) }}/month)</span
+                  >Profit: ${{ Number(group.product?.per_day).toFixed(1) }}/day (${{ Number(group.product?.per_month).toFixed(1) }}/month)</span
                 >
+              </div>
+              <div class="text-xs text-gray-500 mt-1">
+                Status: {{ group.isActive ? 'Active' : 'Inactive' }}
               </div>
             </div>
           </div>
           <div
-            class="bg-blue-500 text-white absolute top-2 right-2 max-sm:w-6 max-sm:h-6 max-sm:text-xs rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold"
+            class="bg-blue-500 text-white absolute top-2 right-2 max-sm:w-6 max-sm:h-6 max-sm:text-xs rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold transition-colors hover:bg-blue-600"
           >
-            x1
+            x{{ group.count }}
           </div>
         </div>
       </template>
@@ -60,9 +106,50 @@
 import { CpuIcon } from "lucide-vue-next";
 import useMiners from "../../stores/mine.pinia";
 import { storeToRefs } from "pinia";
+import { computed, ref, onMounted, onUnmounted } from "vue";
 
 const minersStore = useMiners();
 const { user_minings } = storeToRefs(minersStore);
+
+// Mobile detection
+const isMobile = ref(false);
+
+const checkMobile = () => {
+  isMobile.value = window.innerWidth <= 768;
+};
+
+onMounted(() => {
+  checkMobile();
+  window.addEventListener('resize', checkMobile);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkMobile);
+});
+
+// Group miners by product.id and is_active
+const groupedMiners = computed(() => {
+  if (!user_minings.value) return [];
+  
+  const groups = {};
+  
+  user_minings.value.forEach(miner => {
+    const key = `${miner.product?.id}-${miner.is_active}`;
+    
+    if (!groups[key]) {
+      groups[key] = {
+        productId: miner.product?.id,
+        isActive: miner.is_active,
+        product: miner.product,
+        count: 0
+      };
+    }
+    
+    groups[key].count++;
+  });
+  
+  return Object.values(groups);
+});
 
 // You can add props here if you want to make the miners data dynamic
 // const props = defineProps({

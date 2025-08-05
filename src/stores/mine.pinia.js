@@ -11,6 +11,7 @@ const useMine = defineStore("mine", {
     deposits: [],
     coins: [],
     withdraws: [],
+    levels: [],
   }),
   actions: {
     getMinings() {
@@ -157,6 +158,7 @@ const useMine = defineStore("mine", {
           callback();
         })
         .catch((error) => {
+          console.log(error);
           if (error?.response?.data?.error?.[0]) {
             message.error(error?.response?.data?.error?.[0]);
           } else {
@@ -165,6 +167,21 @@ const useMine = defineStore("mine", {
         })
         .finally(() => {
           core.loadingUrl.delete("mining");
+        });
+    },
+    getLevels() {
+      const core = useCore();
+      core.loadingUrl.add("levels");
+      api({
+        url: "mining/user-status/",
+        method: "GET",
+      })
+        .then(({ data }) => {
+          this.levels = data;
+        })
+        .catch((error) => {})
+        .finally(() => {
+          core.loadingUrl.delete("levels");
         });
     },
   },

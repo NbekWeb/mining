@@ -8,54 +8,8 @@
     centered
   >
     <div v-if="selectedWallet" class="text-center">
-      <!-- QR Code -->
-      <div class="mb-6">
-        <img
-          :src="selectedWallet.qr_code"
-          alt="QR Code"
-          class="mx-auto w-48 h-48 object-contain border border-gray-200 rounded-lg"
-        />
-      </div>
-
-      <!-- Wallet Address -->
-      <div class="mb-4">
-        <p class="text-sm text-gray-600 mb-2">Wallet Address:</p>
-        <div
-          class="flex items-center justify-center bg-gray-50 p-3 rounded-lg"
-        >
-          <span class="text-sm font-mono text-gray-800 truncate mr-2 flex-1">
-            {{ selectedWallet.address }} 
-          </span>
-          <a-button
-            type="text"
-            size="small"
-            @click="copyAddress(selectedWallet.address)"
-            class="flex-shrink-0"
-          >
-            <template #icon>
-              <Copy class="w-4 h-4" />
-            </template>
-          </a-button>
-        </div>
-      </div>
-
-      <!-- Instructions -->
-      <div class="text-xs text-gray-500 mb-6">
-        <p>Scan the QR code or copy the address to send your deposit</p>
-      </div>
-
-      <!-- Exchange Rate Display -->
-      <div class="mb-4 p-3 bg-blue-50 rounded-lg">
-        <p class="text-sm text-gray-600">
-          Current Rate: 1 USD = {{ exchangeRate ? (1 / exchangeRate).toFixed(8) : '...' }} {{ selectedWallet?.coin?.symbol }}
-        </p>
-        <p class="text-xs text-gray-500 mt-1">
-          Rate updated: {{ lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : '...' }}
-        </p>
-      </div>
-
       <!-- Amount Input (USD) -->
-      <div class="mb-4">
+      <div class="mb-6">
         <label class="block text-sm font-medium text-gray-700 mb-2">
           Amount (USD)
         </label>
@@ -66,27 +20,6 @@
           size="large"
           class="w-full"
         />
-      </div>
-
-      <!-- Coin Amount Display -->
-      <div v-if="exchangeRate" class="mb-6 p-3 bg-green-50 rounded-lg">
-        <p class="text-sm text-gray-600 mb-2">You need to send:</p>
-        <div class="flex items-center justify-center bg-white p-3 rounded-lg border">
-          <span class="text-lg font-semibold text-green-700 mr-2">
-            {{ coinAmount.toFixed(8) }} {{ selectedWallet?.coin?.symbol }}
-          </span>
-          <a-button
-            type="text"
-            size="small"
-            @click="copyCoinAmount"
-            class="flex-shrink-0"
-            :disabled="!coinAmount || coinAmount === 0"
-          >
-            <template #icon>
-              <Copy class="w-4 h-4" />
-            </template>
-          </a-button>
-        </div>
       </div>
 
       <!-- Add Deposit Button -->
@@ -124,7 +57,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:visible', 'addDeposit']);
+const emit = defineEmits(['update:visible', 'addDeposit', 'showConfirmation']);
 
 const amountInput = ref(null);
 const exchangeRate = ref(null);
@@ -156,12 +89,6 @@ const amount = computed({
       amountInput.value = value;
     }
   }
-});
-
-// Computed property for coin amount
-const coinAmount = computed(() => {
-  if (!amountInput.value || !exchangeRate.value) return 0;
-  return parseFloat(amountInput.value) / exchangeRate.value;
 });
 
 // Fetch exchange rate from CoinGecko API (USD rates)
@@ -226,47 +153,25 @@ watch(() => props.selectedWallet, (newWallet) => {
   }
 });
 
-// Copy wallet address to clipboard
-const copyAddress = async (address) => {
-  try {
-    await navigator.clipboard.writeText(address);
-    message.success("Address copied to clipboard!");
-  } catch (error) {
-    console.error("Failed to copy address:", error);
-    message.error("Failed to copy address");
-  }
-};
-
-// Copy coin amount to clipboard
-const copyCoinAmount = async () => {
-  if (!coinAmount.value) return;
-  
-  try {
-    const amountText = `${coinAmount.value.toFixed(8)} ${props.selectedWallet?.coin?.symbol}`;
-    await navigator.clipboard.writeText(amountText);
-    message.success("Coin amount copied to clipboard!");
-  } catch (error) {
-    console.error("Failed to copy coin amount:", error);
-    message.error("Failed to copy coin amount");
-  }
-};
-
 // Handle add deposit
 const handleAddDeposit = () => {
   if (
     !props.selectedWallet ||
     !amountInput.value ||
-    amountInput.value <= 0 ||
-    !exchangeRate.value
+    amountInput.value <= 0 
   )
     return;
 
   const depositData = {
     coin: props.selectedWallet.coin.id,
     amount: parseFloat(amountInput.value),
-    currency: coinAmount.value,
+    currency: exchangeRate.value ? parseFloat(amountInput.value) / exchangeRate.value : 0,
+    wallet: props.selectedWallet,
+    exchangeRate: exchangeRate.value
   };
 
-  emit('addDeposit', depositData);
+  // Close current modal and show confirmation modal
+  emit('update:visible', false);
+  emit('showConfirmation', depositData);
 };
 </script> 

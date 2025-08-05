@@ -4,11 +4,11 @@
     :data-aos-delay="delay"
     class="h-full w-full p-6 rounded-xl shadow-lg bg-white"
   >
-    <h6 class="text-xl text-black !mb-6 !font-semibold">{{ statusName }}</h6>
+    <h6 class="text-xl text-black !mb-6 !font-semibold">{{ data.name }}</h6>
     <div class="flex items-center gap-2 mb-4">
       <strong class="text-blue-500">✔</strong>
       <span class="text-black opacity-90 font-light">{{
-        investmentAmount
+        data.description
       }}</span>
     </div>
     <span class="text-lg font-bold text-black mb-3 block"
@@ -16,13 +16,13 @@
     >
     <div class="flex flex-col gap-5 pl-4">
       <div
-        v-for="benefit in benefits"
-        :key="benefit"
+        v-for="benefit in data?.items"
+        :key="benefit.id"
         class="flex items-center gap-1.5"
       >
         <strong class="text-blue-500">✔</strong>
         <span class="font-base text-black font-light opacity-90">{{
-          benefit
+          benefit.item
         }}</span>
       </div>
     </div>
@@ -31,21 +31,9 @@
 
 <script setup>
 defineProps({
-  statusName: {
-    type: String,
+  data: {
+    type: Object,
     required: true,
-  },
-  investmentAmount: {
-    type: Number,
-    required: true,
-  },
-  benefits: {
-    type: Array,
-    required: true,
-  },
-  delay: {
-    type: Number,
-    default: 0,
   },
 });
 </script>
