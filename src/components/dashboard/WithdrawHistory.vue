@@ -4,6 +4,14 @@
       <h2 class="text-lg font-semibold text-gray-900">Withdraw History</h2>
     </div>
     <div class="p-5 max-sm:max-w-[calc(100vw-35px)] max-sm:p-2">
+      <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+        <div class="flex items-center gap-2">
+          <InfoCircleOutlined class="text-blue-500" />
+          <span class="text-blue-700 text-sm font-medium">
+            Withdrawals are made every Monday
+          </span>
+        </div>
+      </div>
       <a-table
         :columns="columns"
         :data-source="withdrawHistory"
@@ -51,6 +59,7 @@
 <script setup>
 import defaultCoin from "../../assets/img/default.png";
 import dayjs from "dayjs";
+import { InfoCircleOutlined } from "@ant-design/icons-vue";
 
 const props = defineProps({
   withdrawHistory: {

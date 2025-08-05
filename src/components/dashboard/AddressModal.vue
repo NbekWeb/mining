@@ -10,12 +10,13 @@
     <div v-if="selectedDeposit" class="text-center">
       <!-- Wallet Address -->
       <div class="mb-4">
-        <p class="text-sm text-gray-600 mb-2">Wallet Address:</p>
+        <!-- <p class="text-sm text-gray-600 mb-2">Wallet Address:</p> -->
+       <img :src="selectedDeposit.qr_code" alt="QR Code" class="w-full h-auto" />
         <div
           class="flex items-center justify-center bg-gray-50 p-3 rounded-lg"
         >
           <span class="text-sm font-mono text-gray-800 truncate mr-2 flex-1">
-            {{ selectedDeposit.wallet_address }}
+            {{ selectedDeposit.address }} 
           </span>
           <a-button
             type="text"
@@ -30,10 +31,6 @@
         </div>
       </div>
 
-      <!-- Instructions -->
-      <div class="text-xs text-gray-500">
-        <p>Scan the QR code or copy the address to send your deposit</p>
-      </div>
     </div>
   </a-modal>
 </template>

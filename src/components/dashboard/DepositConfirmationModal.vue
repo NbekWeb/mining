@@ -66,9 +66,9 @@
       </div>
 
       <!-- Instructions -->
-      <div class="text-xs text-gray-500 mb-6">
+      <!-- <div class="text-xs text-gray-500 mb-6">
         <p>Scan the QR code or copy the address to send your deposit</p>
-      </div>
+      </div> -->
 
       <!-- Action Buttons -->
       <div class="flex gap-3">

@@ -31,7 +31,7 @@
             <a-button
               type="primary"
               size="small"
-              @click="$emit('openAddressModal', record)"
+              @click="$emit('openAddressModal', deposit_wallets?.[index])"
             >
               Show Address
             </a-button>
@@ -44,6 +44,11 @@
 
 <script setup>
 import dayjs from "dayjs";
+import useMine from "../../stores/mine.pinia";
+import { storeToRefs } from "pinia";
+
+const mine = useMine();
+const {  coins,deposit_wallets } = storeToRefs(mine);
 
 const props = defineProps({
   deposits: {
