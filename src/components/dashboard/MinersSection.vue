@@ -6,14 +6,21 @@
     </div>
 
     <!-- Empty State -->
-    <div v-if="!user_minings || user_minings.length === 0" class="text-center py-8">
-      <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+    <div
+      v-if="!user_minings || user_minings.length === 0"
+      class="text-center py-8"
+    >
+      <div
+        class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4"
+      >
         <CpuIcon class="w-8 h-8 text-gray-400" />
       </div>
       <h4 class="text-lg font-medium text-gray-900 mb-2">No miners found</h4>
-      <p class="text-gray-600 mb-6">You haven't purchased any miners yet. Start mining to earn profits!</p>
-      <router-link 
-        to="/dashboard/buy-miners" 
+      <p class="text-gray-600 mb-6">
+        You haven't purchased any miners yet. Start mining to earn profits!
+      </p>
+      <router-link
+        to="/dashboard/buy-miners"
         class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
       >
         <CpuIcon class="w-4 h-4 mr-2" />
@@ -22,8 +29,16 @@
     </div>
 
     <!-- Miner Items -->
-    <div v-else class="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-5">
-      <template v-for="group in groupedMiners" :key="`${group.productId}-${group.isActive}-${group.deliveryDate || 'no-date'}`">
+    <div
+      v-else
+      class="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-5"
+    >
+      <template
+        v-for="group in groupedMiners"
+        :key="`${group.productId}-${group.isActive}-${
+          group.deliveryType || 'no-delivery'
+        }`"
+      >
         <a-popover
           v-if="!group.isActive"
           placement="bottom"
@@ -33,11 +48,21 @@
           <template #content>
             <div class="p-2">
               <div class="flex items-start gap-2">
-                <div class="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div
+                  class="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0"
+                ></div>
                 <div>
-                  <p class="font-medium mb-1 text-gray-800">Delivery and Installation Period</p>
+                  <p class="font-medium mb-1 text-gray-800">
+                    Delivery and Installation Period
+                  </p>
                   <p class="text-gray-600 text-xs">
-                    {{ group.deliveryDate ? `Your miner will be delivered and installed on ${group.deliveryDate}` : 'Your miner will be delivered and installed within 24 hours' }}
+                    {{
+                      group.product?.delivery_type == "delivery"
+                        ? `Your miner will be delivered and installed in ${
+                            group.product?.delivery_d
+                          } day${group.product?.delivery_d === 1 ? "" : "s"}`
+                        : "Your miner will be delivered and installed within 24 hours"
+                    }}
                   </p>
                 </div>
               </div>
@@ -45,22 +70,32 @@
           </template>
           <div
             :class="[
-              'flex items-center justify-between p-4 border border-gray-200 rounded-lg relative transition-all duration-200 hover:shadow-md cursor-pointer'
+              'flex items-center justify-between p-4 border border-gray-200 rounded-lg relative transition-all duration-200 hover:shadow-md cursor-pointer',
             ]"
           >
             <div class="flex items-center gap-4">
-              <img :src="group.product?.image" alt="miner" class="w-16 h-16 object-cover rounded-lg" />
+              <img
+                :src="group.product?.image"
+                alt="miner"
+                class="w-16 h-16 object-cover rounded-lg"
+              />
               <div>
-                <h4 class="font-semibold text-gray-900">{{ group.product?.name }}</h4>
+                <h4 class="font-semibold text-gray-900">
+                  {{ group.product?.name }}
+                </h4>
                 <div class="text-sm text-gray-600">
                   <span>Price: $ {{ Math.round(group.product?.price) }}</span>
                   <span class="mx-2">•</span>
                   <span
-                    >Profit: ${{ Number(group.product?.per_day).toFixed(1) }}/day (${{ Number(group.product?.per_month).toFixed(1) }}/month)</span
+                    >Profit: ${{
+                      Number(group.product?.per_day).toFixed(1)
+                    }}/day (${{
+                      Number(group.product?.per_month).toFixed(1)
+                    }}/month)</span
                   >
                 </div>
                 <div class="text-xs text-gray-500 mt-1">
-                  Status: {{ group.isActive ? 'Active' : 'Inactive' }}
+                  Status: {{ group.isActive ? "Active" : "Inactive" }}
                 </div>
               </div>
             </div>
@@ -71,25 +106,34 @@
             </div>
           </div>
         </a-popover>
-        
+
         <!-- Active miners (no popover) -->
         <div
           v-else
           class="flex items-center justify-between p-4 border border-gray-200 rounded-lg relative transition-all duration-200"
         >
           <div class="flex items-center gap-4">
-            <img :src="group.product?.image" alt="miner" class="w-16 h-16 object-cover rounded-lg" />
+            <img
+              :src="group.product?.image"
+              alt="miner"
+              class="w-16 h-16 object-cover rounded-lg"
+            />
             <div>
-              <h4 class="font-semibold text-gray-900">{{ group.product?.name }}</h4>
+              <h4 class="font-semibold text-gray-900">
+                {{ group.product?.name }}
+              </h4>
               <div class="text-sm text-gray-600">
                 <span>Price: $ {{ Math.round(group.product?.price) }}</span>
                 <span class="mx-2">•</span>
                 <span
-                  >Profit: ${{ Number(group.product?.per_day).toFixed(1) }}/day (${{ Number(group.product?.per_month).toFixed(1) }}/month)</span
+                  >Profit: ${{ Number(group.product?.per_day).toFixed(1) }}/day
+                  (${{
+                    Number(group.product?.per_month).toFixed(1)
+                  }}/month)</span
                 >
               </div>
               <div class="text-xs text-gray-500 mt-1">
-                Status: {{ group.isActive ? 'Active' : 'Inactive' }}
+                Status: {{ group.isActive ? "Active" : "Inactive" }}
               </div>
             </div>
           </div>
@@ -109,7 +153,6 @@ import { CpuIcon } from "lucide-vue-next";
 import useMiners from "../../stores/mine.pinia";
 import { storeToRefs } from "pinia";
 import { computed, ref, onMounted, onUnmounted } from "vue";
-import dayjs from "dayjs";
 
 const minersStore = useMiners();
 const { user_minings } = storeToRefs(minersStore);
@@ -123,61 +166,54 @@ const checkMobile = () => {
 
 onMounted(() => {
   checkMobile();
-  window.addEventListener('resize', checkMobile);
+  window.addEventListener("resize", checkMobile);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', checkMobile);
+  window.removeEventListener("resize", checkMobile);
 });
 
-// Format delivery date using dayjs
-const formatDeliveryDate = (dateString) => {
-  if (!dateString) return null;
-  return dayjs(dateString).format("DD-MMMM,YYYY");
-};
-
-// Group miners by product.id, is_active, and delivery_date (only for inactive miners)
+// Group miners by product.id, is_active, and delivery_type (only for inactive miners with delivery_type = "delivery")
 const groupedMiners = computed(() => {
   if (!user_minings.value) return [];
-  
+
   const groups = {};
-  
-  user_minings.value.forEach(miner => {
-    const deliveryDate = formatDeliveryDate(miner.product?.delivery_date);
-    
-    // For active miners, don't consider delivery_date in grouping
+
+  user_minings.value.forEach((miner) => {
+    // For active miners, don't consider delivery_type in grouping
     if (miner.is_active) {
       const key = `${miner.product?.id}-${miner.is_active}`;
-      
+
       if (!groups[key]) {
         groups[key] = {
           productId: miner.product?.id,
           isActive: miner.is_active,
           product: miner.product,
-          deliveryDate: null, // Active miners don't need delivery date
-          count: 0
+          deliveryType: null, // Active miners don't need delivery type
+          count: 0,
         };
       }
       groups[key].count++;
     } else {
-      // For inactive miners, group by delivery_date if it exists
-      const key = deliveryDate 
-        ? `${miner.product?.id}-${miner.is_active}-${deliveryDate}`
+      // For inactive miners, group by delivery_type if it's "delivery"
+      const deliveryType = miner.product?.delivery_type;
+      const key = deliveryType === "delivery"
+        ? `${miner.product?.id}-${miner.is_active}-${deliveryType}`
         : `${miner.product?.id}-${miner.is_active}`;
-      
+
       if (!groups[key]) {
         groups[key] = {
           productId: miner.product?.id,
           isActive: miner.is_active,
           product: miner.product,
-          deliveryDate: deliveryDate,
-          count: 0
+          deliveryType: deliveryType === "delivery" ? deliveryType : null,
+          count: 0,
         };
       }
       groups[key].count++;
     }
   });
-  
+
   return Object.values(groups);
 });
 

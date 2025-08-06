@@ -17,21 +17,21 @@
         Our statistics
       </h2>
       <div
-        class="grid grid-cols-3 gap-10 container mx-auto px-5 mb-10 max-md:grid-cols-1"
+        class="flex justify-center gap-20 container mx-auto px-5 mb-10 max-md:flex-col"
       >
-        <div class="flex flex-col items-center">
+        <!-- <div class="flex flex-col items-center">
           <span
             id="count1"
             class="text-white text-5xl font-bold border-b border-gray-600/70 max-w-60 max-sm:max-w-full pb-5 w-full flex justify-center"
             >0</span
           >
           <span class="text-white/80 text-lg mt-2">We work for days</span>
-        </div>
+        </div> -->
         <div class="flex flex-col items-center">
           <span
             id="count2"
             class="text-white text-5xl font-bold border-b border-gray-600/70 max-w-60 max-sm:max-w-full pb-5 w-full flex justify-center"
-            >0</span
+            >0 +</span
           >
           <span class="text-white/80 text-lg mt-2"
             >Total number of customers</span
@@ -117,8 +117,7 @@ function animateCounter(id, start, end, duration, suffix = "") {
 function startAnimation() {
   if (animated) return;
   animated = true;
-  animateCounter("count1", 0, 674, 2000);
-  animateCounter("count2", 0, 852, 2000);
+  animateCounter("count2", 0, 1000, 2000, "+");
   animateCounter("count3", 0, 2190000, 2200, " $");
 }
 
