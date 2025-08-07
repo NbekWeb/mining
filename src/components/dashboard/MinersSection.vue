@@ -36,8 +36,8 @@
       <template
         v-for="group in groupedMiners"
         :key="`${group.productId}-${group.isActive}-${
-          group.deliveryType || 'no-delivery'
-        }`"
+          group.deliveryType || 'no-type'
+        }-${group.deliveryD || 'no-delivery'}`"
       >
         <a-popover
           v-if="!group.isActive"
@@ -53,16 +53,10 @@
                 ></div>
                 <div>
                   <p class="font-medium mb-1 text-gray-800">
-                    Delivery and Installation Period
+                    Delivery Period
                   </p>
                   <p class="text-gray-600 text-xs">
-                    {{
-                      group.product?.delivery_type == "delivery"
-                        ? `Your miner will be delivered and installed in ${
-                            group.product?.delivery_d
-                          } day${group.product?.delivery_d === 1 ? "" : "s"}`
-                        : "Your miner will be delivered and installed within 24 hours"
-                    }}
+                    {{ group.deliveryD === "24h" ? "24 hours" : `${group.deliveryD} day${group.deliveryD === 1 ? '' : 's'}` }}
                   </p>
                 </div>
               </div>
@@ -81,7 +75,7 @@
               />
               <div>
                 <h4 class="font-semibold text-gray-900">
-                  {{ group.product?.name }}
+                  {{ group.product?.name }} {{ group.id }}
                 </h4>
                 <div class="text-sm text-gray-600">
                   <span>Price: $ {{ Math.round(group.product?.price) }}</span>
@@ -173,14 +167,14 @@ onUnmounted(() => {
   window.removeEventListener("resize", checkMobile);
 });
 
-// Group miners by product.id, is_active, and delivery_type (only for inactive miners with delivery_type = "delivery")
+// Group miners by product.id, is_active, and delivery_d (for inactive miners)
 const groupedMiners = computed(() => {
   if (!user_minings.value) return [];
 
   const groups = {};
 
   user_minings.value.forEach((miner) => {
-    // For active miners, don't consider delivery_type in grouping
+    // For active miners, group by product.id only
     if (miner.is_active) {
       const key = `${miner.product?.id}-${miner.is_active}`;
 
@@ -189,25 +183,26 @@ const groupedMiners = computed(() => {
           productId: miner.product?.id,
           isActive: miner.is_active,
           product: miner.product,
-          deliveryType: null, // Active miners don't need delivery type
+          deliveryD: null, // Active miners don't need delivery_d
           count: 0,
         };
       }
       groups[key].count++;
     } else {
-      // For inactive miners, group by delivery_type if it's "delivery"
-      const deliveryType = miner.product?.delivery_type;
-      const key = deliveryType === "delivery"
-        ? `${miner.product?.id}-${miner.is_active}-${deliveryType}`
-        : `${miner.product?.id}-${miner.is_active}`;
+      // For inactive miners, group by product.id, delivery_type, and delivery_d
+      const deliveryType = miner.delivery_type;
+      const deliveryD = deliveryType === "in_stock" ? "24h" : (miner.delivery_d || 0);
+      const key = `${miner.product?.id}-${miner.is_active}-${deliveryType}-${deliveryD}`;
 
       if (!groups[key]) {
         groups[key] = {
           productId: miner.product?.id,
           isActive: miner.is_active,
           product: miner.product,
-          deliveryType: deliveryType === "delivery" ? deliveryType : null,
+          deliveryD: deliveryD,
+          deliveryType: deliveryType,
           count: 0,
+
         };
       }
       groups[key].count++;
