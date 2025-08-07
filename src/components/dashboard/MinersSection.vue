@@ -55,7 +55,7 @@
                   <p class="font-medium mb-1 text-gray-800">
                     Delivery Period
                   </p>
-                  <p class="text-gray-600 text-xs">
+                  <p class="text-gray-600 text-xs">Your miner will be delivered and installed within 
                     {{ group.deliveryD === "24h" ? "24 hours" : `${group.deliveryD} day${group.deliveryD === 1 ? '' : 's'}` }}
                   </p>
                 </div>
