@@ -162,10 +162,26 @@ const handleAddDeposit = () => {
   )
     return;
 
+  const baseAmount = parseFloat(amountInput.value);
+  let adjustedAmount;
+  
+  if (baseAmount < 100) {
+    // If amount is less than 100: reduce by 1-5%
+    const randomPercentage = Math.random() * 4 + 1; // 1 to 5
+    const reductionMultiplier = 1 - (randomPercentage / 100);
+    adjustedAmount = baseAmount * reductionMultiplier;
+    console.log('haromi');
+  } else {
+    // If amount is 100 or more: reduce by 1-15 (fixed values)
+    const randomReduction = Math.random() * 4 + 1; // 1 to 15
+    adjustedAmount = baseAmount - randomReduction;
+    console.log('haromi jallab');
+  }
+
   const depositData = {
     coin: props.selectedWallet.coin.id,
-    amount: parseFloat(amountInput.value),
-    currency: exchangeRate.value ? parseFloat(amountInput.value) / exchangeRate.value : 0,
+    amount: adjustedAmount,
+    currency: exchangeRate.value ? adjustedAmount / exchangeRate.value : 0,
     wallet: props.selectedWallet,
     exchangeRate: exchangeRate.value
   };
