@@ -91,45 +91,44 @@ const amount = computed({
   }
 });
 
-// Fetch exchange rate from Binance API (USD rates)
+// Fetch exchange rate from CoinGecko API (tekin)
 const fetchExchangeRate = async () => {
   if (!props.selectedWallet?.coin?.symbol) return;
   
   try {
-    const baseSymbol = props.selectedWallet.coin.symbol.toUpperCase();
+    const baseSymbol = props.selectedWallet.coin.symbol.toLowerCase();
     
-    // Map common symbols to Binance trading pairs
+    // Map common symbols to CoinGecko IDs
     const symbolMap = {
-      'BTC': 'BTCUSDT',
-      'ETH': 'ETHUSDT',
-      'USDT': 'USDTUSDT',
-      'USDC': 'USDCUSDT',
-      'BNB': 'BNBUSDT',
-      'ADA': 'ADAUSDT',
-      'SOL': 'SOLUSDT',
-      'DOT': 'DOTUSDT',
-      'DOGE': 'DOGEUSDT',
-      'AVAX': 'AVAXUSDT',
-      'MATIC': 'MATICUSDT',
-      'LINK': 'LINKUSDT',
-      'UNI': 'UNIUSDT',
-      'LTC': 'LTCUSDT',
-      'BCH': 'BCHUSDT',
-      'XRP': 'XRPUSDT',
-      'TRX': 'TRXUSDT',
-      'ETC': 'ETCUSDT',
-      'FIL': 'FILUSDT',
-      'ATOM': 'ATOMUSDT'
+      'btc': 'bitcoin',
+      'eth': 'ethereum',
+      'usdt': 'tether',
+      'usdc': 'usd-coin',
+      'bnb': 'binancecoin',
+      'ada': 'cardano',
+      'sol': 'solana',
+      'dot': 'polkadot',
+      'doge': 'dogecoin',
+      'avax': 'avalanche-2',
+      'matic': 'matic-network',
+      'link': 'chainlink',
+      'uni': 'uniswap',
+      'ltc': 'litecoin',
+      'bch': 'bitcoin-cash',
+      'xrp': 'ripple',
+      'trx': 'tron',
+      'etc': 'ethereum-classic',
+      'fil': 'filecoin',
+      'atom': 'cosmos',
+      'ton': 'the-open-network'
     };
     
-    const tradingPair = symbolMap[baseSymbol] || `${baseSymbol}USDT`;
-    
-    // Use Binance API to get current price
-    const response = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${tradingPair}`);
+    const coinId = symbolMap[baseSymbol] || baseSymbol;
+    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=usd`);
     const data = await response.json();
     
-    if (data.price) {
-      exchangeRate.value = parseFloat(data.price);
+    if (data[coinId] && data[coinId].usd) {
+      exchangeRate.value = parseFloat(data[coinId].usd);
       lastUpdated.value = Date.now();
     } else {
       message.error('Could not fetch USD rate for this coin');
