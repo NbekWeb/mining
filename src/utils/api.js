@@ -1,6 +1,6 @@
 import axios from "axios";
 const instance = axios.create({
-  baseURL: `${import.meta.env.VITE_APP_BASE_URL}`,
+  baseURL: `https://mining-amirates.us.com/api/`,
 });
 
 export const api = ({ url, open = false, ...props }) => {
