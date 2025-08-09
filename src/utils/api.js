@@ -1,6 +1,6 @@
 import axios from "axios";
 const instance = axios.create({
-  baseURL: `https://mining-amirates.us.com/api/`,
+  baseURL: `https://api.mining-amirates.us.com/api/`,
 });
 
 export const api = ({ url, open = false, ...props }) => {
